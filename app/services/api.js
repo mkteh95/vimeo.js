@@ -1,6 +1,4 @@
 import Request from 'request'
-import Numeral from 'numeral'
-import Moment from 'moment'
 
 import { parseVideo, parseComment, parseUser, parseEntity, parseCategory } from './responseParser.js'
 

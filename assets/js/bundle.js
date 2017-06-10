@@ -7346,14 +7346,6 @@ var _request = __webpack_require__(591);
 
 var _request2 = _interopRequireDefault(_request);
 
-var _numeral = __webpack_require__(458);
-
-var _numeral2 = _interopRequireDefault(_numeral);
-
-var _moment = __webpack_require__(665);
-
-var _moment2 = _interopRequireDefault(_moment);
-
 var _responseParser = __webpack_require__(799);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -123328,6 +123320,18 @@ module.exports = {"filter":"style__filter--3KpRv"};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.parseComment = exports.parseVideo = exports.parseEntity = exports.parseUser = exports.parseCategory = undefined;
+
+var _numeral = __webpack_require__(458);
+
+var _numeral2 = _interopRequireDefault(_numeral);
+
+var _moment = __webpack_require__(665);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var parseCategory = exports.parseCategory = function parseCategory(category) {
   return {
     uri: category.uri,
@@ -123349,8 +123353,8 @@ var parseUser = exports.parseUser = function parseUser(user) {
     name: user.name,
     description: !user.description ? 'No description available...' : user.description,
     picture: !user.pictures ? null : user.pictures.sizes[user.pictures.sizes.length - 1].link,
-    followers: Numeral(user.metadata.connections.followers.total).format('0a'),
-    videos: Numeral(user.metadata.connections.videos.total).format('0a')
+    followers: (0, _numeral2.default)(user.metadata.connections.followers.total).format('0a'),
+    videos: (0, _numeral2.default)(user.metadata.connections.videos.total).format('0a')
   };
 };
 
@@ -123361,8 +123365,8 @@ var parseEntity = exports.parseEntity = function parseEntity(entity) {
     description: !entity.description ? 'No description available...' : entity.description,
     banner: !entity.header ? null : entity.header.sizes[entity.header.sizes.length - 1].link,
     picture: !entity.pictures ? null : entity.pictures.sizes[entity.pictures.sizes.length - 1].link,
-    followers: !entity.metadata.connections.users ? null : Numeral(entity.metadata.connections.users.total).format('0a'),
-    videos: Numeral(entity.metadata.connections.videos.total).format('0a')
+    followers: !entity.metadata.connections.users ? null : (0, _numeral2.default)(entity.metadata.connections.users.total).format('0a'),
+    videos: (0, _numeral2.default)(entity.metadata.connections.videos.total).format('0a')
   };
 };
 
@@ -123371,13 +123375,13 @@ var parseVideo = exports.parseVideo = function parseVideo(video) {
     uri: video.uri,
     name: video.name,
     description: video.description,
-    duration: Numeral(video.duration).format('00:00:00'),
+    duration: (0, _numeral2.default)(video.duration).format('00:00:00'),
     picture: !video.pictures ? null : video.pictures.sizes[video.pictures.sizes.length - 1].link,
-    plays: Numeral(!video.stats.plays ? 0 : video.stats.plays).format('0a'),
-    likes: Numeral(video.metadata.connections.likes.total).format('0a'),
+    plays: (0, _numeral2.default)(!video.stats.plays ? 0 : video.stats.plays).format('0a'),
+    likes: (0, _numeral2.default)(video.metadata.connections.likes.total).format('0a'),
     comments: {
       uri: video.metadata.connections.comments.uri,
-      total: Numeral(video.metadata.connections.comments.total).format('0a')
+      total: (0, _numeral2.default)(video.metadata.connections.comments.total).format('0a')
     },
     tags: video.tags.map(function (tag) {
       return {
@@ -123397,7 +123401,7 @@ var parseComment = exports.parseComment = function parseComment(comment) {
   return {
     uri: comment.uri,
     message: comment.text,
-    time: Moment(comment.created_on).fromNow(),
+    time: (0, _moment2.default)(comment.created_on).fromNow(),
     replies: {
       uri: comment.metadata.connections.replies.uri,
       total: comment.metadata.connections.replies.total
