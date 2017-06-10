@@ -1,0 +1,19 @@
+.largeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+
+  & > * {
+    float: left;
+    border: 10px solid transparent;
+    width: 100%;
+
+    @media only screen and (min-width: 992px) {
+      width: calc(100% / 2);
+    }
+    
+    @media only screen and (min-width: 1920px) {
+      width: calc(100% / 3);
+    }
+  }
+}

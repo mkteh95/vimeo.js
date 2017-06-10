@@ -1,0 +1,55 @@
+.tile {
+  display: flex;
+  position: relative;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+
+  & > a {
+    display: flex;
+    flex-direction: column;
+    
+    .bg {
+      width: 100%;
+      flex: 1 0 auto;
+      object-fit: cover;
+    }
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  transition: all 0.3s ease-in-out;
+
+  .icon {
+    height: 30%;
+    object-fit: contain;
+  }
+
+  .caption {
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  & > * {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover {
+    background: rgba(0,0,0,.75);
+
+    & > * {
+      transform: scale(1.1);
+    }
+  }
+}

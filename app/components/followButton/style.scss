@@ -1,0 +1,31 @@
+.followButton {
+  &:before {
+    font-family: 'FontAwesome';
+    content: '\f067';
+  }
+
+  &:after {
+    content: ' Follow';
+  }
+}
+
+.unfollowButton {
+  &:hover {
+    &:before {
+      content: '\f00d';
+    }
+
+    &:after {
+      content: ' Unfollow'
+    }
+  }
+
+  &:before {
+    font-family: 'FontAwesome';
+    content: '\f00c';
+  }
+
+  &:after {
+    content: ' Following'
+  }
+}

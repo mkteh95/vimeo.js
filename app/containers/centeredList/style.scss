@@ -1,0 +1,13 @@
+.centeredList {
+  flex-grow: 1;
+  flex-basis: 0;
+  flex-direction: column;
+  margin: -10px;
+  
+  & > * {
+    display: block;
+    max-width: 1200px;
+    padding: 10px;
+    margin: 0 auto;
+  }
+}
