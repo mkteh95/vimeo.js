@@ -9,6 +9,7 @@ import LazyContainer from '../../containers/lazyContainer/lazyContainer.jsx'
 import CollapsibleTitleBar from '../../components/collapsibleTitleBar/collapsibleTitleBar.jsx'
 import Preview from '../../components/preview/preview.jsx'
 import FollowButton from '../../components/followButton/followButton.jsx'
+import Filter from '../../components/filter/filter.jsx'
 
 
 class EntityPage extends React.Component {
@@ -18,11 +19,12 @@ class EntityPage extends React.Component {
 
     this.state = {
       entity: {},
-      videos: [],
-      nextPage: 1
+      videos: new Map(),
+      filter: null
     }
     
     this.fetchVideos = this.fetchVideos.bind(this)
+    this.handleFilter = this.changeFilter.bind(this)
   }
 
   componentWillMount() {
@@ -35,11 +37,35 @@ class EntityPage extends React.Component {
 
   fetchVideos(page) {
     getVideos(`${this.props.match.url}/videos`, { page: page, sort: 'date' }).then((response) => {
-      this.setState({
-        videos: [...this.state.videos, ...response.videos],
+      const curr = this.state.videos.get(this.state.filter)
+
+      this.state.videos.set(this.state.filter, {
+        videos: (curr.videos) ? [...curr.videos, ...response.videos] : response.videos,
         nextPage: response.paging.next
       })
+
+      this.setState({
+        videos: this.state.videos
+      })
     })
+  }
+
+  changeFilter(selected) {
+    if (this.state.videos.has(selected.value)) {
+      this.setState({
+        filter: selected.value
+      })
+    } else {
+      this.state.videos.set(selected.value, {
+        videos: null,
+        nextPage: 1
+      })
+
+      this.setState({
+        videos: this.state.videos,
+        filter: selected.value
+      })
+    }
   }
 
   render() {
@@ -53,19 +79,23 @@ class EntityPage extends React.Component {
           description={this.state.entity.description}
           picture={this.state.entity.picture}
           controls={controls} />
-        <SmallGrid>{
-            this.state.videos.map((video) => (
-              <Preview plays={video.plays}
-                likes={video.likes}
-                comments={video.comments.total}
-                picture={video.picture}
-                title={video.name}
-                duration={video.duration}
-                user={video.user}
-                uri={video.uri}
-                key={video.uri} />
-            ))
-          }</SmallGrid>
+        <Filter type={this.props.match.params.page}
+          onChanged={this.handleFilter} />
+        <SmallGrid>
+        {this.state.videos.has(this.state.filter) &&
+          this.state.videos.get(this.state.filter).videos &&
+          this.state.videos.get(this.state.filter).videos.map((video) => (
+            <Preview plays={video.plays}
+              likes={video.likes}
+              comments={video.comments.total}
+              picture={video.picture}
+              title={video.name}
+              duration={video.duration}
+              user={video.user}
+              uri={video.uri}
+              key={video.uri} />
+          ))
+        }</SmallGrid>
       </LazyContainer>
     )
   }
