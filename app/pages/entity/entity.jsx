@@ -73,7 +73,8 @@ class EntityPage extends React.Component {
     const controls = [<FollowButton uri={followEndpoint} key={followEndpoint} />]
     
     return (
-      <LazyContainer nextPage={this.state.nextPage} onLazy={this.fetchVideos}>
+      <LazyContainer nextPage={(this.state.filter === null) ? null : this.state.videos.get(this.state.filter).nextPage} 
+        onLazy={this.fetchVideos}>
         <CollapsibleTitleBar title={this.state.entity.name}
           label={this.props.match.params.page}
           description={this.state.entity.description}

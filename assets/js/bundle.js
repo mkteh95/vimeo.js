@@ -52955,7 +52955,8 @@ var EntityPage = function (_React$Component) {
 
       return _react2.default.createElement(
         _lazyContainer2.default,
-        { nextPage: this.state.nextPage, onLazy: this.fetchVideos },
+        { nextPage: this.state.filter === null ? null : this.state.videos.get(this.state.filter).nextPage,
+          onLazy: this.fetchVideos },
         _react2.default.createElement(_collapsibleTitleBar2.default, { title: this.state.entity.name,
           label: this.props.match.params.page,
           description: this.state.entity.description,
