@@ -68,6 +68,7 @@ class ProfilePage extends React.Component {
   }
 
   fetchData(tab, page) {
+    const curr = this.state[tab].get(this.state.filter)
     const [fetchFunction, responseType] = (tab === 'followers' || tab === 'following') 
                                             ? [getUsers.bind(this, this.props.match.url), 'users']
                                             : (tab === 'likes' || tab === 'videos') 
@@ -76,7 +77,7 @@ class ProfilePage extends React.Component {
 
     fetchFunction({ page: page, ...this.state.filter }).then((response) => {
       this.state[tab].set(this.state.filter, {
-        [tab]: [...this.state[tab].get(this.state.filter)[tab], ...response[responseType]],
+        [tab]: (curr[tab]) ? [...curr[tab], ...response[responseType]] : response[responseType],
         nextPage: response.paging.next
       })
 
@@ -95,7 +96,7 @@ class ProfilePage extends React.Component {
       })
     } else {
       this.state[params.tab].set(selected.value, {
-        [params.tab]: [],
+        [params.tab]: null,
         nextPage: 1
       })
 
@@ -133,6 +134,7 @@ class ProfilePage extends React.Component {
                 <Route path={"/users/:user/:tab(likes|videos)"} render={() => (
                     <SmallGrid>
                     {this.state[params.tab].has(this.state.filter) &&
+                      this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Preview plays={item.plays}
                           likes={item.likes}
@@ -142,13 +144,14 @@ class ProfilePage extends React.Component {
                           duration={item.duration}
                           user={item.user}
                           uri={item.uri}
-                          key={item.uri} />)
-                      )
+                          key={item.uri} />
+                      ))
                     }</SmallGrid>
                   )} />
                 <Route path={"/users/:user/:tab(followers|following)"} render={() => (
                     <MediumGrid>
                     {this.state[params.tab].has(this.state.filter) &&
+                      this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <UserThumbnail picture={item.picture}
                           title={item.name}
@@ -162,6 +165,7 @@ class ProfilePage extends React.Component {
                 <Route path={"/users/:user/:tab(channels|portfolios)"} render={() => (
                     <LargeGrid>
                     {this.state[params.tab].has(this.state.filter) &&
+                      this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Card banner={item.banner} 
                           title={item.name}
@@ -176,6 +180,7 @@ class ProfilePage extends React.Component {
                 <Route path={"/users/:user/:tab(groups|albums)"} render={() => (
                     <SmallGrid>
                     {this.state[params.tab].has(this.state.filter) &&
+                      this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Card banner={item.picture} 
                           title={item.name}

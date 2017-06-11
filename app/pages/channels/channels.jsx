@@ -29,7 +29,7 @@ class ChannelsPage extends React.Component {
       const curr = this.state.channels.get(this.state.filter)
 
       this.state.channels.set(this.state.filter, {
-        channels: [...curr.channels, ...response.channels],
+        channels: (curr.channels) ? [...curr.channels, ...response.channels] : response.channels,
         nextPage: response.paging.next
       })
 
@@ -46,7 +46,7 @@ class ChannelsPage extends React.Component {
       })
     } else {
       this.state.channels.set(selected.value, {
-        channels: [],
+        channels: null,
         nextPage: 1
       })
 
@@ -67,7 +67,8 @@ class ChannelsPage extends React.Component {
               <Filter type="channels"
                 onChanged={this.handleFilter} />
               <LargeGrid>
-              {this.state.channels.has(this.state.filter) &&
+              {this.state.channels.has(this.state.filter) && 
+                this.state.channels.get(this.state.filter).channels &&
                 this.state.channels.get(this.state.filter).channels.map((channel) => (
                   <Card banner={channel.banner} 
                     title={channel.name}

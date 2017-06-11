@@ -63,7 +63,7 @@ class SearchPage extends React.Component {
       const curr = this.state[type].get(this.state.filter)
 
       this.state[type].set(this.state.filter, { 
-        [type]: [...curr[type], ...response[type]],
+        [type]: (curr[type]) ? [...curr[type], ...response[type]] : response[type],
         nextPage: response.paging.next
       })
 
@@ -82,7 +82,7 @@ class SearchPage extends React.Component {
       })
     } else {
       this.state[params.type].set(selected.value, {
-        [params.type]: [],
+        [params.type]: null,
         nextPage: 1
       })
 
@@ -110,6 +110,7 @@ class SearchPage extends React.Component {
           <Route path="/search/users" render={() => (
             <MediumGrid>
             {this.state.users.has(this.state.filter) &&
+              this.state.users.get(this.state.filter).users &&
               this.state.users.get(this.state.filter).users.map((user) => (
                 <UserThumbnail picture={user.picture}
                   title={user.name}
@@ -123,6 +124,7 @@ class SearchPage extends React.Component {
           <Route path="/search/channels" render={() => (
             <LargeGrid>
               {this.state.channels.has(this.state.filter) &&
+                this.state.channels.get(this.state.filter).channels &&
                 this.state.channels.get(this.state.filter).channels.map((channel) => (
                   <Card banner={channel.banner} 
                     title={channel.name}
@@ -137,6 +139,7 @@ class SearchPage extends React.Component {
           <Route path="/search/groups" render={() => (
             <SmallGrid>
             {this.state.groups.has(this.state.filter) &&
+              this.state.groups.get(this.state.filter).groups &&
               this.state.groups.get(this.state.filter).groups.map((group) => (
                 <Card banner={group.picture} 
                   title={group.name}
@@ -150,6 +153,7 @@ class SearchPage extends React.Component {
           <Route path="/search/videos" render={() => (
             <SmallGrid>
             {this.state.videos.has(this.state.filter) &&
+              this.state.videos.get(this.state.filter).videos &&
               this.state.videos.get(this.state.filter).videos.map((video) => (
                 <Preview plays={video.plays}
                   likes={video.likes}

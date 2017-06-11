@@ -122,6 +122,14 @@
       display: block;
       width: 200px;
       padding: 10px 20px; }
+.style__exceptionPage--3gxRa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px; }
+  .style__exceptionPage--3gxRa span {
+    color: #879cab; }
 .style__smallGrid--wrLnd {
   display: flex;
   flex-wrap: wrap;
@@ -834,13 +842,6 @@
       padding: 20px;
       background: #fff;
       border-left: 1px solid #d0d8db; }
-.style__exceptionPage--3gxRa {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; }
-  .style__exceptionPage--3gxRa span {
-    color: #879cab; }
 .style__appContent--5SonS {
   display: flex;
   flex-direction: column;

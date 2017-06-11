@@ -10,7 +10,7 @@ class ExceptionPage extends React.Component {
     return (
       <div className={style.exceptionPage}>
         <h1>{this.props.title}</h1>
-        <span>{this.props.subtitle}</span>
+        {this.props.subtitle && <span>{this.props.subtitle}</span>}
       </div>
     )
   }
@@ -18,7 +18,7 @@ class ExceptionPage extends React.Component {
 }
 
 ExceptionPage.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   subtitle: PropTypes.string
 }
 

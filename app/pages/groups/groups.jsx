@@ -29,7 +29,7 @@ class GroupsPage extends React.Component {
       const curr = this.state.groups.get(this.state.filter)
 
       this.state.groups.set(this.state.filter, {
-        groups: [...curr.groups, ...response.groups],
+        groups: (curr.groups) ? [...curr.groups, ...response.groups] : response.groups,
         nextPage: response.paging.next
       })
 
@@ -46,7 +46,7 @@ class GroupsPage extends React.Component {
       })
     } else {
       this.state.groups.set(selected.value, {
-        groups: [],
+        groups: null,
         nextPage: 1
       })
 
@@ -68,6 +68,7 @@ class GroupsPage extends React.Component {
                 onChanged={this.handleFilter} />
               <SmallGrid>
               {this.state.groups.has(this.state.filter) &&
+                this.state.groups.get(this.state.filter).groups &&
                 this.state.groups.get(this.state.filter).groups.map((group) => (
                   <Card banner={group.picture} 
                     title={group.name}

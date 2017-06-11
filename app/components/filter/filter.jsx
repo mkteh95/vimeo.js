@@ -68,6 +68,27 @@ class Filter extends React.Component {
           value: { sort: 'duration' }
         }]
 
+      case 'uploads':
+        return [{
+          label: 'Popularity',
+          value: { sort: 'plays' }
+        }, {
+          label: 'Recently uploaded',
+          value: { sort: 'date' }
+        }, {
+          label: 'Title (A-Z)',
+          value: { sort: 'alphabetical' }
+        }, {
+          label: 'Title (Z-A)',
+          value: { sort: 'alphabetical', direction: 'desc' }
+        }, {
+          label: 'Longest',
+          value: { sort: 'duration', direction: 'desc' }
+        }, {
+          label: 'Shortest',
+          value: { sort: 'duration' }
+        }]
+
       case 'likes':
       case 'watchlater':
         return [{

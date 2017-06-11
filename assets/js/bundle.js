@@ -11583,6 +11583,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _exception = __webpack_require__(803);
+
+var _exception2 = _interopRequireDefault(_exception);
+
 var _style = __webpack_require__(384);
 
 var _style2 = _interopRequireDefault(_style);
@@ -11607,11 +11611,11 @@ var SmallGrid = function (_React$Component) {
   _createClass(SmallGrid, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
+      return Array.isArray(this.props.children) ? this.props.children.length > 0 ? _react2.default.createElement(
         'div',
         { className: _style2.default.smallGrid },
         this.props.children
-      );
+      ) : _react2.default.createElement(_exception2.default, { title: 'No content available.' }) : null;
     }
   }]);
 
@@ -24821,6 +24825,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _exception = __webpack_require__(803);
+
+var _exception2 = _interopRequireDefault(_exception);
+
 var _style = __webpack_require__(381);
 
 var _style2 = _interopRequireDefault(_style);
@@ -24845,11 +24853,11 @@ var LargeGrid = function (_React$Component) {
   _createClass(LargeGrid, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
+      return Array.isArray(this.props.children) ? this.props.children.length > 0 ? _react2.default.createElement(
         'div',
         { className: _style2.default.largeGrid },
         this.props.children
-      );
+      ) : _react2.default.createElement(_exception2.default, { title: 'No content available.' }) : null;
     }
   }]);
 
@@ -32420,6 +32428,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _exception = __webpack_require__(803);
+
+var _exception2 = _interopRequireDefault(_exception);
+
 var _style = __webpack_require__(383);
 
 var _style2 = _interopRequireDefault(_style);
@@ -32444,11 +32456,11 @@ var MediumGrid = function (_React$Component) {
   _createClass(MediumGrid, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
+      return Array.isArray(this.props.children) ? this.props.children.length > 0 ? _react2.default.createElement(
         'div',
         { className: _style2.default.mediumGrid },
         this.props.children
-      );
+      ) : _react2.default.createElement(_exception2.default, { title: 'No content available.' }) : null;
     }
   }]);
 
@@ -52732,7 +52744,7 @@ var CategoriesPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (CategoriesPage.__proto__ || Object.getPrototypeOf(CategoriesPage)).call(this, props));
 
     _this.state = {
-      categories: [],
+      categories: null,
       nextPage: 1
     };
     return _this;
@@ -52745,7 +52757,7 @@ var CategoriesPage = function (_React$Component) {
 
       (0, _api.getCategories)(this.props.match.url, { page: page }).then(function (response) {
         _this2.setState({
-          categories: [].concat(_toConsumableArray(_this2.state.categories), _toConsumableArray(response.categories)),
+          categories: _this2.state.categories ? [].concat(_toConsumableArray(_this2.state.categories), _toConsumableArray(response.categories)) : response.categories,
           nextPage: response.paging.next
         });
       });
@@ -52770,7 +52782,7 @@ var CategoriesPage = function (_React$Component) {
               _react2.default.createElement(
                 _smallGrid2.default,
                 null,
-                _this3.state.categories.map(function (category) {
+                _this3.state.categories && _this3.state.categories.map(function (category) {
                   return _react2.default.createElement(_tile2.default, { picture: category.picture,
                     icon: category.icon,
                     caption: category.name,
@@ -52872,7 +52884,7 @@ var ChannelsPage = function (_React$Component) {
         var curr = _this2.state.channels.get(_this2.state.filter);
 
         _this2.state.channels.set(_this2.state.filter, {
-          channels: [].concat(_toConsumableArray(curr.channels), _toConsumableArray(response.channels)),
+          channels: curr.channels ? [].concat(_toConsumableArray(curr.channels), _toConsumableArray(response.channels)) : response.channels,
           nextPage: response.paging.next
         });
 
@@ -52890,7 +52902,7 @@ var ChannelsPage = function (_React$Component) {
         });
       } else {
         this.state.channels.set(selected.value, {
-          channels: [],
+          channels: null,
           nextPage: 1
         });
 
@@ -52919,7 +52931,7 @@ var ChannelsPage = function (_React$Component) {
               _react2.default.createElement(
                 _largeGrid2.default,
                 null,
-                _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
+                _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
                   return _react2.default.createElement(_card2.default, { banner: channel.banner,
                     title: channel.name,
                     description: channel.description,
@@ -52986,6 +52998,10 @@ var _followButton = __webpack_require__(662);
 
 var _followButton2 = _interopRequireDefault(_followButton);
 
+var _filter = __webpack_require__(792);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -53006,11 +53022,12 @@ var EntityPage = function (_React$Component) {
 
     _this.state = {
       entity: {},
-      videos: [],
-      nextPage: 1
+      videos: new Map(),
+      filter: null
     };
 
     _this.fetchVideos = _this.fetchVideos.bind(_this);
+    _this.handleFilter = _this.changeFilter.bind(_this);
     return _this;
   }
 
@@ -53031,11 +53048,36 @@ var EntityPage = function (_React$Component) {
       var _this3 = this;
 
       (0, _api.getVideos)(this.props.match.url + '/videos', { page: page, sort: 'date' }).then(function (response) {
-        _this3.setState({
-          videos: [].concat(_toConsumableArray(_this3.state.videos), _toConsumableArray(response.videos)),
+        var curr = _this3.state.videos.get(_this3.state.filter);
+
+        _this3.state.videos.set(_this3.state.filter, {
+          videos: curr.videos ? [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)) : response.videos,
           nextPage: response.paging.next
         });
+
+        _this3.setState({
+          videos: _this3.state.videos
+        });
       });
+    }
+  }, {
+    key: 'changeFilter',
+    value: function changeFilter(selected) {
+      if (this.state.videos.has(selected.value)) {
+        this.setState({
+          filter: selected.value
+        });
+      } else {
+        this.state.videos.set(selected.value, {
+          videos: null,
+          nextPage: 1
+        });
+
+        this.setState({
+          videos: this.state.videos,
+          filter: selected.value
+        });
+      }
     }
   }, {
     key: 'render',
@@ -53051,10 +53093,12 @@ var EntityPage = function (_React$Component) {
           description: this.state.entity.description,
           picture: this.state.entity.picture,
           controls: controls }),
+        _react2.default.createElement(_filter2.default, { type: this.props.match.params.page,
+          onChanged: this.handleFilter }),
         _react2.default.createElement(
           _smallGrid2.default,
           null,
-          this.state.videos.map(function (video) {
+          this.state.videos.has(this.state.filter) && this.state.videos.get(this.state.filter).videos && this.state.videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
               likes: video.likes,
               comments: video.comments.total,
@@ -53158,7 +53202,7 @@ var GroupsPage = function (_React$Component) {
         var curr = _this2.state.groups.get(_this2.state.filter);
 
         _this2.state.groups.set(_this2.state.filter, {
-          groups: [].concat(_toConsumableArray(curr.groups), _toConsumableArray(response.groups)),
+          groups: curr.groups ? [].concat(_toConsumableArray(curr.groups), _toConsumableArray(response.groups)) : response.groups,
           nextPage: response.paging.next
         });
 
@@ -53176,7 +53220,7 @@ var GroupsPage = function (_React$Component) {
         });
       } else {
         this.state.groups.set(selected.value, {
-          groups: [],
+          groups: null,
           nextPage: 1
         });
 
@@ -53205,7 +53249,7 @@ var GroupsPage = function (_React$Component) {
               _react2.default.createElement(
                 _smallGrid2.default,
                 null,
-                _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
+                _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
                   return _react2.default.createElement(_card2.default, { banner: group.picture,
                     title: group.name,
                     followers: group.followers,
@@ -53337,7 +53381,7 @@ var MyVideosPage = function (_React$Component) {
 
       fetchFunction(this.props.match.url, _extends({ page: page }, this.state.filter)).then(function (response) {
         _this2.state.videos.set(_this2.state.filter, {
-          videos: [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)),
+          videos: curr.videos ? [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)) : response.videos,
           nextPage: response.paging.next
         });
 
@@ -53355,7 +53399,7 @@ var MyVideosPage = function (_React$Component) {
         });
       } else {
         this.state.videos.set(selected.value, {
-          videos: [],
+          videos: null,
           nextPage: 1
         });
 
@@ -53380,7 +53424,7 @@ var MyVideosPage = function (_React$Component) {
         _react2.default.createElement(
           _smallGrid2.default,
           null,
-          this.state.videos.has(this.state.filter) && this.state.videos.get(this.state.filter).videos.map(function (video) {
+          this.state.videos.has(this.state.filter) && this.state.videos.get(this.state.filter).videos && this.state.videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
               likes: video.likes,
               comments: video.comments.total,
@@ -53568,6 +53612,8 @@ var ProfilePage = function (_React$Component) {
     value: function fetchData(tab, page) {
       var _this3 = this;
 
+      var curr = this.state[tab].get(this.state.filter);
+
       var _ref = tab === 'followers' || tab === 'following' ? [_api.getUsers.bind(this, this.props.match.url), 'users'] : tab === 'likes' || tab === 'videos' ? [_api.getVideos.bind(this, this.props.match.url), 'videos'] : [_api.getListings.bind(this, this.props.match.url, 'listings'), 'listings'],
           _ref2 = _slicedToArray(_ref, 2),
           fetchFunction = _ref2[0],
@@ -53576,7 +53622,7 @@ var ProfilePage = function (_React$Component) {
       fetchFunction(_extends({ page: page }, this.state.filter)).then(function (response) {
         var _this3$state$tab$set;
 
-        _this3.state[tab].set(_this3.state.filter, (_this3$state$tab$set = {}, _defineProperty(_this3$state$tab$set, tab, [].concat(_toConsumableArray(_this3.state[tab].get(_this3.state.filter)[tab]), _toConsumableArray(response[responseType]))), _defineProperty(_this3$state$tab$set, 'nextPage', response.paging.next), _this3$state$tab$set));
+        _this3.state[tab].set(_this3.state.filter, (_this3$state$tab$set = {}, _defineProperty(_this3$state$tab$set, tab, curr[tab] ? [].concat(_toConsumableArray(curr[tab]), _toConsumableArray(response[responseType])) : response[responseType]), _defineProperty(_this3$state$tab$set, 'nextPage', response.paging.next), _this3$state$tab$set));
 
         _this3.setState(_defineProperty({}, tab, _this3.state[tab]));
       });
@@ -53593,7 +53639,7 @@ var ProfilePage = function (_React$Component) {
       } else {
         var _state$params$tab$set, _setState;
 
-        this.state[params.tab].set(selected.value, (_state$params$tab$set = {}, _defineProperty(_state$params$tab$set, params.tab, []), _defineProperty(_state$params$tab$set, 'nextPage', 1), _state$params$tab$set));
+        this.state[params.tab].set(selected.value, (_state$params$tab$set = {}, _defineProperty(_state$params$tab$set, params.tab, null), _defineProperty(_state$params$tab$set, 'nextPage', 1), _state$params$tab$set));
 
         this.setState((_setState = {}, _defineProperty(_setState, params.tab, this.state[params.tab]), _defineProperty(_setState, 'filter', selected.value), _setState));
       }
@@ -53626,7 +53672,7 @@ var ProfilePage = function (_React$Component) {
                 picture: _this4.state.user.picture,
                 tabs: tabs,
                 controls: JSON.parse(localStorage.getItem('user')).uri === _this4.state.user.uri ? null : controls }),
-              _react2.default.createElement(_filter2.default, { type: params.tab,
+              _react2.default.createElement(_filter2.default, { type: params.tab === 'videos' ? 'uploads' : params.tab,
                 onChanged: _this4.handleFilter }),
               _react2.default.createElement(
                 _reactRouterDom.Switch,
@@ -53635,8 +53681,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _smallGrid2.default,
                       null,
-                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
-                        console.log(item);
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_preview2.default, { plays: item.plays,
                           likes: item.likes,
                           comments: item.comments.total,
@@ -53653,7 +53698,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _mediumGrid2.default,
                       null,
-                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_userThumbnail2.default, { picture: item.picture,
                           title: item.name,
                           followers: item.followers,
@@ -53667,7 +53712,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _largeGrid2.default,
                       null,
-                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_card2.default, { banner: item.banner,
                           title: item.name,
                           description: item.description,
@@ -53682,7 +53727,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _smallGrid2.default,
                       null,
-                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_card2.default, { banner: item.picture,
                           title: item.name,
                           followers: item.followers,
@@ -53824,7 +53869,7 @@ var SearchPage = function (_React$Component) {
 
         var curr = _this2.state[type].get(_this2.state.filter);
 
-        _this2.state[type].set(_this2.state.filter, (_this2$state$type$set = {}, _defineProperty(_this2$state$type$set, type, [].concat(_toConsumableArray(curr[type]), _toConsumableArray(response[type]))), _defineProperty(_this2$state$type$set, 'nextPage', response.paging.next), _this2$state$type$set));
+        _this2.state[type].set(_this2.state.filter, (_this2$state$type$set = {}, _defineProperty(_this2$state$type$set, type, curr[type] ? [].concat(_toConsumableArray(curr[type]), _toConsumableArray(response[type])) : response[type]), _defineProperty(_this2$state$type$set, 'nextPage', response.paging.next), _this2$state$type$set));
 
         _this2.setState(_defineProperty({}, type, _this2.state[type]));
       });
@@ -53841,7 +53886,7 @@ var SearchPage = function (_React$Component) {
       } else {
         var _state$params$type$se, _setState;
 
-        this.state[params.type].set(selected.value, (_state$params$type$se = {}, _defineProperty(_state$params$type$se, params.type, []), _defineProperty(_state$params$type$se, 'nextPage', 1), _state$params$type$se));
+        this.state[params.type].set(selected.value, (_state$params$type$se = {}, _defineProperty(_state$params$type$se, params.type, null), _defineProperty(_state$params$type$se, 'nextPage', 1), _state$params$type$se));
 
         this.setState((_setState = {}, _defineProperty(_setState, params.type, this.state[params.type]), _defineProperty(_setState, 'filter', selected.value), _setState));
       }
@@ -53868,7 +53913,7 @@ var SearchPage = function (_React$Component) {
               return _react2.default.createElement(
                 _mediumGrid2.default,
                 null,
-                _this3.state.users.has(_this3.state.filter) && _this3.state.users.get(_this3.state.filter).users.map(function (user) {
+                _this3.state.users.has(_this3.state.filter) && _this3.state.users.get(_this3.state.filter).users && _this3.state.users.get(_this3.state.filter).users.map(function (user) {
                   return _react2.default.createElement(_userThumbnail2.default, { picture: user.picture,
                     title: user.name,
                     followers: user.followers,
@@ -53882,7 +53927,7 @@ var SearchPage = function (_React$Component) {
               return _react2.default.createElement(
                 _largeGrid2.default,
                 null,
-                _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
+                _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
                   return _react2.default.createElement(_card2.default, { banner: channel.banner,
                     title: channel.name,
                     description: channel.description,
@@ -53897,7 +53942,7 @@ var SearchPage = function (_React$Component) {
               return _react2.default.createElement(
                 _smallGrid2.default,
                 null,
-                _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
+                _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
                   return _react2.default.createElement(_card2.default, { banner: group.picture,
                     title: group.name,
                     followers: group.followers,
@@ -53911,7 +53956,7 @@ var SearchPage = function (_React$Component) {
               return _react2.default.createElement(
                 _smallGrid2.default,
                 null,
-                _this3.state.videos.has(_this3.state.filter) && _this3.state.videos.get(_this3.state.filter).videos.map(function (video) {
+                _this3.state.videos.has(_this3.state.filter) && _this3.state.videos.get(_this3.state.filter).videos && _this3.state.videos.get(_this3.state.filter).videos.map(function (video) {
                   return _react2.default.createElement(_preview2.default, { plays: video.plays,
                     likes: video.likes,
                     comments: video.comments.total,
@@ -54091,7 +54136,7 @@ var SubcategoriesPage = function (_React$Component) {
         var curr = _this4.state.subcategories.get(_this4.props.match.url).videos.get(_this4.state.filter);
 
         _this4.state.subcategories.get(_this4.props.match.url).videos.set(_this4.state.filter, {
-          videos: [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)),
+          videos: curr.videos ? [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)) : response.videos,
           nextPage: response.paging.next
         });
 
@@ -54109,7 +54154,7 @@ var SubcategoriesPage = function (_React$Component) {
         });
       } else {
         this.state.subcategories.get(this.props.match.url).videos.set(selected.value, {
-          videos: [],
+          videos: null,
           nextPage: 1
         });
 
@@ -54143,7 +54188,7 @@ var SubcategoriesPage = function (_React$Component) {
         _react2.default.createElement(
           _smallGrid2.default,
           null,
-          this.state.subcategories.get(url).videos.has(this.state.filter) && this.state.subcategories.get(url).videos.get(this.state.filter).videos.map(function (video) {
+          this.state.subcategories.get(url).videos.has(this.state.filter) && this.state.subcategories.get(url).videos.get(this.state.filter).videos && this.state.subcategories.get(url).videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
               likes: video.likes,
               comments: video.comments.total,
@@ -123500,6 +123545,27 @@ var Filter = function (_React$Component) {
             value: { sort: 'duration' }
           }];
 
+        case 'uploads':
+          return [{
+            label: 'Popularity',
+            value: { sort: 'plays' }
+          }, {
+            label: 'Recently uploaded',
+            value: { sort: 'date' }
+          }, {
+            label: 'Title (A-Z)',
+            value: { sort: 'alphabetical' }
+          }, {
+            label: 'Title (Z-A)',
+            value: { sort: 'alphabetical', direction: 'desc' }
+          }, {
+            label: 'Longest',
+            value: { sort: 'duration', direction: 'desc' }
+          }, {
+            label: 'Shortest',
+            value: { sort: 'duration' }
+          }];
+
         case 'likes':
         case 'watchlater':
           return [{
@@ -123773,7 +123839,7 @@ var ExceptionPage = function (_React$Component) {
           null,
           this.props.title
         ),
-        _react2.default.createElement(
+        this.props.subtitle && _react2.default.createElement(
           'span',
           null,
           this.props.subtitle
@@ -123786,7 +123852,7 @@ var ExceptionPage = function (_React$Component) {
 }(_react2.default.Component);
 
 ExceptionPage.propTypes = {
-  title: _propTypes2.default.string,
+  title: _propTypes2.default.string.isRequired,
   subtitle: _propTypes2.default.string
 };
 

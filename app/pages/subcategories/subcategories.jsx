@@ -72,7 +72,7 @@ class SubcategoriesPage extends React.Component {
       const curr = this.state.subcategories.get(this.props.match.url).videos.get(this.state.filter)
 
       this.state.subcategories.get(this.props.match.url).videos.set(this.state.filter, {
-        videos: [...curr.videos, ...response.videos],
+        videos: (curr.videos) ? [...curr.videos, ...response.videos] : response.videos,
         nextPage: response.paging.next
       })
 
@@ -89,7 +89,7 @@ class SubcategoriesPage extends React.Component {
       })
     } else {
       this.state.subcategories.get(this.props.match.url).videos.set(selected.value, {
-        videos: [],
+        videos: null,
         nextPage: 1
       })
 
@@ -120,6 +120,7 @@ class SubcategoriesPage extends React.Component {
             onChanged={this.handleFitler} />
         <SmallGrid>
         {this.state.subcategories.get(url).videos.has(this.state.filter) && 
+          this.state.subcategories.get(url).videos.get(this.state.filter).videos &&
           this.state.subcategories.get(url).videos.get(this.state.filter).videos.map((video) => (
             <Preview plays={video.plays}
               likes={video.likes}

@@ -16,7 +16,7 @@ class CategoriesPage extends React.Component {
     super(props)
 
     this.state = {
-      categories: [],
+      categories: null,
       nextPage: 1
     }
   }
@@ -24,7 +24,7 @@ class CategoriesPage extends React.Component {
   fetchCategories(page) {
     getCategories(this.props.match.url, { page: page }).then((response) => {
       this.setState({
-        categories: [...this.state.categories, ...response.categories],
+        categories: (this.state.categories) ? [...this.state.categories, ...response.categories] : response.categories,
         nextPage: response.paging.next
       })
     })
@@ -39,7 +39,7 @@ class CategoriesPage extends React.Component {
             <LazyContainer nextPage={this.state.nextPage} onLazy={this.fetchCategories.bind(this)}>
               <CollapsibleTitleBar title="Categories" />
               <SmallGrid>
-                {
+                {this.state.categories &&
                   this.state.categories.map((category) => (
                     <Tile picture={category.picture} 
                       icon={category.icon}

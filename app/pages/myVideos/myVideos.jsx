@@ -54,7 +54,7 @@ class MyVideosPage extends React.Component {
 
     fetchFunction(this.props.match.url, { page: page, ...this.state.filter }).then((response) => {
       this.state.videos.set(this.state.filter, {
-        videos: [...curr.videos, ...response.videos],
+        videos: (curr.videos) ? [...curr.videos, ...response.videos] : response.videos,
         nextPage: response.paging.next
       })
 
@@ -71,7 +71,7 @@ class MyVideosPage extends React.Component {
       })
     } else {
       this.state.videos.set(selected.value, {
-        videos: [],
+        videos: null,
         nextPage: 1
       })
 
@@ -93,6 +93,7 @@ class MyVideosPage extends React.Component {
           onChanged={this.handleFilter} />
         <SmallGrid>
         {this.state.videos.has(this.state.filter) &&
+          this.state.videos.get(this.state.filter).videos &&
           this.state.videos.get(this.state.filter).videos.map((video) => (
             <Preview plays={video.plays}
               likes={video.likes}
