@@ -42234,9 +42234,9 @@ var _entity = __webpack_require__(320);
 
 var _entity2 = _interopRequireDefault(_entity);
 
-var _connectionError = __webpack_require__(800);
+var _exception = __webpack_require__(803);
 
-var _connectionError2 = _interopRequireDefault(_connectionError);
+var _exception2 = _interopRequireDefault(_exception);
 
 var _style = __webpack_require__(385);
 
@@ -42314,7 +42314,8 @@ var Content = function (_React$Component) {
             _react2.default.createElement(_reactRouterDom.Route, { path: '/groups', component: _groups2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/:page/:id', component: _entity2.default }),
             _react2.default.createElement(_reactRouterDom.Redirect, { to: '/categories' })
-          ) : _react2.default.createElement(_connectionError2.default, null)
+          ) : _react2.default.createElement(_exception2.default, { title: 'You are not online!',
+            subtitle: 'Vimeo.js will reconnect when there is an active Internet connection.' })
         )
       );
     }
@@ -123717,7 +123718,10 @@ var parseComment = exports.parseComment = function parseComment(comment) {
 };
 
 /***/ }),
-/* 800 */
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -123733,7 +123737,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _style = __webpack_require__(801);
+var _propTypes = __webpack_require__(6);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _style = __webpack_require__(804);
 
 var _style2 = _interopRequireDefault(_style);
 
@@ -123745,47 +123753,51 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ConnectionErrorPage = function (_React$Component) {
-  _inherits(ConnectionErrorPage, _React$Component);
+var ExceptionPage = function (_React$Component) {
+  _inherits(ExceptionPage, _React$Component);
 
-  function ConnectionErrorPage() {
-    _classCallCheck(this, ConnectionErrorPage);
+  function ExceptionPage() {
+    _classCallCheck(this, ExceptionPage);
 
-    return _possibleConstructorReturn(this, (ConnectionErrorPage.__proto__ || Object.getPrototypeOf(ConnectionErrorPage)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ExceptionPage.__proto__ || Object.getPrototypeOf(ExceptionPage)).apply(this, arguments));
   }
 
-  _createClass(ConnectionErrorPage, [{
+  _createClass(ExceptionPage, [{
     key: 'render',
     value: function render() {
-
       return _react2.default.createElement(
         'div',
-        { className: _style2.default.connectionErrorPage },
+        { className: _style2.default.exceptionPage },
         _react2.default.createElement(
           'h1',
           null,
-          'You are not online!'
+          this.props.title
         ),
         _react2.default.createElement(
           'span',
           null,
-          'Vimeo.js will reconnect when there is an active Internet connection.'
+          this.props.subtitle
         )
       );
     }
   }]);
 
-  return ConnectionErrorPage;
+  return ExceptionPage;
 }(_react2.default.Component);
 
-exports.default = ConnectionErrorPage;
+ExceptionPage.propTypes = {
+  title: _propTypes2.default.string,
+  subtitle: _propTypes2.default.string
+};
+
+exports.default = ExceptionPage;
 
 /***/ }),
-/* 801 */
+/* 804 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"connectionErrorPage":"style__connectionErrorPage--1Bezf"};
+module.exports = {"exceptionPage":"style__exceptionPage--3gxRa"};
 
 /***/ })
 /******/ ]);

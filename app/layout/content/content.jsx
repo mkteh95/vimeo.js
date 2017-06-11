@@ -11,7 +11,7 @@ import ProfilePage from '../../pages/profile/profile.jsx'
 import MyVideosPage from '../../pages/myVideos/myVideos.jsx'
 import VideoPage from '../../pages/video/video.jsx'
 import EntityPage from '../../pages/entity/entity.jsx'
-import ConnectionErrorPage from '../../pages/connectionError/connectionError.jsx'
+import ExceptionPage from '../../pages/exception/exception.jsx'
 
 import style from './style.scss'
 
@@ -65,7 +65,8 @@ class Content extends React.Component {
               <Redirect to="/categories" />
             </Switch>
           ) : (
-            <ConnectionErrorPage />
+            <ExceptionPage title="You are not online!"
+              subtitle="Vimeo.js will reconnect when there is an active Internet connection." />
           )}
         </div>
       </main>
