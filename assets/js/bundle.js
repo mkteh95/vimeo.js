@@ -42234,6 +42234,10 @@ var _entity = __webpack_require__(320);
 
 var _entity2 = _interopRequireDefault(_entity);
 
+var _connectionError = __webpack_require__(800);
+
+var _connectionError2 = _interopRequireDefault(_connectionError);
+
 var _style = __webpack_require__(385);
 
 var _style2 = _interopRequireDefault(_style);
@@ -42249,16 +42253,42 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Content = function (_React$Component) {
   _inherits(Content, _React$Component);
 
-  function Content() {
+  function Content(props) {
     _classCallCheck(this, Content);
 
-    return _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, props));
+
+    _this.state = {
+      online: navigator.onLine
+    };
+
+    _this.updateStatus = _this.updateStatus.bind(_this);
+    return _this;
   }
 
   _createClass(Content, [{
+    key: 'updateStatus',
+    value: function updateStatus() {
+      this.setState({
+        online: navigator.onLine
+      });
+      console.log(this.state);
+    }
+  }, {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      window.addEventListener('offline', this.updateStatus);
+      window.addEventListener('online', this.updateStatus);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('offline', this.updateStatus);
+      window.removeEventListener('online', this.updateStatus);
+    }
+  }, {
     key: 'render',
     value: function render() {
-
       return _react2.default.createElement(
         'main',
         { className: _style2.default.appContent },
@@ -42266,7 +42296,7 @@ var Content = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: _style2.default.contentWrapper },
-          _react2.default.createElement(
+          this.state.online ? _react2.default.createElement(
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { path: '/users/:user/:tab', component: _profile2.default }),
@@ -42284,7 +42314,7 @@ var Content = function (_React$Component) {
             _react2.default.createElement(_reactRouterDom.Route, { path: '/groups', component: _groups2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/:page/:id', component: _entity2.default }),
             _react2.default.createElement(_reactRouterDom.Redirect, { to: '/categories' })
-          )
+          ) : _react2.default.createElement(_connectionError2.default, null)
         )
       );
     }
@@ -123685,6 +123715,77 @@ var parseComment = exports.parseComment = function parseComment(comment) {
     }
   };
 };
+
+/***/ }),
+/* 800 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _style = __webpack_require__(801);
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ConnectionErrorPage = function (_React$Component) {
+  _inherits(ConnectionErrorPage, _React$Component);
+
+  function ConnectionErrorPage() {
+    _classCallCheck(this, ConnectionErrorPage);
+
+    return _possibleConstructorReturn(this, (ConnectionErrorPage.__proto__ || Object.getPrototypeOf(ConnectionErrorPage)).apply(this, arguments));
+  }
+
+  _createClass(ConnectionErrorPage, [{
+    key: 'render',
+    value: function render() {
+
+      return _react2.default.createElement(
+        'div',
+        { className: _style2.default.connectionErrorPage },
+        _react2.default.createElement(
+          'h1',
+          null,
+          'You are not online!'
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          'Vimeo.js will reconnect when there is an active Internet connection.'
+        )
+      );
+    }
+  }]);
+
+  return ConnectionErrorPage;
+}(_react2.default.Component);
+
+exports.default = ConnectionErrorPage;
+
+/***/ }),
+/* 801 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+module.exports = {"connectionErrorPage":"style__connectionErrorPage--1Bezf"};
 
 /***/ })
 /******/ ]);

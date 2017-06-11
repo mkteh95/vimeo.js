@@ -834,12 +834,23 @@
       padding: 20px;
       background: #fff;
       border-left: 1px solid #d0d8db; }
+.style__connectionErrorPage--1Bezf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  .style__connectionErrorPage--1Bezf span {
+    color: #879cab; }
 .style__appContent--5SonS {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 0;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.75)); }
+  min-width: 0; }
   .style__appContent--5SonS .style__contentWrapper--3-qSM {
     display: flex;
     flex-direction: column;
@@ -847,7 +858,8 @@
     position: relative;
     min-height: 0; }
     .style__appContent--5SonS .style__contentWrapper--3-qSM > * {
-      overflow-y: scroll; }
+      overflow-y: scroll;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.75)); }
 .style__loginPage--17NGy {
   display: flex;
   flex: 1; }
