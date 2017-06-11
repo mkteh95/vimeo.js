@@ -36,7 +36,7 @@ class EntityPage extends React.Component {
   }
 
   fetchVideos(page) {
-    getVideos(`${this.props.match.url}/videos`, { page: page, sort: 'date' }).then((response) => {
+    getVideos(`${this.props.match.url}/videos`, { page: page, ...this.state.filter }).then((response) => {
       const curr = this.state.videos.get(this.state.filter)
 
       this.state.videos.set(this.state.filter, {
