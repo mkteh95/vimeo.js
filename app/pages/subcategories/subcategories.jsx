@@ -7,6 +7,7 @@ import LazyContainer from '../../containers/lazyContainer/lazyContainer.jsx'
 import CollapsibleTitleBar from '../../components/collapsibleTitleBar/collapsibleTitleBar.jsx'
 import Preview from '../../components/preview/preview.jsx'
 import FollowButton from '../../components/followButton/followButton.jsx'
+import Filter from '../../components/filter/filter.jsx'
 
 
 class SubcategoriesPage extends React.Component {
@@ -25,31 +26,30 @@ class SubcategoriesPage extends React.Component {
       },
       subcategories: new Map([
         [`/categories/${props.match.params.category}/subcategories/featured`, {
-          videos: [],
-          nextPage: 1
+          videos: new Map()
         }]
-      ])
+      ]),
+      filter: null
     }
+
+    this.handleFitler = this.changeFilter.bind(this)
   }
 
   componentWillMount() {
     getCategory(`/categories/${this.props.match.params.category}`).then((response) => {
+      for (let subcategory of response.subcategories) {
+        this.state.subcategories.set(subcategory.uri, {
+          videos: new Map()
+        })
+      }
+
       this.setState({
         initialized: true,
         category: {
           ...response,
           subcategories: [...this.state.category.subcategories, ...response.subcategories]
         },
-        subcategories: new Map([...this.state.subcategories,
-          ...response.subcategories.map((subcategory) => {
-            return [
-              subcategory.uri, {
-                videos: [],
-                nextPage: 1
-              }
-            ]
-          })
-        ])
+        subcategories: this.state.subcategories
       })
     })
   }
@@ -68,17 +68,36 @@ class SubcategoriesPage extends React.Component {
                        ? `/categories/${this.props.match.params.category}/videos?sort=featured` 
                        : `${this.props.match.url}/videos`
     
-    getVideos(endpoint, { page: page }).then((response) => {
+    getVideos(endpoint, { page: page, ...this.state.filter }).then((response) => {
+      const curr = this.state.subcategories.get(this.props.match.url).videos.get(this.state.filter)
+
+      this.state.subcategories.get(this.props.match.url).videos.set(this.state.filter, {
+        videos: [...curr.videos, ...response.videos],
+        nextPage: response.paging.next
+      })
+
       this.setState({
-        subcategories: new Map([
-          ...this.state.subcategories,
-          [this.props.match.url, {
-            videos: [...this.state.subcategories.get(this.props.match.url).videos, ...response.videos],
-            nextPage: response.paging.next
-          }]
-        ])
+        subcategories: this.state.subcategories
       })
     })
+  }
+
+  changeFilter(selected) {
+    if (this.state.subcategories.get(this.props.match.url).videos.has(selected.value)) {
+      this.setState({
+        filter: selected.value
+      })
+    } else {
+      this.state.subcategories.get(this.props.match.url).videos.set(selected.value, {
+        videos: [],
+        nextPage: 1
+      })
+
+      this.setState({
+        subcategory: this.state.subcategories,
+        filter: selected.value
+      })
+    }
   }
 
   render() {
@@ -91,24 +110,28 @@ class SubcategoriesPage extends React.Component {
     const controls = [<FollowButton uri={followEndpoint} key={followEndpoint} />]
 
     return (this.state.initialized) ? (
-      <LazyContainer nextPage={this.state.subcategories.get(url).nextPage} onLazy={this.fetchVideos.bind(this)}>
+      <LazyContainer nextPage={(this.state.filter === null) ? null : this.state.subcategories.get(url).videos.get(this.state.filter).nextPage} 
+        onLazy={this.fetchVideos.bind(this)}>
         <CollapsibleTitleBar title={this.state.category.name}
           label="CATEGORY"
           tabs={tabs}
           controls={controls} />
-        <SmallGrid>{
-            this.state.subcategories.get(url).videos.map((video) => (
-              <Preview plays={video.plays}
-                likes={video.likes}
-                comments={video.comments.total}
-                picture={video.picture}
-                title={video.name}
-                duration={video.duration}
-                user={video.user}
-                uri={video.uri}
-                key={video.uri} />
-            ))
-          }</SmallGrid>
+          <Filter type="videos"
+            onChanged={this.handleFitler} />
+        <SmallGrid>
+        {this.state.subcategories.get(url).videos.has(this.state.filter) && 
+          this.state.subcategories.get(url).videos.get(this.state.filter).videos.map((video) => (
+            <Preview plays={video.plays}
+              likes={video.likes}
+              comments={video.comments.total}
+              picture={video.picture}
+              title={video.name}
+              duration={video.duration}
+              user={video.user}
+              uri={video.uri}
+              key={video.uri} />
+          ))
+        }</SmallGrid>
       </LazyContainer>
     ) : null
   }

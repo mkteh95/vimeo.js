@@ -52769,6 +52769,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
@@ -52799,6 +52801,10 @@ var _card = __webpack_require__(60);
 
 var _card2 = _interopRequireDefault(_card);
 
+var _filter = __webpack_require__(792);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -52818,9 +52824,11 @@ var ChannelsPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (ChannelsPage.__proto__ || Object.getPrototypeOf(ChannelsPage)).call(this, props));
 
     _this.state = {
-      channels: [],
-      nextPage: 1
+      channels: new Map(),
+      filter: null
     };
+
+    _this.handleFilter = _this.changeFilter.bind(_this);
     return _this;
   }
 
@@ -52829,12 +52837,37 @@ var ChannelsPage = function (_React$Component) {
     value: function fetchChannels(page) {
       var _this2 = this;
 
-      (0, _api.getChannels)(this.props.match.url, { filter: 'featured', sort: 'followers', page: page }).then(function (response) {
-        _this2.setState({
-          channels: [].concat(_toConsumableArray(_this2.state.channels), _toConsumableArray(response.channels)),
+      (0, _api.getChannels)(this.props.match.url, _extends({ page: page }, this.state.filter)).then(function (response) {
+        var curr = _this2.state.channels.get(_this2.state.filter);
+
+        _this2.state.channels.set(_this2.state.filter, {
+          channels: [].concat(_toConsumableArray(curr.channels), _toConsumableArray(response.channels)),
           nextPage: response.paging.next
         });
+
+        _this2.setState({
+          channels: _this2.state.channels
+        });
       });
+    }
+  }, {
+    key: 'changeFilter',
+    value: function changeFilter(selected) {
+      if (this.state.channels.has(selected.value)) {
+        this.setState({
+          filter: selected.value
+        });
+      } else {
+        this.state.channels.set(selected.value, {
+          channels: [],
+          nextPage: 1
+        });
+
+        this.setState({
+          channels: this.state.channels,
+          filter: selected.value
+        });
+      }
     }
   }, {
     key: 'render',
@@ -52847,12 +52880,15 @@ var ChannelsPage = function (_React$Component) {
         _react2.default.createElement(_reactRouterDom.Route, { path: '/channels', exact: true, render: function render() {
             return _react2.default.createElement(
               _lazyContainer2.default,
-              { nextPage: _this3.state.nextPage, onLazy: _this3.fetchChannels.bind(_this3) },
+              { nextPage: _this3.state.filter === null ? null : _this3.state.channels.get(_this3.state.filter).nextPage,
+                onLazy: _this3.fetchChannels.bind(_this3) },
               _react2.default.createElement(_collapsibleTitleBar2.default, { title: 'Channels' }),
+              _react2.default.createElement(_filter2.default, { type: 'channels',
+                onChanged: _this3.handleFilter }),
               _react2.default.createElement(
                 _largeGrid2.default,
                 null,
-                _this3.state.channels.map(function (channel) {
+                _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
                   return _react2.default.createElement(_card2.default, { banner: channel.banner,
                     title: channel.name,
                     description: channel.description,
@@ -53019,6 +53055,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
@@ -53049,6 +53087,10 @@ var _card = __webpack_require__(60);
 
 var _card2 = _interopRequireDefault(_card);
 
+var _filter = __webpack_require__(792);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -53068,9 +53110,11 @@ var GroupsPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (GroupsPage.__proto__ || Object.getPrototypeOf(GroupsPage)).call(this, props));
 
     _this.state = {
-      groups: [],
-      nextPage: 1
+      groups: new Map(),
+      filter: null
     };
+
+    _this.handleFilter = _this.changeFilter.bind(_this);
     return _this;
   }
 
@@ -53079,12 +53123,37 @@ var GroupsPage = function (_React$Component) {
     value: function fetchGroups(page) {
       var _this2 = this;
 
-      (0, _api.getGroups)(this.props.match.url, { filter: 'featured', sort: 'followers', page: page }).then(function (response) {
-        _this2.setState({
-          groups: [].concat(_toConsumableArray(_this2.state.groups), _toConsumableArray(response.groups)),
+      (0, _api.getGroups)(this.props.match.url, _extends({ page: page }, this.state.filter)).then(function (response) {
+        var curr = _this2.state.groups.get(_this2.state.filter);
+
+        _this2.state.groups.set(_this2.state.filter, {
+          groups: [].concat(_toConsumableArray(curr.groups), _toConsumableArray(response.groups)),
           nextPage: response.paging.next
         });
+
+        _this2.setState({
+          groups: _this2.state.groups
+        });
       });
+    }
+  }, {
+    key: 'changeFilter',
+    value: function changeFilter(selected) {
+      if (this.state.groups.has(selected.value)) {
+        this.setState({
+          filter: selected.value
+        });
+      } else {
+        this.state.groups.set(selected.value, {
+          groups: [],
+          nextPage: 1
+        });
+
+        this.setState({
+          groups: this.state.groups,
+          filter: selected.value
+        });
+      }
     }
   }, {
     key: 'render',
@@ -53097,12 +53166,15 @@ var GroupsPage = function (_React$Component) {
         _react2.default.createElement(_reactRouterDom.Route, { path: '/groups', exact: true, render: function render() {
             return _react2.default.createElement(
               _lazyContainer2.default,
-              { nextPage: _this3.state.nextPage, onLazy: _this3.fetchGroups.bind(_this3) },
+              { nextPage: _this3.state.filter === null ? null : _this3.state.groups.get(_this3.state.filter).nextPage,
+                onLazy: _this3.fetchGroups.bind(_this3) },
               _react2.default.createElement(_collapsibleTitleBar2.default, { title: 'Groups' }),
+              _react2.default.createElement(_filter2.default, { type: 'groups',
+                onChanged: _this3.handleFilter }),
               _react2.default.createElement(
                 _smallGrid2.default,
                 null,
-                _this3.state.groups.map(function (group) {
+                _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
                   return _react2.default.createElement(_card2.default, { banner: group.picture,
                     title: group.name,
                     followers: group.followers,
@@ -53135,6 +53207,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
@@ -53161,6 +53235,10 @@ var _collapsibleTitleBar = __webpack_require__(38);
 
 var _collapsibleTitleBar2 = _interopRequireDefault(_collapsibleTitleBar);
 
+var _filter = __webpack_require__(792);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 var _preview = __webpack_require__(61);
 
 var _preview2 = _interopRequireDefault(_preview);
@@ -53184,11 +53262,12 @@ var MyVideosPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (MyVideosPage.__proto__ || Object.getPrototypeOf(MyVideosPage)).call(this, props));
 
     _this.state = {
-      videos: [],
-      nextPage: 1
+      videos: new Map(),
+      filter: null
     };
 
     _this.fetchVideos = _this.fetchVideos.bind(_this);
+    _this.handleFilter = _this.changeFilter.bind(_this);
     return _this;
   }
 
@@ -53210,9 +53289,11 @@ var MyVideosPage = function (_React$Component) {
     value: function componentWillReceiveProps(nextProps) {
       if (this.props.match.url !== nextProps.match.url) {
         this.setState({
-          videos: [],
-          nextPage: 1
+          videos: new Map(),
+          filter: null
         });
+
+        this.handleFilter = this.changeFilter.bind(this);
       }
     }
   }, {
@@ -53221,25 +53302,54 @@ var MyVideosPage = function (_React$Component) {
       var _this2 = this;
 
       var fetchFunction = this.props.match.params.page === 'feed' ? _api.getFeeds : _api.getVideos;
+      var curr = this.state.videos.get(this.state.filter);
 
-      fetchFunction(this.props.match.url, { page: page, sort: 'date' }).then(function (response) {
-        _this2.setState({
-          videos: [].concat(_toConsumableArray(_this2.state.videos), _toConsumableArray(response.videos)),
+      fetchFunction(this.props.match.url, _extends({ page: page }, this.state.filter)).then(function (response) {
+        _this2.state.videos.set(_this2.state.filter, {
+          videos: [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)),
           nextPage: response.paging.next
+        });
+
+        _this2.setState({
+          videos: _this2.state.videos
         });
       });
     }
   }, {
+    key: 'changeFilter',
+    value: function changeFilter(selected) {
+      if (this.state.videos.has(selected.value)) {
+        this.setState({
+          filter: selected.value
+        });
+      } else {
+        this.state.videos.set(selected.value, {
+          videos: [],
+          nextPage: 1
+        });
+
+        this.setState({
+          videos: this.state.videos,
+          filter: selected.value
+        });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var params = this.props.match.params;
+
       return _react2.default.createElement(
         _lazyContainer2.default,
-        { nextPage: this.state.nextPage, onLazy: this.fetchVideos },
-        _react2.default.createElement(_collapsibleTitleBar2.default, { title: this.extractTitleFromPage(this.props.match.params.page) }),
+        { nextPage: this.state.filter === null ? null : this.state.videos.get(this.state.filter).nextPage,
+          onLazy: this.fetchVideos },
+        _react2.default.createElement(_collapsibleTitleBar2.default, { title: this.extractTitleFromPage(params.page) }),
+        _react2.default.createElement(_filter2.default, { type: params.page,
+          onChanged: this.handleFilter }),
         _react2.default.createElement(
           _smallGrid2.default,
           null,
-          this.state.videos.map(function (video) {
+          this.state.videos.has(this.state.filter) && this.state.videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
               likes: video.likes,
               comments: video.comments.total,
@@ -53270,6 +53380,8 @@ exports.default = MyVideosPage;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -53323,11 +53435,15 @@ var _followButton = __webpack_require__(662);
 
 var _followButton2 = _interopRequireDefault(_followButton);
 
+var _filter = __webpack_require__(792);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -53347,7 +53463,8 @@ var ProfilePage = function (_React$Component) {
 
     _this.state = {
       initialized: false,
-      user: {}
+      user: {},
+      filter: null
     };
 
     var _iteratorNormalCompletion = true;
@@ -53356,11 +53473,9 @@ var ProfilePage = function (_React$Component) {
 
     try {
       for (var _iterator = _this.tabs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var _this$state$tab;
-
         var tab = _step.value;
 
-        _this.state[tab] = (_this$state$tab = {}, _defineProperty(_this$state$tab, tab, []), _defineProperty(_this$state$tab, 'nextPage', 1), _this$state$tab);
+        _this.state[tab] = new Map();
       }
     } catch (err) {
       _didIteratorError = true;
@@ -53377,6 +53492,7 @@ var ProfilePage = function (_React$Component) {
       }
     }
 
+    _this.handleFilter = _this.changeFilter.bind(_this);
     return _this;
   }
 
@@ -53402,10 +53518,18 @@ var ProfilePage = function (_React$Component) {
     value: function componentWillReceiveProps(nextProps) {
       if (this.props.match.params.user !== nextProps.match.params.user) {
         this.setState({
-          initialized: false
+          initialized: false,
+          filter: null
         });
 
         this.initialDataLoad(nextProps);
+        this.handleFilter = this.changeFilter.bind(this);
+      } else if (this.props.match.params.tab !== nextProps.match.params.type) {
+        this.setState({
+          filter: null
+        });
+
+        this.handleFilter = this.changeFilter.bind(this);
       }
     }
   }, {
@@ -53418,11 +53542,30 @@ var ProfilePage = function (_React$Component) {
           fetchFunction = _ref2[0],
           responseType = _ref2[1];
 
-      fetchFunction({ page: page }).then(function (response) {
-        var _tab;
+      fetchFunction(_extends({ page: page }, this.state.filter)).then(function (response) {
+        var _this3$state$tab$set;
 
-        _this3.setState(_defineProperty({}, tab, (_tab = {}, _defineProperty(_tab, tab, [].concat(_toConsumableArray(_this3.state[tab][tab]), _toConsumableArray(response[responseType]))), _defineProperty(_tab, 'nextPage', response.paging.next), _tab)));
+        _this3.state[tab].set(_this3.state.filter, (_this3$state$tab$set = {}, _defineProperty(_this3$state$tab$set, tab, [].concat(_toConsumableArray(_this3.state[tab].get(_this3.state.filter)[tab]), _toConsumableArray(response[responseType]))), _defineProperty(_this3$state$tab$set, 'nextPage', response.paging.next), _this3$state$tab$set));
+
+        _this3.setState(_defineProperty({}, tab, _this3.state[tab]));
       });
+    }
+  }, {
+    key: 'changeFilter',
+    value: function changeFilter(selected) {
+      var params = this.props.match.params;
+
+      if (this.state[params.tab].has(selected.value)) {
+        this.setState({
+          filter: selected.value
+        });
+      } else {
+        var _state$params$tab$set, _setState;
+
+        this.state[params.tab].set(selected.value, (_state$params$tab$set = {}, _defineProperty(_state$params$tab$set, params.tab, []), _defineProperty(_state$params$tab$set, 'nextPage', 1), _state$params$tab$set));
+
+        this.setState((_setState = {}, _defineProperty(_setState, params.tab, this.state[params.tab]), _defineProperty(_setState, 'filter', selected.value), _setState));
+      }
     }
   }, {
     key: 'render',
@@ -53444,13 +53587,16 @@ var ProfilePage = function (_React$Component) {
         this.state.initialized && _react2.default.createElement(_reactRouterDom.Route, { path: '/users/:user/:tab', render: function render() {
             return _react2.default.createElement(
               _lazyContainer2.default,
-              { nextPage: _this4.state[params.tab].nextPage, onLazy: _this4.fetchData.bind(_this4, params.tab) },
+              { nextPage: _this4.state.filter === null ? null : _this4.state[params.tab].get(_this4.state.filter).nextPage,
+                onLazy: _this4.fetchData.bind(_this4, params.tab) },
               _react2.default.createElement(_collapsibleTitleBar2.default, { title: _this4.state.user.name,
                 label: 'PROFILE',
                 description: _this4.state.user.description,
                 picture: _this4.state.user.picture,
                 tabs: tabs,
-                controls: JSON.parse(localStorage.getItem('user')).uri === '/users/' + _this4.props.match.params.user ? null : controls }),
+                controls: JSON.parse(localStorage.getItem('user')).uri === _this4.state.user.uri ? null : controls }),
+              _react2.default.createElement(_filter2.default, { type: params.tab,
+                onChanged: _this4.handleFilter }),
               _react2.default.createElement(
                 _reactRouterDom.Switch,
                 null,
@@ -53458,7 +53604,8 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _smallGrid2.default,
                       null,
-                      _this4.state[params.tab][params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
+                        console.log(item);
                         return _react2.default.createElement(_preview2.default, { plays: item.plays,
                           likes: item.likes,
                           comments: item.comments.total,
@@ -53475,7 +53622,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _mediumGrid2.default,
                       null,
-                      _this4.state[params.tab][params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_userThumbnail2.default, { picture: item.picture,
                           title: item.name,
                           followers: item.followers,
@@ -53489,7 +53636,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _largeGrid2.default,
                       null,
-                      _this4.state[params.tab][params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_card2.default, { banner: item.banner,
                           title: item.name,
                           description: item.description,
@@ -53504,7 +53651,7 @@ var ProfilePage = function (_React$Component) {
                     return _react2.default.createElement(
                       _smallGrid2.default,
                       null,
-                      _this4.state[params.tab][params.tab].map(function (item) {
+                      _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_card2.default, { banner: item.picture,
                           title: item.name,
                           followers: item.followers,
@@ -53808,6 +53955,10 @@ var _followButton = __webpack_require__(662);
 
 var _followButton2 = _interopRequireDefault(_followButton);
 
+var _filter = __webpack_require__(792);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -53836,10 +53987,12 @@ var SubcategoriesPage = function (_React$Component) {
         }]
       },
       subcategories: new Map([['/categories/' + props.match.params.category + '/subcategories/featured', {
-        videos: [],
-        nextPage: 1
-      }]])
+        videos: new Map()
+      }]]),
+      filter: null
     };
+
+    _this.handleFitler = _this.changeFilter.bind(_this);
     return _this;
   }
 
@@ -53849,17 +54002,39 @@ var SubcategoriesPage = function (_React$Component) {
       var _this2 = this;
 
       (0, _api.getCategory)('/categories/' + this.props.match.params.category).then(function (response) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = response.subcategories[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var subcategory = _step.value;
+
+            _this2.state.subcategories.set(subcategory.uri, {
+              videos: new Map()
+            });
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
         _this2.setState({
           initialized: true,
           category: _extends({}, response, {
             subcategories: [].concat(_toConsumableArray(_this2.state.category.subcategories), _toConsumableArray(response.subcategories))
           }),
-          subcategories: new Map([].concat(_toConsumableArray(_this2.state.subcategories), _toConsumableArray(response.subcategories.map(function (subcategory) {
-            return [subcategory.uri, {
-              videos: [],
-              nextPage: 1
-            }];
-          }))))
+          subcategories: _this2.state.subcategories
         });
       });
     }
@@ -53881,14 +54056,37 @@ var SubcategoriesPage = function (_React$Component) {
 
       var endpoint = this.props.match.url === '/categories/' + this.props.match.params.category + '/subcategories/featured' ? '/categories/' + this.props.match.params.category + '/videos?sort=featured' : this.props.match.url + '/videos';
 
-      (0, _api.getVideos)(endpoint, { page: page }).then(function (response) {
+      (0, _api.getVideos)(endpoint, _extends({ page: page }, this.state.filter)).then(function (response) {
+        var curr = _this4.state.subcategories.get(_this4.props.match.url).videos.get(_this4.state.filter);
+
+        _this4.state.subcategories.get(_this4.props.match.url).videos.set(_this4.state.filter, {
+          videos: [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)),
+          nextPage: response.paging.next
+        });
+
         _this4.setState({
-          subcategories: new Map([].concat(_toConsumableArray(_this4.state.subcategories), [[_this4.props.match.url, {
-            videos: [].concat(_toConsumableArray(_this4.state.subcategories.get(_this4.props.match.url).videos), _toConsumableArray(response.videos)),
-            nextPage: response.paging.next
-          }]]))
+          subcategories: _this4.state.subcategories
         });
       });
+    }
+  }, {
+    key: 'changeFilter',
+    value: function changeFilter(selected) {
+      if (this.state.subcategories.get(this.props.match.url).videos.has(selected.value)) {
+        this.setState({
+          filter: selected.value
+        });
+      } else {
+        this.state.subcategories.get(this.props.match.url).videos.set(selected.value, {
+          videos: [],
+          nextPage: 1
+        });
+
+        this.setState({
+          subcategory: this.state.subcategories,
+          filter: selected.value
+        });
+      }
     }
   }, {
     key: 'render',
@@ -53903,15 +54101,18 @@ var SubcategoriesPage = function (_React$Component) {
 
       return this.state.initialized ? _react2.default.createElement(
         _lazyContainer2.default,
-        { nextPage: this.state.subcategories.get(url).nextPage, onLazy: this.fetchVideos.bind(this) },
+        { nextPage: this.state.filter === null ? null : this.state.subcategories.get(url).videos.get(this.state.filter).nextPage,
+          onLazy: this.fetchVideos.bind(this) },
         _react2.default.createElement(_collapsibleTitleBar2.default, { title: this.state.category.name,
           label: 'CATEGORY',
           tabs: tabs,
           controls: controls }),
+        _react2.default.createElement(_filter2.default, { type: 'videos',
+          onChanged: this.handleFitler }),
         _react2.default.createElement(
           _smallGrid2.default,
           null,
-          this.state.subcategories.get(url).videos.map(function (video) {
+          this.state.subcategories.get(url).videos.has(this.state.filter) && this.state.subcategories.get(url).videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
               likes: video.likes,
               comments: video.comments.total,
@@ -123266,6 +123467,77 @@ var Filter = function (_React$Component) {
           }, {
             label: 'Shortest',
             value: { sort: 'duration' }
+          }];
+
+        case 'likes':
+        case 'watchlater':
+          return [{
+            label: 'Popularity',
+            value: { sort: 'plays' }
+          }, {
+            label: 'Recently uploaded',
+            value: { sort: 'date' }
+          }, {
+            label: 'Title (A-Z)',
+            value: { sort: 'alphabetical' }
+          }, {
+            label: 'Title (Z-A)',
+            value: { sort: 'alphabetical', direction: 'desc' }
+          }, {
+            label: 'Longest',
+            value: { sort: 'duration', direction: 'desc' }
+          }, {
+            label: 'Shortest',
+            value: { sort: 'duration' }
+          }];
+
+        case 'feed':
+          return [{
+            label: 'Recently uploaded',
+            value: { sort: 'date' }
+          }];
+
+        case 'portfolios':
+          return [{
+            label: 'Recently created',
+            value: { sort: 'date' }
+          }, {
+            label: 'Title (A-Z)',
+            value: { sort: 'alphabetical' }
+          }, {
+            label: 'Title (Z-A)',
+            value: { sort: 'alphabetical', direction: 'desc' }
+          }];
+
+        case 'albums':
+          return [{
+            label: 'Recently created',
+            value: { sort: 'date' }
+          }, {
+            label: 'Title (A-Z)',
+            value: { sort: 'alphabetical' }
+          }, {
+            label: 'Title (Z-A)',
+            value: { sort: 'alphabetical', direction: 'desc' }
+          }, {
+            label: 'Longest',
+            value: { sort: 'duration', direction: 'desc' }
+          }, {
+            label: 'Shortest',
+            value: { sort: 'duration' }
+          }];
+
+        case 'followers':
+        case 'following':
+          return [{
+            label: 'Recently followed',
+            value: { sort: 'date' }
+          }, {
+            label: 'Name (A-Z)',
+            value: { sort: 'alphabetical' }
+          }, {
+            label: 'Name (Z-A)',
+            value: { sort: 'alphabetical', direction: 'desc' }
           }];
       }
     }

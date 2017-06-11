@@ -16,7 +16,7 @@
 
 .dropdownWrapper {
   position: relative;
-  min-width: 160px;
+  min-width: 180px;
   border: 1px solid #d0d8db;
 }
 
@@ -53,7 +53,7 @@
   cursor: pointer;
   background: #fff;
   border: 1px solid #d0d8db;
-  z-index: 999999;
+  z-index: 1;
   transition: all 0.3s ease-in-out;
 
   .item {
