@@ -127,15 +127,13 @@ class ProfilePage extends React.Component {
                 picture={this.state.user.picture}
                 tabs={tabs}
                 controls={(JSON.parse(localStorage.getItem('user')).uri === this.state.user.uri) ? null : controls} />
-              <Filter type={params.tab}
+              <Filter type={(params.tab === 'videos') ? 'uploads' : params.tab}
                 onChanged={this.handleFilter} />
               <Switch>
                 <Route path={"/users/:user/:tab(likes|videos)"} render={() => (
                     <SmallGrid>
                     {this.state[params.tab].has(this.state.filter) &&
-                      this.state[params.tab].get(this.state.filter)[params.tab].map((item) => {
-                        console.log(item)
-                        return (
+                      this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Preview plays={item.plays}
                           likes={item.likes}
                           comments={item.comments.total}
@@ -145,7 +143,7 @@ class ProfilePage extends React.Component {
                           user={item.user}
                           uri={item.uri}
                           key={item.uri} />)
-                      })
+                      )
                     }</SmallGrid>
                   )} />
                 <Route path={"/users/:user/:tab(followers|following)"} render={() => (
