@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { subscribe } from '../../services/api.js'
+import { subscribe, unsubscribe } from '../../services/api.js'
 
 import style from './style.scss'
 
@@ -13,18 +13,24 @@ class Preview extends React.Component {
     super(props)
     
     this.state = {
-      watchingLater: false
+      watchLater: props.watchLater
     }
   }
   
-  putWatchLater(e) {
+  updateWatchLater(e) {
     e.preventDefault()
     e.stopPropagation()
-    
-    subscribe(`/me/watchlater/${this.props.uri.split('/').pop()}`).then(() => {
+
+    const subscriptionFunc = (this.state.watchLater) ? unsubscribe : subscribe
+
+    subscriptionFunc(`/me/watchlater/${this.props.uri.split('/').pop()}`).then(() => {
       this.setState({
-        watchingLater: true
+        watchLater: !this.state.watchLater
       })
+
+      if (this.props.onUnwatchLater) {
+        this.props.onUnwatchLater(this.props.uri)
+      }
     })
   }
   
@@ -37,7 +43,8 @@ class Preview extends React.Component {
               <img src={this.props.picture} />
               <div className={style.overlay}>
                 <span className={style.play}><i className="fa fa-play fa-2x fa-fw"></i></span>
-                <span className={style.watchlater} onClick={this.putWatchLater.bind(this)}><i className="fa fa-clock-o fa-fw"></i></span>
+                <span className={(this.state.watchLater) ? `${style.watchlater} ${style.active}` : style.watchlater}
+                  onClick={this.updateWatchLater.bind(this)}><i className="fa fa-clock-o fa-fw"></i></span>
                 <span className={style.duration}>{this.props.duration}</span>
               </div>
             </div>
@@ -77,7 +84,13 @@ Preview.propTypes = {
     name: PropTypes.string,
     picture: PropTypes.string,
     uri: PropTypes.string
-  })
+  }),
+  watchLater: PropTypes.bool,
+  onUnwatchLater: PropTypes.func
+}
+
+Preview.defaultProps = {
+  watchLater: false
 }
 
 export default Preview

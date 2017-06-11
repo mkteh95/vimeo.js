@@ -21,8 +21,8 @@ export const parseUser = (user) => {
   return {
     uri: user.uri,
     name: user.name,
-    description: (!user.description) ? 'No description available...' : user.description,
-    picture: (!user.pictures) ? null : user.pictures.sizes[user.pictures.sizes.length - 1].link,
+    description: user.description,
+    picture: (!user.pictures) ? 'https://secure.gravatar.com/avatar/59fe2a8239449ae64bda7c35995b5994?d=https%3A%2F%2Fi.vimeocdn.com%2Fportrait%2Fdefaults-blue_300x300.png&s=300' : user.pictures.sizes[user.pictures.sizes.length - 1].link,
     followers: Numeral(user.metadata.connections.followers.total).format('0a'),
     videos: Numeral(user.metadata.connections.videos.total).format('0a')
   }

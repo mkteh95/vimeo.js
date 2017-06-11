@@ -15264,23 +15264,29 @@ var Preview = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, props));
 
     _this.state = {
-      watchingLater: false
+      watchLater: props.watchLater
     };
     return _this;
   }
 
   _createClass(Preview, [{
-    key: 'putWatchLater',
-    value: function putWatchLater(e) {
+    key: 'updateWatchLater',
+    value: function updateWatchLater(e) {
       var _this2 = this;
 
       e.preventDefault();
       e.stopPropagation();
 
-      (0, _api.subscribe)('/me/watchlater/' + this.props.uri.split('/').pop()).then(function () {
+      var subscriptionFunc = this.state.watchLater ? _api.unsubscribe : _api.subscribe;
+
+      subscriptionFunc('/me/watchlater/' + this.props.uri.split('/').pop()).then(function () {
         _this2.setState({
-          watchingLater: true
+          watchLater: !_this2.state.watchLater
         });
+
+        if (_this2.props.onUnwatchLater) {
+          _this2.props.onUnwatchLater(_this2.props.uri);
+        }
       });
     }
   }, {
@@ -15309,7 +15315,8 @@ var Preview = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                   'span',
-                  { className: _style2.default.watchlater, onClick: this.putWatchLater.bind(this) },
+                  { className: this.state.watchLater ? _style2.default.watchlater + ' ' + _style2.default.active : _style2.default.watchlater,
+                    onClick: this.updateWatchLater.bind(this) },
                   _react2.default.createElement('i', { className: 'fa fa-clock-o fa-fw' })
                 ),
                 _react2.default.createElement(
@@ -15382,7 +15389,13 @@ Preview.propTypes = {
     name: _propTypes2.default.string,
     picture: _propTypes2.default.string,
     uri: _propTypes2.default.string
-  })
+  }),
+  watchLater: _propTypes2.default.bool,
+  onUnwatchLater: _propTypes2.default.func
+};
+
+Preview.defaultProps = {
+  watchLater: false
 };
 
 exports.default = Preview;
@@ -52041,9 +52054,9 @@ var _loadContainer = __webpack_require__(108);
 
 var _loadContainer2 = _interopRequireDefault(_loadContainer);
 
-var _videoThumbnail = __webpack_require__(316);
+var _landscapePreview = __webpack_require__(806);
 
-var _videoThumbnail2 = _interopRequireDefault(_videoThumbnail);
+var _landscapePreview2 = _interopRequireDefault(_landscapePreview);
 
 var _style = __webpack_require__(374);
 
@@ -52110,7 +52123,7 @@ var RelatedVideos = function (_React$Component) {
           'div',
           { className: _style2.default.relatedVideos },
           this.state.videos.map(function (video) {
-            return _react2.default.createElement(_videoThumbnail2.default, { picture: video.picture,
+            return _react2.default.createElement(_landscapePreview2.default, { picture: video.picture,
               title: video.name,
               duration: video.duration,
               plays: video.plays,
@@ -52391,154 +52404,7 @@ TitleBar.propTypes = {
 exports.default = TitleBar;
 
 /***/ }),
-/* 316 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(10);
-
-var _propTypes = __webpack_require__(6);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _style = __webpack_require__(380);
-
-var _style2 = _interopRequireDefault(_style);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var VideoThumbnail = function (_React$Component) {
-  _inherits(VideoThumbnail, _React$Component);
-
-  function VideoThumbnail() {
-    _classCallCheck(this, VideoThumbnail);
-
-    return _possibleConstructorReturn(this, (VideoThumbnail.__proto__ || Object.getPrototypeOf(VideoThumbnail)).apply(this, arguments));
-  }
-
-  _createClass(VideoThumbnail, [{
-    key: 'navigateToUser',
-    value: function navigateToUser(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      this.props.history.push(this.props.user.uri);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: _style2.default.videoThumbnail },
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: this.props.uri },
-          _react2.default.createElement(
-            'div',
-            { className: _style2.default.picture },
-            _react2.default.createElement('img', { src: this.props.picture }),
-            _react2.default.createElement(
-              'div',
-              { className: _style2.default.overlay },
-              _react2.default.createElement(
-                'span',
-                { className: _style2.default.play },
-                _react2.default.createElement('i', { className: 'fa fa-play fa-fw' })
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: _style2.default.watchlater, onClick: this.navigateToUser.bind(this) },
-                _react2.default.createElement('i', { className: 'fa fa-clock-o fa-fw' })
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: _style2.default.duration },
-                this.props.duration
-              )
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _style2.default.description },
-            _react2.default.createElement(
-              'span',
-              { className: _style2.default.user, onClick: function onClick(e) {} },
-              _react2.default.createElement('img', { src: this.props.user.picture }),
-              _react2.default.createElement(
-                'span',
-                { className: _style2.default.name },
-                this.props.user.name
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'subtitle' },
-              _react2.default.createElement('i', { className: 'fa fa-play fa-fw' }),
-              ' ',
-              this.props.plays,
-              ' |\xA0',
-              _react2.default.createElement('i', { className: 'fa fa-heart fa-fw' }),
-              ' ',
-              this.props.likes,
-              ' |\xA0',
-              _react2.default.createElement('i', { className: 'fa fa-comment fa-fw' }),
-              ' ',
-              this.props.comments
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _style2.default.title },
-              _react2.default.createElement(
-                'span',
-                { className: 'title' },
-                this.props.title
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return VideoThumbnail;
-}(_react2.default.Component);
-
-VideoThumbnail.propTypes = {
-  duration: _propTypes2.default.string,
-  plays: _propTypes2.default.string,
-  likes: _propTypes2.default.string,
-  comments: _propTypes2.default.string,
-  picture: _propTypes2.default.string,
-  title: _propTypes2.default.string,
-  user: _propTypes2.default.shape({
-    name: _propTypes2.default.string,
-    picture: _propTypes2.default.string,
-    uri: _propTypes2.default.string
-  }),
-  uri: _propTypes2.default.string
-};
-
-exports.default = (0, _reactRouterDom.withRouter)(VideoThumbnail);
-
-/***/ }),
+/* 316 */,
 /* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53282,6 +53148,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -53410,8 +53278,49 @@ var MyVideosPage = function (_React$Component) {
       }
     }
   }, {
+    key: 'onUnwatchLater',
+    value: function onUnwatchLater(uri) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.state.videos.entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var _step$value = _slicedToArray(_step.value, 2),
+              key = _step$value[0],
+              value = _step$value[1];
+
+          this.state.videos.set(key, {
+            videos: value.videos.filter(function (video) {
+              return video.uri !== uri;
+            }),
+            nextPage: value.nextPage
+          });
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      this.setState({
+        videos: this.state.videos
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var params = this.props.match.params;
 
       return _react2.default.createElement(
@@ -53432,6 +53341,8 @@ var MyVideosPage = function (_React$Component) {
               title: video.name,
               duration: video.duration,
               user: video.user,
+              watchLater: params.page === 'watchlater',
+              onUnwatchLater: _this3.onUnwatchLater.bind(_this3),
               uri: video.uri,
               key: video.uri });
           })
@@ -62115,7 +62026,7 @@ module.exports = {"commentForm":"style__commentForm--321Sz","picture":"style__pi
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"preview":"style__preview--3azGx","content":"style__content--2u3rK","picture":"style__picture--mot0s","overlay":"style__overlay--H4uLj","play":"style__play--1QmeS","watchlater":"style__watchlater--v6Re4","duration":"style__duration--3gswi","title":"style__title--Bui1T","details":"style__details--2iPpC","user":"style__user--3YWqa","name":"style__name--2O5s7"};
+module.exports = {"preview":"style__preview--3azGx","content":"style__content--2u3rK","picture":"style__picture--mot0s","overlay":"style__overlay--H4uLj","play":"style__play--1QmeS","watchlater":"style__watchlater--v6Re4","active":"style__active--1ww6a","duration":"style__duration--3gswi","title":"style__title--Bui1T","details":"style__details--2iPpC","user":"style__user--3YWqa","name":"style__name--2O5s7"};
 
 /***/ }),
 /* 374 */
@@ -62160,13 +62071,7 @@ module.exports = {"titleBar":"style__titleBar--3UI5R","collapsed":"style__collap
 module.exports = {"userThumbnail":"style__userThumbnail--2zY9w","details":"style__details--1jndc"};
 
 /***/ }),
-/* 380 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-module.exports = {"videoThumbnail":"style__videoThumbnail--KDeIu","picture":"style__picture--3F6Fc","overlay":"style__overlay--nNKxO","play":"style__play--35cud","watchlater":"style__watchlater--tqrUI","duration":"style__duration--2JCzN","description":"style__description--jjS1M","title":"style__title--KFBxA","user":"style__user--1uxdY","name":"style__name--3ZMLf"};
-
-/***/ }),
+/* 380 */,
 /* 381 */
 /***/ (function(module, exports) {
 
@@ -123720,8 +123625,8 @@ var parseUser = exports.parseUser = function parseUser(user) {
   return {
     uri: user.uri,
     name: user.name,
-    description: !user.description ? 'No description available...' : user.description,
-    picture: !user.pictures ? null : user.pictures.sizes[user.pictures.sizes.length - 1].link,
+    description: user.description,
+    picture: !user.pictures ? 'https://secure.gravatar.com/avatar/59fe2a8239449ae64bda7c35995b5994?d=https%3A%2F%2Fi.vimeocdn.com%2Fportrait%2Fdefaults-blue_300x300.png&s=300' : user.pictures.sizes[user.pictures.sizes.length - 1].link,
     followers: (0, _numeral2.default)(user.metadata.connections.followers.total).format('0a'),
     videos: (0, _numeral2.default)(user.metadata.connections.videos.total).format('0a')
   };
@@ -123864,6 +123769,183 @@ exports.default = ExceptionPage;
 
 // removed by extract-text-webpack-plugin
 module.exports = {"exceptionPage":"style__exceptionPage--3gxRa"};
+
+/***/ }),
+/* 805 */,
+/* 806 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(10);
+
+var _propTypes = __webpack_require__(6);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _api = __webpack_require__(17);
+
+var _style = __webpack_require__(807);
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LandscapePreview = function (_React$Component) {
+  _inherits(LandscapePreview, _React$Component);
+
+  function LandscapePreview(props) {
+    _classCallCheck(this, LandscapePreview);
+
+    var _this = _possibleConstructorReturn(this, (LandscapePreview.__proto__ || Object.getPrototypeOf(LandscapePreview)).call(this, props));
+
+    _this.state = {
+      watchLater: props.watchLater
+    };
+    return _this;
+  }
+
+  _createClass(LandscapePreview, [{
+    key: 'updateWatchLater',
+    value: function updateWatchLater(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      var subscriptionFunc = this.state.watchLater ? _api.unsubscribe : _api.subscribe;
+
+      subscriptionFunc('/me/watchlater/' + this.props.uri.split('/').pop()).then(function () {
+        _this2.setState({
+          watchLater: !_this2.state.watchLater
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: _style2.default.landscapePreview },
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: this.props.uri },
+          _react2.default.createElement(
+            'div',
+            { className: _style2.default.picture },
+            _react2.default.createElement('img', { src: this.props.picture }),
+            _react2.default.createElement(
+              'div',
+              { className: _style2.default.overlay },
+              _react2.default.createElement(
+                'span',
+                { className: _style2.default.play },
+                _react2.default.createElement('i', { className: 'fa fa-play fa-fw' })
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: this.state.watchLater ? _style2.default.watchlater + ' ' + _style2.default.active : _style2.default.watchlater,
+                  onClick: this.updateWatchLater.bind(this) },
+                _react2.default.createElement('i', { className: 'fa fa-clock-o fa-fw' })
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: _style2.default.duration },
+                this.props.duration
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _style2.default.description },
+            _react2.default.createElement(
+              'span',
+              { className: _style2.default.user, onClick: function onClick(e) {} },
+              _react2.default.createElement('img', { src: this.props.user.picture }),
+              _react2.default.createElement(
+                'span',
+                { className: _style2.default.name },
+                this.props.user.name
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'subtitle' },
+              _react2.default.createElement('i', { className: 'fa fa-play fa-fw' }),
+              ' ',
+              this.props.plays,
+              ' |\xA0',
+              _react2.default.createElement('i', { className: 'fa fa-heart fa-fw' }),
+              ' ',
+              this.props.likes,
+              ' |\xA0',
+              _react2.default.createElement('i', { className: 'fa fa-comment fa-fw' }),
+              ' ',
+              this.props.comments
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: _style2.default.title },
+              _react2.default.createElement(
+                'span',
+                { className: 'title' },
+                this.props.title
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return LandscapePreview;
+}(_react2.default.Component);
+
+LandscapePreview.propTypes = {
+  duration: _propTypes2.default.string,
+  plays: _propTypes2.default.string,
+  likes: _propTypes2.default.string,
+  comments: _propTypes2.default.string,
+  picture: _propTypes2.default.string,
+  title: _propTypes2.default.string,
+  user: _propTypes2.default.shape({
+    name: _propTypes2.default.string,
+    picture: _propTypes2.default.string,
+    uri: _propTypes2.default.string
+  }),
+  watchLater: _propTypes2.default.bool,
+  uri: _propTypes2.default.string
+};
+
+LandscapePreview.defaultProps = {
+  watchLater: false
+};
+
+exports.default = LandscapePreview;
+
+/***/ }),
+/* 807 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+module.exports = {"landscapePreview":"style__landscapePreview--y_P4n","picture":"style__picture--8LWX4","overlay":"style__overlay--ewOvd","play":"style__play--2SchS","watchlater":"style__watchlater--1VjXs","active":"style__active--T2uuM","duration":"style__duration--2R32P","description":"style__description--2Ozfn","title":"style__title--Jz9X4","user":"style__user--2cLlB","name":"style__name--2Prs3"};
 
 /***/ })
 /******/ ]);

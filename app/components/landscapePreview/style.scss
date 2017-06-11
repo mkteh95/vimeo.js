@@ -1,4 +1,4 @@
-.videoThumbnail {
+.landscapePreview {
   display: flex;
   margin-top: 7.5px;
   margin-bottom: 7.5px;
@@ -59,7 +59,7 @@
       top: 5px;
       right: 5px;
 
-      &:hover {
+      &:hover, &.active {
         background: #00adef;
       }
     }

@@ -316,7 +316,7 @@
       .style__content--2u3rK .style__picture--mot0s .style__overlay--H4uLj .style__watchlater--v6Re4 {
         top: 15px;
         right: 15px; }
-        .style__content--2u3rK .style__picture--mot0s .style__overlay--H4uLj .style__watchlater--v6Re4:hover {
+        .style__content--2u3rK .style__picture--mot0s .style__overlay--H4uLj .style__watchlater--v6Re4:hover, .style__content--2u3rK .style__picture--mot0s .style__overlay--H4uLj .style__watchlater--v6Re4.style__active--1ww6a {
           background: #00adef; }
       .style__content--2u3rK .style__picture--mot0s .style__overlay--H4uLj .style__duration--3gswi {
         bottom: 15px;
@@ -680,22 +680,22 @@
       border-radius: 50%; }
   .style__commentForm--321Sz .style__content--28xy9 {
     flex: 1; }
-.style__videoThumbnail--KDeIu {
+.style__landscapePreview--y_P4n {
   display: flex;
   margin-top: 7.5px;
   margin-bottom: 7.5px; }
-  .style__videoThumbnail--KDeIu > a {
+  .style__landscapePreview--y_P4n > a {
     display: flex;
     flex: 1;
     min-width: 0; }
 
-.style__picture--3F6Fc {
+.style__picture--8LWX4 {
   position: relative; }
-  .style__picture--3F6Fc img {
+  .style__picture--8LWX4 img {
     height: 100px;
     width: 180px;
     object-fit: cover; }
-  .style__picture--3F6Fc .style__overlay--nNKxO {
+  .style__picture--8LWX4 .style__overlay--ewOvd {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -705,7 +705,7 @@
     opacity: 0;
     font-size: 1.4rem;
     transition: opacity 0.3s ease-in-out; }
-    .style__picture--3F6Fc .style__overlay--nNKxO > * {
+    .style__picture--8LWX4 .style__overlay--ewOvd > * {
       display: inline-block;
       position: absolute;
       padding: 5px;
@@ -713,55 +713,55 @@
       background: rgba(0, 0, 0, 0.75);
       color: #fff;
       font-weight: 800; }
-    .style__picture--3F6Fc .style__overlay--nNKxO:hover {
+    .style__picture--8LWX4 .style__overlay--ewOvd:hover {
       opacity: 1; }
-    .style__picture--3F6Fc .style__overlay--nNKxO .style__play--35cud {
+    .style__picture--8LWX4 .style__overlay--ewOvd .style__play--2SchS {
       padding: 10px 20px;
       bottom: 5px;
       left: 5px; }
-      .style__picture--3F6Fc .style__overlay--nNKxO .style__play--35cud:hover {
+      .style__picture--8LWX4 .style__overlay--ewOvd .style__play--2SchS:hover {
         background: #00adef; }
-    .style__picture--3F6Fc .style__overlay--nNKxO .style__watchlater--tqrUI {
+    .style__picture--8LWX4 .style__overlay--ewOvd .style__watchlater--1VjXs {
       top: 5px;
       right: 5px; }
-      .style__picture--3F6Fc .style__overlay--nNKxO .style__watchlater--tqrUI:hover {
+      .style__picture--8LWX4 .style__overlay--ewOvd .style__watchlater--1VjXs:hover, .style__picture--8LWX4 .style__overlay--ewOvd .style__watchlater--1VjXs.style__active--T2uuM {
         background: #00adef; }
-    .style__picture--3F6Fc .style__overlay--nNKxO .style__duration--2JCzN {
+    .style__picture--8LWX4 .style__overlay--ewOvd .style__duration--2R32P {
       bottom: 5px;
       right: 5px;
       font-size: 1.2rem; }
 
-.style__description--jjS1M {
+.style__description--2Ozfn {
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
   padding-left: 10px;
   min-width: 0;
   font-size: 1.2rem; }
-  .style__description--jjS1M > * {
+  .style__description--2Ozfn > * {
     padding-bottom: 5px; }
-  .style__description--jjS1M .style__title--KFBxA > * {
+  .style__description--2Ozfn .style__title--Jz9X4 > * {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     max-height: 4em;
     overflow: hidden; }
-  .style__description--jjS1M .style__user--1uxdY {
+  .style__description--2Ozfn .style__user--2cLlB {
     display: flex;
     align-items: center;
     cursor: pointer;
     color: #7b8084; }
-    .style__description--jjS1M .style__user--1uxdY:hover {
+    .style__description--2Ozfn .style__user--2cLlB:hover {
       color: #00adef; }
-      .style__description--jjS1M .style__user--1uxdY:hover ~ * ~ .style__title--KFBxA > * {
+      .style__description--2Ozfn .style__user--2cLlB:hover ~ * ~ .style__title--Jz9X4 > * {
         color: #456; }
-    .style__description--jjS1M .style__user--1uxdY img {
+    .style__description--2Ozfn .style__user--2cLlB img {
       height: 1em;
       width: 1em;
       border-radius: 0.5em;
       object-fit: cover;
       margin-right: 5px; }
-    .style__description--jjS1M .style__user--1uxdY .style__name--3ZMLf {
+    .style__description--2Ozfn .style__user--2cLlB .style__name--2Prs3 {
       padding-left: 5px;
       overflow: hidden;
       white-space: nowrap;

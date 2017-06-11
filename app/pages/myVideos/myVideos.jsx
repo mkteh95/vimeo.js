@@ -82,6 +82,21 @@ class MyVideosPage extends React.Component {
     }
   }
 
+  onUnwatchLater(uri) {
+    for (let [key, value] of this.state.videos.entries()) {
+      this.state.videos.set(key, {
+        videos: value.videos.filter((video) => {
+          return video.uri !== uri
+        }),
+        nextPage: value.nextPage
+      })
+    }
+
+    this.setState({
+      videos: this.state.videos
+    })
+  }
+
   render() {
     const params = this.props.match.params
 
@@ -102,6 +117,8 @@ class MyVideosPage extends React.Component {
               title={video.name}
               duration={video.duration}
               user={video.user}
+              watchLater={params.page === 'watchlater'}
+              onUnwatchLater={this.onUnwatchLater.bind(this)}
               uri={video.uri}
               key={video.uri} />
           ))

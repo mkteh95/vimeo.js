@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { getVideos } from '../../services/api.js'
 
 import LoadContainer from '../../containers/loadContainer/loadContainer.jsx'
-import VideoThumbnail from '../videoThumbnail/videoThumbnail.jsx'
+import LandscapePreview from '../landscapePreview/landscapePreview.jsx'
 
 import style from './style.scss'
 
@@ -48,7 +48,7 @@ class RelatedVideos extends React.Component {
         <div className={style.relatedVideos}>
           {
             this.state.videos.map((video) => (
-              <VideoThumbnail picture={video.picture}
+              <LandscapePreview picture={video.picture}
                 title={video.name}
                 duration={video.duration}
                 plays={video.plays}
