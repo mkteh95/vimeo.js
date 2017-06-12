@@ -588,7 +588,7 @@
   margin-top: 15px;
   margin-bottom: 15px;
   padding: 15px;
-  background: #fbfbfb; }
+  background: rgba(255, 255, 255, 0.85); }
   .style__confirmation--19Bzs > * {
     margin-bottom: 15px; }
     .style__confirmation--19Bzs > *:last-child {
@@ -602,7 +602,7 @@
     margin-top: 15px; }
     .style__message--2xcEx.style__reply--1tyU- .style__content--vYFJl {
       padding: 20px;
-      background: #f6f7f8; }
+      background: rgba(0, 0, 0, 0.05); }
     .style__message--2xcEx.style__reply--1tyU- .style__picture--cCcgF img {
       height: 40px;
       width: 40px; }
