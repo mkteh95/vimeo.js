@@ -68514,6 +68514,14 @@ var LandscapePreview = function (_React$Component) {
   }
 
   _createClass(LandscapePreview, [{
+    key: 'navigateToUser',
+    value: function navigateToUser(uri, e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.props.history.push(uri);
+    }
+  }, {
     key: 'updateWatchLater',
     value: function updateWatchLater(e) {
       var _this2 = this;
@@ -68568,7 +68576,7 @@ var LandscapePreview = function (_React$Component) {
             { className: _style2.default.description },
             _react2.default.createElement(
               'span',
-              { className: _style2.default.user, onClick: function onClick(e) {} },
+              { className: _style2.default.user, onClick: this.navigateToUser.bind(this, this.props.user.uri) },
               _react2.default.createElement('img', { src: this.props.user.picture }),
               _react2.default.createElement(
                 'span',
@@ -68629,7 +68637,7 @@ LandscapePreview.defaultProps = {
   watchLater: false
 };
 
-exports.default = LandscapePreview;
+exports.default = (0, _reactRouterDom.withRouter)(LandscapePreview);
 
 /***/ }),
 /* 436 */

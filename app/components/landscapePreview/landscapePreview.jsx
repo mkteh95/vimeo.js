@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { subscribe, unsubscribe } from '../../services/api.js'
@@ -15,6 +15,13 @@ class LandscapePreview extends React.Component {
     this.state = {
       watchLater: props.watchLater
     }
+  }
+
+  navigateToUser(uri, e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    this.props.history.push(uri)
   }
 
   updateWatchLater(e) {
@@ -44,7 +51,7 @@ class LandscapePreview extends React.Component {
             </div>
           </div>
           <div className={style.description}>
-            <span className={style.user} onClick={(e) => {}}>
+            <span className={style.user} onClick={this.navigateToUser.bind(this, this.props.user.uri)}>
               <img src={this.props.user.picture} />
               <span className={style.name}>{this.props.user.name}</span>
             </span>
@@ -85,4 +92,4 @@ LandscapePreview.defaultProps = {
 }
 
 
-export default LandscapePreview
+export default withRouter(LandscapePreview)
