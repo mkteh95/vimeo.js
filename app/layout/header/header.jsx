@@ -12,7 +12,6 @@ class Header extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(remote)
 
     this.state = {
       query: ''
