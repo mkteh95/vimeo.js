@@ -77,7 +77,11 @@ class VideoPage extends React.Component {
   render() {
     return (
       <div className={style.videoPage}>
-        <div className={style.player} ref="player"></div>
+        <div className={style.player}>
+          <div className={style.playerContainer}>
+            <div className={style.playerWrapper} ref="player"></div>
+          </div>
+        </div>
         {this.state.initialized &&
           <div className={style.contentWrapper}>
             <div className={style.content}>

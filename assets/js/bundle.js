@@ -57545,7 +57545,15 @@ var VideoPage = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: _style2.default.videoPage },
-        _react2.default.createElement('div', { className: _style2.default.player, ref: 'player' }),
+        _react2.default.createElement(
+          'div',
+          { className: _style2.default.player },
+          _react2.default.createElement(
+            'div',
+            { className: _style2.default.playerContainer },
+            _react2.default.createElement('div', { className: _style2.default.playerWrapper, ref: 'player' })
+          )
+        ),
         this.state.initialized && _react2.default.createElement(
           'div',
           { className: _style2.default.contentWrapper },
@@ -58257,7 +58265,7 @@ module.exports = {"loginPage":"style__loginPage--17NGy"};
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"videoPage":"style__videoPage--3fgy0","player":"style__player--bwfJK","contentWrapper":"style__contentWrapper--1PDHe","content":"style__content--2-mYi","details":"style__details--1e5To","user":"style__user--2yUMh","name":"style__name--31BEQ","description":"style__description--2IJMX","stats":"style__stats--38pT8","controls":"style__controls--1i6bK","text":"style__text--C19_x","tags":"style__tags---94F2","tagList":"style__tagList--vb1Tg","related":"style__related--38Vdq"};
+module.exports = {"videoPage":"style__videoPage--3fgy0","player":"style__player--bwfJK","playerContainer":"style__playerContainer--2AGEO","playerWrapper":"style__playerWrapper--3pb8j","contentWrapper":"style__contentWrapper--1PDHe","content":"style__content--2-mYi","details":"style__details--1e5To","user":"style__user--2yUMh","name":"style__name--31BEQ","description":"style__description--2IJMX","stats":"style__stats--38pT8","controls":"style__controls--1i6bK","text":"style__text--C19_x","tags":"style__tags---94F2","tagList":"style__tagList--vb1Tg","related":"style__related--38Vdq"};
 
 /***/ }),
 /* 419 */
