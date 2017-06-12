@@ -494,7 +494,8 @@
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
-  overflow: hidden; }
+  overflow: hidden;
+  background: #fff; }
   .style__banner--dw031:after {
     content: '';
     display: block;
@@ -733,8 +734,8 @@
 
 .style__description--2Ozfn {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
+  align-content: flex-end;
+  flex-wrap: wrap-reverse;
   padding-left: 10px;
   min-width: 0;
   font-size: 1.2rem; }
@@ -749,6 +750,7 @@
   .style__description--2Ozfn .style__user--2cLlB {
     display: flex;
     align-items: center;
+    overflow: hidden;
     cursor: pointer;
     color: #7b8084; }
     .style__description--2Ozfn .style__user--2cLlB:hover {

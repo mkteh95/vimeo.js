@@ -38,7 +38,6 @@
       background: rgba(0,0,0,0.75);
       color: #fff;
       font-weight: 800;
-
     }
 
     &:hover {
@@ -74,8 +73,8 @@
 
 .description {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
+  align-content: flex-end;
+  flex-wrap: wrap-reverse;
   padding-left: 10px;
   min-width: 0;
   font-size: 1.2rem;
@@ -95,9 +94,10 @@
   .user {
     display: flex;
     align-items: center;
+    overflow: hidden;
     cursor: pointer;
     color: #7b8084;
-    
+
     &:hover {
       color: #00adef;
       

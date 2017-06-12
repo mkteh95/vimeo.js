@@ -44,7 +44,7 @@ class LandscapePreview extends React.Component {
             </div>
           </div>
           <div className={style.description}>
-           <span className={style.user} onClick={(e) => {}}>
+            <span className={style.user} onClick={(e) => {}}>
               <img src={this.props.user.picture} />
               <span className={style.name}>{this.props.user.name}</span>
             </span>
