@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, withRouter } from 'react-router-dom'
+import { remote } from 'electron'
 
 import { logout } from '../../services/api.js'
 
@@ -11,6 +12,7 @@ class Header extends React.Component {
 
   constructor(props) {
     super(props)
+    console.log(remote)
 
     this.state = {
       query: ''
@@ -36,6 +38,21 @@ class Header extends React.Component {
     })
   }
 
+  handleLogout(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const url = e.target.getAttribute('href')
+
+    logout().then(() => {
+      remote.session.defaultSession.clearStorageData({
+        storages: ['localstorage', 'cookies']
+      }, () => {
+        this.props.history.push(url)
+      })
+    })
+  }
+
   render() {
     return (
       <nav className={style.header}>
@@ -57,7 +74,7 @@ class Header extends React.Component {
           </Link>
           <span className={style.menu}>
             <div className={style.menuWrapper}>
-              <Link to="/login" className={style.menuItem} onClick={logout}>Logout</Link>
+              <Link to="/login" className={style.menuItem} onClick={this.handleLogout.bind(this)}>Logout</Link>
             </div>
           </span>
         </div>

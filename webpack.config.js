@@ -5,7 +5,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   entry: './app/app.jsx',
   output: {path: path.resolve(__dirname, 'assets'), filename: 'js/bundle.js' },
-
+  target: 'electron-renderer',
   module: {
     rules: [
       {
@@ -61,10 +61,5 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('css/bundle.css')
-  ],
-  node: {
-    net: 'empty',
-    tls: 'empty',
-    fs: 'empty'
-  }
+  ]
 };

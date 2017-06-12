@@ -3,11 +3,9 @@ import Request from 'request'
 import { parseVideo, parseComment, parseUser, parseEntity, parseCategory } from './responseParser.js'
 
 
-const VimeoRequest = Request.defaults({
+let VimeoRequest = Request.defaults({
   baseUrl: 'https://api.vimeo.com/',
-  auth: { 
-    bearer: localStorage.getItem('accessToken')
-  },
+  auth: { bearer: localStorage.getItem('accessToken') },
   json: true
 })
 
@@ -32,6 +30,10 @@ export const login = (code, authHeader, redirectUrl) => {
         }))
         localStorage.setItem('accessToken', body.access_token)
 
+        VimeoRequest = VimeoRequest.defaults({
+          auth: { bearer: body.access_token }
+        })
+
         resolve()
       }
 
@@ -46,9 +48,7 @@ export const logout = () => {
       url: '/tokens',
       method: 'DELETE'
     }, (error, response, body) => {
-      if (response.statusCode === 200) {
-        localStorage.clear()
-
+      if (response.statusCode === 204) {
         resolve()
       }
 
