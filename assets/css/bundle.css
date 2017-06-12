@@ -788,7 +788,7 @@
       flex: 1; }
       .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi > * {
         padding: 20px;
-        background: #fdfdfd;
+        background: rgba(255, 255, 255, 0.6);
         border-bottom: 1px solid #d0d8db; }
         .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi > *:last-child {
           border-bottom: none;
@@ -842,7 +842,7 @@
     .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__related--38Vdq {
       width: 400px;
       padding: 20px;
-      background: #fdfdfd;
+      background: rgba(255, 255, 255, 0.6);
       border-left: 1px solid #d0d8db; }
 .style__appContent--5SonS {
   display: flex;

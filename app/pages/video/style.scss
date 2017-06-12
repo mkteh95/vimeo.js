@@ -22,7 +22,7 @@
 
       & > * {
         padding: 20px;
-        background: #fdfdfd;
+        background: rgba(255,255,255,.6);
         border-bottom: 1px solid #d0d8db;
 
         &:last-child {
@@ -113,7 +113,7 @@
     .related {
       width: 400px;
       padding: 20px;
-      background: #fdfdfd;
+      background: rgba(255,255,255,.6);
       border-left: 1px solid #d0d8db;
     }
   }
