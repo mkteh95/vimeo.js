@@ -46091,7 +46091,6 @@ var Content = function (_React$Component) {
       this.setState({
         online: navigator.onLine
       });
-      console.log(this.state);
     }
   }, {
     key: 'componentWillMount',
@@ -54560,14 +54559,14 @@ var Application = function (_React$Component) {
       return _react2.default.createElement(
         _reactRouterDom.Switch,
         null,
-        location.pathname.endsWith('index.html') && _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }),
+        location.pathname.endsWith('index.html') && _react2.default.createElement(_reactRouterDom.Redirect, { to: localStorage.getItem('accessToken') === null ? '/login' : '/categories' }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/login', component: _login2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
-            return localStorage.getItem('accessToken') === null ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/login' }) : _react2.default.createElement(
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/:page', render: function render(props) {
+            return _react2.default.createElement(
               'div',
               { className: _style2.default.appWrapper },
               _react2.default.createElement(_sidebar2.default, null),
-              _react2.default.createElement(_content2.default, null)
+              _react2.default.createElement(_content2.default, props)
             );
           } })
       );

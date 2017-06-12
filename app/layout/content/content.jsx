@@ -32,7 +32,6 @@ class Content extends React.Component {
     this.setState({
       online: navigator.onLine
     })
-    console.log(this.state)
   }
 
   componentWillMount() {

@@ -16,14 +16,14 @@ class Application extends React.Component {
   render() {
     return (
       <Switch>
-        {location.pathname.endsWith('index.html') && <Redirect to="/" />}
+        {location.pathname.endsWith('index.html') && 
+          <Redirect to={(localStorage.getItem('accessToken') === null) ? '/login' : '/categories'} />
+        }
         <Route path="/login" component={LoginPage} />
-        <Route path="/" render={() => (localStorage.getItem('accessToken') === null)
-          ? (<Redirect to="/login" />)
-          : (
+        <Route path="/:page" render={(props) => (
             <div className={style.appWrapper}>
               <Sidebar />
-              <Content />
+              <Content {...props} />
             </div>
           )} />
       </Switch>
