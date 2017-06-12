@@ -23,7 +23,7 @@ class Card extends React.Component {
 
   render() {
     return (
-      <div className={(this.state.loaded === 1) ? style.card : style.loading} ref="card">
+      <div className={(this.state.loaded === 1) ? style.card : style.loading}>
         <Link to={this.props.uri}>
           <div className={style.banner}>
             <img src={this.props.banner} onLoad={this.handleLoaded.bind(this)} />

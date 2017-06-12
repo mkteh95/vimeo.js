@@ -12017,7 +12017,7 @@ var Card = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: this.state.loaded === 1 ? _style2.default.card : _style2.default.loading, ref: 'card' },
+        { className: this.state.loaded === 1 ? _style2.default.card : _style2.default.loading },
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: this.props.uri },
