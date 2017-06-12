@@ -46247,6 +46247,12 @@ var Sidebar = function (_React$Component) {
             { to: '/me/watchlater', activeClassName: _style2.default.active },
             _react2.default.createElement('i', { className: 'fa fa-clock-o fa-fw' }),
             ' Watch Later'
+          ),
+          _react2.default.createElement(
+            _reactRouterDom.NavLink,
+            { to: '/me/watched/videos', activeClassName: _style2.default.active },
+            _react2.default.createElement('i', { className: 'fa fa-history fa-fw' }),
+            ' Recently Watched'
           )
         )
       );
@@ -56470,10 +56476,7 @@ var MyVideosPage = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (MyVideosPage.__proto__ || Object.getPrototypeOf(MyVideosPage)).call(this, props));
 
-    _this.state = {
-      videos: new Map(),
-      filter: null
-    };
+    _this.state = _this.initialState(props);
 
     _this.fetchVideos = _this.fetchVideos.bind(_this);
     _this.handleFilter = _this.changeFilter.bind(_this);
@@ -56481,27 +56484,50 @@ var MyVideosPage = function (_React$Component) {
   }
 
   _createClass(MyVideosPage, [{
+    key: 'initialState',
+    value: function initialState(props) {
+      if (props.match.params.page !== 'watched') {
+        return {
+          videos: new Map(),
+          filter: null
+        };
+      }
+
+      var videos = new Map();
+      var filter = {};
+
+      videos.set(filter, {
+        videos: null,
+        nextPage: 1
+      });
+
+      return {
+        videos: videos,
+        filter: filter
+      };
+    }
+  }, {
     key: 'extractTitleFromPage',
     value: function extractTitleFromPage(pageName) {
-      if (pageName === 'likes') {
-        return 'Likes';
-      }
-      if (pageName === 'feed') {
-        return 'Feed';
-      }
-      if (pageName === 'watchlater') {
-        return 'Watch Later';
+      switch (pageName) {
+        case 'likes':
+          return 'Likes';
+
+        case 'feed':
+          return 'Feed';
+
+        case 'watchlater':
+          return 'Watch Later';
+
+        case 'watched':
+          return 'Recently Watched';
       }
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (this.props.match.url !== nextProps.match.url) {
-        this.setState({
-          videos: new Map(),
-          filter: null
-        });
-
+        this.setState(this.initialState(nextProps));
         this.handleFilter = this.changeFilter.bind(this);
       }
     }
@@ -56513,7 +56539,7 @@ var MyVideosPage = function (_React$Component) {
       var fetchFunction = this.props.match.params.page === 'feed' ? _api.getFeeds : _api.getVideos;
       var curr = this.state.videos.get(this.state.filter);
 
-      fetchFunction(this.props.match.url, _extends({ page: page }, this.state.filter)).then(function (response) {
+      fetchFunction(this.props.location.pathname, _extends({ page: page }, this.state.filter)).then(function (response) {
         _this2.state.videos.set(_this2.state.filter, {
           videos: curr.videos ? [].concat(_toConsumableArray(curr.videos), _toConsumableArray(response.videos)) : response.videos,
           nextPage: response.paging.next
@@ -56594,7 +56620,7 @@ var MyVideosPage = function (_React$Component) {
         { nextPage: this.state.filter === null ? null : this.state.videos.get(this.state.filter).nextPage,
           onLazy: this.fetchVideos },
         _react2.default.createElement(_collapsibleTitleBar2.default, { title: this.extractTitleFromPage(params.page) }),
-        _react2.default.createElement(_filter2.default, { type: params.page,
+        params.page !== 'watched' && _react2.default.createElement(_filter2.default, { type: params.page,
           onChanged: this.handleFilter }),
         _react2.default.createElement(
           _smallGrid2.default,

@@ -36,6 +36,9 @@ class Sidebar extends React.Component {
           <NavLink to="/me/watchlater" activeClassName={style.active}>
             <i className="fa fa-clock-o fa-fw"></i> Watch Later
           </NavLink>
+          <NavLink to="/me/watched/videos" activeClassName={style.active}>
+            <i className="fa fa-history fa-fw"></i> Recently Watched
+          </NavLink>
         </div>
       </aside>
     )

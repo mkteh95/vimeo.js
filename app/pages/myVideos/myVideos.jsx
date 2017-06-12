@@ -16,34 +16,53 @@ class MyVideosPage extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      videos: new Map(),
-      filter: null
-    }
+    this.state = this.initialState(props)
     
     this.fetchVideos = this.fetchVideos.bind(this)
     this.handleFilter = this.changeFilter.bind(this)
   }
 
-  extractTitleFromPage(pageName) {
-    if (pageName === 'likes') {
-      return 'Likes'
-    } 
-    if (pageName === 'feed') {
-      return 'Feed'
+  initialState(props) {
+    if (props.match.params.page !== 'watched') {
+      return {
+        videos: new Map(),
+        filter: null
+      }
     }
-    if (pageName === 'watchlater') {
-      return 'Watch Later'
+
+    const videos = new Map()
+    const filter = {}
+
+    videos.set(filter, {
+      videos: null,
+      nextPage: 1
+    })
+
+    return {
+      videos: videos,
+      filter: filter
+    }
+  }
+
+  extractTitleFromPage(pageName) {
+    switch(pageName) {
+      case 'likes':
+        return 'Likes'
+
+      case 'feed':
+        return 'Feed'
+
+      case 'watchlater':
+        return 'Watch Later'
+
+      case 'watched':
+        return 'Recently Watched'
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.url !== nextProps.match.url) {
-      this.setState({
-        videos: new Map(),
-        filter: null
-      })
-
+      this.setState(this.initialState(nextProps))
       this.handleFilter = this.changeFilter.bind(this)
     }
   }
@@ -52,7 +71,7 @@ class MyVideosPage extends React.Component {
     const fetchFunction = (this.props.match.params.page === 'feed') ? getFeeds : getVideos
     const curr = this.state.videos.get(this.state.filter)
 
-    fetchFunction(this.props.match.url, { page: page, ...this.state.filter }).then((response) => {
+    fetchFunction(this.props.location.pathname, { page: page, ...this.state.filter }).then((response) => {
       this.state.videos.set(this.state.filter, {
         videos: (curr.videos) ? [...curr.videos, ...response.videos] : response.videos,
         nextPage: response.paging.next
@@ -104,8 +123,10 @@ class MyVideosPage extends React.Component {
       <LazyContainer nextPage={(this.state.filter === null) ? null : this.state.videos.get(this.state.filter).nextPage} 
         onLazy={this.fetchVideos}>
         <CollapsibleTitleBar title={this.extractTitleFromPage(params.page)} />
-        <Filter type={params.page} 
-          onChanged={this.handleFilter} />
+        {params.page !== 'watched' &&
+          <Filter type={params.page} 
+            onChanged={this.handleFilter} />
+        }
         <SmallGrid>
         {this.state.videos.has(this.state.filter) &&
           this.state.videos.get(this.state.filter).videos &&
