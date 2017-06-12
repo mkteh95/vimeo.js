@@ -14,7 +14,7 @@ import Player from '@vimeo/player'
 import style from './style.scss'
 
 
-class VideosPage extends React.Component {
+class VideoPage extends React.Component {
 
   constructor(props) {
     super(props)
@@ -131,4 +131,4 @@ class VideosPage extends React.Component {
 }
 
 
-export default VideosPage
+export default VideoPage

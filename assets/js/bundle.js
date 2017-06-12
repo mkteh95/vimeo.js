@@ -57469,13 +57469,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var VideosPage = function (_React$Component) {
-  _inherits(VideosPage, _React$Component);
+var VideoPage = function (_React$Component) {
+  _inherits(VideoPage, _React$Component);
 
-  function VideosPage(props) {
-    _classCallCheck(this, VideosPage);
+  function VideoPage(props) {
+    _classCallCheck(this, VideoPage);
 
-    var _this = _possibleConstructorReturn(this, (VideosPage.__proto__ || Object.getPrototypeOf(VideosPage)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (VideoPage.__proto__ || Object.getPrototypeOf(VideoPage)).call(this, props));
 
     _this.state = {
       video: {}
@@ -57483,7 +57483,7 @@ var VideosPage = function (_React$Component) {
     return _this;
   }
 
-  _createClass(VideosPage, [{
+  _createClass(VideoPage, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.fetchVideo(this.props.match.url);
@@ -57665,10 +57665,10 @@ var VideosPage = function (_React$Component) {
     }
   }]);
 
-  return VideosPage;
+  return VideoPage;
 }(_react2.default.Component);
 
-exports.default = VideosPage;
+exports.default = VideoPage;
 
 /***/ }),
 /* 388 */
