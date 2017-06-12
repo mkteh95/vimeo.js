@@ -13,7 +13,8 @@ class LandscapePreview extends React.Component {
     super(props)
     
     this.state = {
-      watchLater: props.watchLater
+      watchLater: props.watchLater,
+      loaded: 0
     }
   }
 
@@ -36,13 +37,19 @@ class LandscapePreview extends React.Component {
       })
     })
   }
+
+  handleLoaded() {
+    this.setState({
+      loaded: this.state.loaded + 1
+    })
+  }
   
   render() {
     return (
-      <div className={style.landscapePreview}>
+      <div className={(this.state.loaded === 2) ? style.landscapePreview : style.loading}>
         <Link to={this.props.uri}>
           <div className={style.picture}>
-            <img src={this.props.picture} />
+            <img src={this.props.picture} onLoad={this.handleLoaded.bind(this)} />
             <div className={style.overlay}>
               <span className={style.play}><i className="fa fa-play fa-fw"></i></span>
               <span className={(this.state.watchLater) ? `${style.watchlater} ${style.active}` : style.watchlater}
@@ -52,7 +59,7 @@ class LandscapePreview extends React.Component {
           </div>
           <div className={style.description}>
             <span className={style.user} onClick={this.navigateToUser.bind(this, this.props.user.uri)}>
-              <img src={this.props.user.picture} />
+              <img src={this.props.user.picture} onLoad={this.handleLoaded.bind(this)} />
               <span className={style.name}>{this.props.user.name}</span>
             </span>
             <div className="subtitle">

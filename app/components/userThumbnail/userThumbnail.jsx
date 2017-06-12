@@ -7,11 +7,25 @@ import style from './style.scss'
 
 class UserThumbnail extends React.Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      loaded: 0
+    }
+  }
+
+  handleLoaded() {
+    this.setState({
+      loaded: this.state.loaded + 1
+    })
+  }
+
   render() {
     return (
-      <div className={style.userThumbnail}>
+      <div className={(this.state.loaded === 1) ? style.userThumbnail : style.loading}>
         <Link to={this.props.uri}>
-          <img src={this.props.picture} />
+          <img src={this.props.picture} onLoad={this.handleLoaded.bind(this)} />
         </Link>
         <div className={style.details}>
           <Link to={this.props.uri}>

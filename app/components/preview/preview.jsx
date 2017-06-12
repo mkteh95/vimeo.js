@@ -13,7 +13,8 @@ class Preview extends React.Component {
     super(props)
     
     this.state = {
-      watchLater: props.watchLater
+      watchLater: props.watchLater,
+      loaded: 0
     }
   }
   
@@ -33,14 +34,20 @@ class Preview extends React.Component {
       }
     })
   }
+
+  handleLoaded() {
+    this.setState({
+      loaded: this.state.loaded + 1
+    })
+  }
   
   render() {
     return (
-      <div className={style.preview}>
+      <div className={(this.state.loaded === 2) ? style.preview : style.loading}>
         <div className={style.content}>
           <Link to={this.props.uri}>
             <div className={style.picture}>
-              <img src={this.props.picture} />
+              <img src={this.props.picture} onLoad={this.handleLoaded.bind(this)} />
               <div className={style.overlay}>
                 <span className={style.play}><i className="fa fa-play fa-2x fa-fw"></i></span>
                 <span className={(this.state.watchLater) ? `${style.watchlater} ${style.active}` : style.watchlater}
@@ -61,7 +68,7 @@ class Preview extends React.Component {
           </div>
           <div className={style.user}>
             <Link to={this.props.user.uri}>
-              <img src={this.props.user.picture} />
+              <img src={this.props.user.picture} onLoad={this.handleLoaded.bind(this)} />
               <span className={style.name}>{this.props.user.name}</span>
             </Link>
           </div>

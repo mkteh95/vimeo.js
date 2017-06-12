@@ -11994,25 +11994,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Card = function (_React$Component) {
   _inherits(Card, _React$Component);
 
-  function Card() {
+  function Card(props) {
     _classCallCheck(this, Card);
 
-    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
+
+    _this.state = {
+      loaded: 0
+    };
+    return _this;
   }
 
   _createClass(Card, [{
+    key: 'handleLoaded',
+    value: function handleLoaded() {
+      this.setState({
+        loaded: this.state.loaded + 1
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: _style2.default.card },
+        { className: this.state.loaded === 1 ? _style2.default.card : _style2.default.loading, ref: 'card' },
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: this.props.uri },
           _react2.default.createElement(
             'div',
             { className: _style2.default.banner },
-            _react2.default.createElement('img', { src: this.props.banner })
+            _react2.default.createElement('img', { src: this.props.banner, onLoad: this.handleLoaded.bind(this) })
           ),
           _react2.default.createElement(
             'div',
@@ -12098,7 +12110,8 @@ var Preview = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, props));
 
     _this.state = {
-      watchLater: props.watchLater
+      watchLater: props.watchLater,
+      loaded: 0
     };
     return _this;
   }
@@ -12124,11 +12137,18 @@ var Preview = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleLoaded',
+    value: function handleLoaded() {
+      this.setState({
+        loaded: this.state.loaded + 1
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: _style2.default.preview },
+        { className: this.state.loaded === 2 ? _style2.default.preview : _style2.default.loading },
         _react2.default.createElement(
           'div',
           { className: _style2.default.content },
@@ -12138,7 +12158,7 @@ var Preview = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: _style2.default.picture },
-              _react2.default.createElement('img', { src: this.props.picture }),
+              _react2.default.createElement('img', { src: this.props.picture, onLoad: this.handleLoaded.bind(this) }),
               _react2.default.createElement(
                 'div',
                 { className: _style2.default.overlay },
@@ -12195,7 +12215,7 @@ var Preview = function (_React$Component) {
             _react2.default.createElement(
               _reactRouterDom.Link,
               { to: this.props.user.uri },
-              _react2.default.createElement('img', { src: this.props.user.picture }),
+              _react2.default.createElement('img', { src: this.props.user.picture, onLoad: this.handleLoaded.bind(this) }),
               _react2.default.createElement(
                 'span',
                 { className: _style2.default.name },
@@ -27488,22 +27508,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var UserThumbnail = function (_React$Component) {
   _inherits(UserThumbnail, _React$Component);
 
-  function UserThumbnail() {
+  function UserThumbnail(props) {
     _classCallCheck(this, UserThumbnail);
 
-    return _possibleConstructorReturn(this, (UserThumbnail.__proto__ || Object.getPrototypeOf(UserThumbnail)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (UserThumbnail.__proto__ || Object.getPrototypeOf(UserThumbnail)).call(this, props));
+
+    _this.state = {
+      loaded: 0
+    };
+    return _this;
   }
 
   _createClass(UserThumbnail, [{
+    key: 'handleLoaded',
+    value: function handleLoaded() {
+      this.setState({
+        loaded: this.state.loaded + 1
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: _style2.default.userThumbnail },
+        { className: this.state.loaded === 1 ? _style2.default.userThumbnail : _style2.default.loading },
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: this.props.uri },
-          _react2.default.createElement('img', { src: this.props.picture })
+          _react2.default.createElement('img', { src: this.props.picture, onLoad: this.handleLoaded.bind(this) })
         ),
         _react2.default.createElement(
           'div',
@@ -55102,7 +55134,8 @@ var LandscapePreview = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (LandscapePreview.__proto__ || Object.getPrototypeOf(LandscapePreview)).call(this, props));
 
     _this.state = {
-      watchLater: props.watchLater
+      watchLater: props.watchLater,
+      loaded: 0
     };
     return _this;
   }
@@ -55132,18 +55165,25 @@ var LandscapePreview = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleLoaded',
+    value: function handleLoaded() {
+      this.setState({
+        loaded: this.state.loaded + 1
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: _style2.default.landscapePreview },
+        { className: this.state.loaded === 2 ? _style2.default.landscapePreview : _style2.default.loading },
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: this.props.uri },
           _react2.default.createElement(
             'div',
             { className: _style2.default.picture },
-            _react2.default.createElement('img', { src: this.props.picture }),
+            _react2.default.createElement('img', { src: this.props.picture, onLoad: this.handleLoaded.bind(this) }),
             _react2.default.createElement(
               'div',
               { className: _style2.default.overlay },
@@ -55171,7 +55211,7 @@ var LandscapePreview = function (_React$Component) {
             _react2.default.createElement(
               'span',
               { className: _style2.default.user, onClick: this.navigateToUser.bind(this, this.props.user.uri) },
-              _react2.default.createElement('img', { src: this.props.user.picture }),
+              _react2.default.createElement('img', { src: this.props.user.picture, onLoad: this.handleLoaded.bind(this) }),
               _react2.default.createElement(
                 'span',
                 { className: _style2.default.name },
@@ -55616,26 +55656,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Tile = function (_React$Component) {
   _inherits(Tile, _React$Component);
 
-  function Tile() {
+  function Tile(props) {
     _classCallCheck(this, Tile);
 
-    return _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this, props));
+
+    _this.state = {
+      loaded: 0
+    };
+    return _this;
   }
 
   _createClass(Tile, [{
+    key: 'handleLoaded',
+    value: function handleLoaded() {
+      this.setState({
+        loaded: this.state.loaded + 1
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: _style2.default.tile },
+        { className: this.state.loaded === 2 ? _style2.default.tile : _style2.default.loading },
         _react2.default.createElement(
           _reactRouterDom.Link,
           { to: this.props.uri },
-          _react2.default.createElement('img', { className: _style2.default.bg, src: this.props.picture }),
+          _react2.default.createElement('img', { className: _style2.default.bg, src: this.props.picture, onLoad: this.handleLoaded.bind(this) }),
           _react2.default.createElement(
             'div',
             { className: _style2.default.overlay },
-            _react2.default.createElement('img', { className: _style2.default.icon, src: this.props.icon }),
+            _react2.default.createElement('img', { className: _style2.default.icon, src: this.props.icon, onLoad: this.handleLoaded.bind(this) }),
             _react2.default.createElement(
               'span',
               { className: _style2.default.caption },
@@ -55810,8 +55862,6 @@ var Header = function (_React$Component) {
     _classCallCheck(this, Header);
 
     var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
-
-    console.log(_electron.remote);
 
     _this.state = {
       query: ''
@@ -57992,7 +58042,7 @@ module.exports = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"card":"style__card--3BU0g","banner":"style__banner--dw031","content":"style__content--3RU4a","description":"style__description--29eM0"};
+module.exports = {"card":"style__card--3BU0g","banner":"style__banner--dw031","content":"style__content--3RU4a","description":"style__description--29eM0","loading":"style__loading--3c1cY"};
 
 /***/ }),
 /* 392 */
@@ -58055,7 +58105,7 @@ module.exports = {"followButton":"style__followButton--c-IQq","unfollowButton":"
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"landscapePreview":"style__landscapePreview--y_P4n","picture":"style__picture--8LWX4","overlay":"style__overlay--ewOvd","play":"style__play--2SchS","watchlater":"style__watchlater--1VjXs","active":"style__active--T2uuM","duration":"style__duration--2R32P","description":"style__description--2Ozfn","title":"style__title--Jz9X4","user":"style__user--2cLlB","name":"style__name--2Prs3"};
+module.exports = {"landscapePreview":"style__landscapePreview--y_P4n","picture":"style__picture--8LWX4","overlay":"style__overlay--ewOvd","play":"style__play--2SchS","watchlater":"style__watchlater--1VjXs","active":"style__active--T2uuM","duration":"style__duration--2R32P","description":"style__description--2Ozfn","title":"style__title--Jz9X4","user":"style__user--2cLlB","name":"style__name--2Prs3","loading":"style__loading--imC3L"};
 
 /***/ }),
 /* 401 */
@@ -58069,7 +58119,7 @@ module.exports = {"message":"style__message--2xcEx","reply":"style__reply--1tyU-
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"preview":"style__preview--3azGx","content":"style__content--2u3rK","picture":"style__picture--mot0s","overlay":"style__overlay--H4uLj","play":"style__play--1QmeS","watchlater":"style__watchlater--v6Re4","active":"style__active--1ww6a","duration":"style__duration--3gswi","title":"style__title--Bui1T","details":"style__details--2iPpC","user":"style__user--3YWqa","name":"style__name--2O5s7"};
+module.exports = {"preview":"style__preview--3azGx","content":"style__content--2u3rK","picture":"style__picture--mot0s","overlay":"style__overlay--H4uLj","play":"style__play--1QmeS","watchlater":"style__watchlater--v6Re4","active":"style__active--1ww6a","duration":"style__duration--3gswi","title":"style__title--Bui1T","details":"style__details--2iPpC","user":"style__user--3YWqa","name":"style__name--2O5s7","loading":"style__loading--374Ho"};
 
 /***/ }),
 /* 403 */
@@ -58097,7 +58147,7 @@ module.exports = {"tabBar":"style__tabBar--3v6y6","active":"style__active--1cZCv
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"tile":"style__tile--Nt2N5","bg":"style__bg--3L4vH","overlay":"style__overlay--K-svL","icon":"style__icon--2Kl9K","caption":"style__caption--22Q65"};
+module.exports = {"tile":"style__tile--Nt2N5","bg":"style__bg--3L4vH","overlay":"style__overlay--K-svL","icon":"style__icon--2Kl9K","caption":"style__caption--22Q65","loading":"style__loading--3u6Ta"};
 
 /***/ }),
 /* 407 */
@@ -58111,7 +58161,7 @@ module.exports = {"titleBar":"style__titleBar--3UI5R","collapsed":"style__collap
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"userThumbnail":"style__userThumbnail--2zY9w","details":"style__details--1jndc"};
+module.exports = {"userThumbnail":"style__userThumbnail--2zY9w","details":"style__details--1jndc","loading":"style__loading--2DCOG"};
 
 /***/ }),
 /* 409 */

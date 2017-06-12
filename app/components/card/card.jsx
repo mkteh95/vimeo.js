@@ -7,12 +7,26 @@ import style from './style.scss'
 
 class Card extends React.Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      loaded: 0
+    }
+  }
+
+  handleLoaded() {
+    this.setState({
+      loaded: this.state.loaded + 1
+    })
+  }
+
   render() {
     return (
-      <div className={style.card}>
+      <div className={(this.state.loaded === 1) ? style.card : style.loading} ref="card">
         <Link to={this.props.uri}>
           <div className={style.banner}>
-            <img src={this.props.banner} />
+            <img src={this.props.banner} onLoad={this.handleLoaded.bind(this)} />
           </div>
           <div className={style.content}>
             <span className="title">{this.props.title}</span>
