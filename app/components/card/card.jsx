@@ -13,6 +13,10 @@ class Card extends React.Component {
     this.state = {
       loaded: 0
     }
+
+    if (!this.props.banner) {
+      this.state.loaded += 1
+    }
   }
 
   handleLoaded() {

@@ -5454,6 +5454,7 @@ var getListings = exports.getListings = function getListings(endpoint, type) {
       method: 'GET',
       qs: qs
     }, function (error, response, body) {
+      console.log(response);
       if (response.statusCode === 200) {
         resolve(_defineProperty({
           paging: {
@@ -12002,6 +12003,10 @@ var Card = function (_React$Component) {
     _this.state = {
       loaded: 0
     };
+
+    if (!_this.props.banner) {
+      _this.state.loaded += 1;
+    }
     return _this;
   }
 
@@ -12113,6 +12118,13 @@ var Preview = function (_React$Component) {
       watchLater: props.watchLater,
       loaded: 0
     };
+
+    if (!_this.props.picture) {
+      _this.state.loaded += 1;
+    }
+    if (!_this.props.user.picture) {
+      _this.state.loaded += 1;
+    }
     return _this;
   }
 
@@ -27516,6 +27528,10 @@ var UserThumbnail = function (_React$Component) {
     _this.state = {
       loaded: 0
     };
+
+    if (!_this.props.picture) {
+      _this.state.loaded += 1;
+    }
     return _this;
   }
 
@@ -55146,6 +55162,13 @@ var LandscapePreview = function (_React$Component) {
       watchLater: props.watchLater,
       loaded: 0
     };
+
+    if (!_this.props.picture) {
+      _this.state.loaded += 1;
+    }
+    if (!_this.props.user.picture) {
+      _this.state.loaded += 1;
+    }
     return _this;
   }
 
@@ -55673,6 +55696,13 @@ var Tile = function (_React$Component) {
     _this.state = {
       loaded: 0
     };
+
+    if (!_this.props.picture) {
+      _this.state.loaded += 1;
+    }
+    if (!_this.props.icon) {
+      _this.state.loaded += 1;
+    }
     return _this;
   }
 

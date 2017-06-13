@@ -13,6 +13,10 @@ class UserThumbnail extends React.Component {
     this.state = {
       loaded: 0
     }
+
+    if (!this.props.picture) {
+      this.state.loaded += 1
+    }
   }
 
   handleLoaded() {

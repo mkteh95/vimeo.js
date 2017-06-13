@@ -16,6 +16,13 @@ class LandscapePreview extends React.Component {
       watchLater: props.watchLater,
       loaded: 0
     }
+
+    if (!this.props.picture) {
+      this.state.loaded += 1
+    }
+    if (!this.props.user.picture) {
+      this.state.loaded += 1
+    }
   }
 
   navigateToUser(uri, e) {

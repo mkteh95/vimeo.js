@@ -87,6 +87,7 @@ export const getListings = (endpoint, type, qs={}) => {
       method: 'GET',
       qs: qs
     }, (error, response, body) => {
+      console.log(response)
       if (response.statusCode === 200) {
         resolve({
           paging: {
