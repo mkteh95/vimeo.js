@@ -139,7 +139,7 @@ class MyVideosPage extends React.Component {
               duration={video.duration}
               user={video.user}
               watchLater={params.page === 'watchlater'}
-              onUnwatchLater={this.onUnwatchLater.bind(this)}
+              onUnwatchLater={(params.page === 'watchlater') ? this.onUnwatchLater.bind(this) : null}
               uri={video.uri}
               key={video.uri} />
           ))

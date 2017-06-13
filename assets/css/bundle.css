@@ -794,6 +794,7 @@
   .style__videoPage--3fgy0 .style__player--bwfJK {
     display: flex;
     justify-content: center;
+    max-height: 540px;
     background: #000; }
     .style__videoPage--3fgy0 .style__player--bwfJK .style__playerContainer--2AGEO {
       width: 100%;
@@ -820,24 +821,34 @@
         .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi > *:last-child {
           border-bottom: none;
           flex: 1 0 auto; }
-      .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To h1 {
-        margin-bottom: 10px; }
-      .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To h3 {
-        display: inline-block;
-        line-height: 50px; }
-      .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh {
-        line-height: 50px; }
-        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh > * {
-          float: left;
+      .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center; }
+        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To h1 {
+          margin-bottom: 10px; }
+        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To h3 {
+          display: inline-block;
+          line-height: 50px; }
+        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh {
+          line-height: 50px;
           margin-right: 15px; }
-        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%; }
-        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh .style__name--31BEQ {
-          margin: 0; }
+          .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh > * {
+            float: left; }
+          .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px; }
+          .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__details--1e5To .style__user--2yUMh .style__name--31BEQ {
+            display: inline-block;
+            margin: 0; }
       .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__description--2IJMX {
-        background: none; }
+        background: none;
+        position: relative;
+        overflow: hidden; }
+        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__description--2IJMX.style__collapsed--35G9d {
+          height: 250px; }
         .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__description--2IJMX header {
           display: flex;
           align-items: center;
@@ -853,6 +864,18 @@
             margin-left: 10px; }
         .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__description--2IJMX .style__text--C19_x {
           white-space: pre-line; }
+        .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__description--2IJMX .style__toggler--L9T9O {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          height: 100px;
+          padding: 20px;
+          display: flex;
+          align-items: flex-end;
+          background-image: linear-gradient(to top, white 65%, rgba(255, 255, 255, 0.25)); }
+          .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__description--2IJMX .style__toggler--L9T9O button {
+            width: 100%; }
       .style__videoPage--3fgy0 .style__contentWrapper--1PDHe .style__content--2-mYi .style__tags---94F2 .style__tagList--vb1Tg {
         display: flex;
         flex-wrap: wrap;

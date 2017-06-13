@@ -54819,6 +54819,8 @@ var CommentBox = function (_React$Component) {
       comments: [],
       nextPage: null
     };
+
+    _this.retrieveComments = _this.fetchComments.bind(_this);
     return _this;
   }
 
@@ -54839,6 +54841,8 @@ var CommentBox = function (_React$Component) {
           comments: [],
           nextPage: nextProps.comments.total !== '0' ? 1 : null
         });
+
+        this.retrieveComments = this.fetchComments.bind(this);
       }
     }
   }, {
@@ -54909,7 +54913,7 @@ var CommentBox = function (_React$Component) {
         null,
         _react2.default.createElement(
           _loadContainer2.default,
-          { nextPage: this.state.nextPage, onLoad: this.fetchComments.bind(this), reversed: true, caption: 'Load more comments...' },
+          { nextPage: this.state.nextPage, onLoad: this.retrieveComments, reversed: true, caption: 'Load more comments...' },
           this.state.comments.map(function (comment) {
             return _react2.default.createElement(_comment2.default, { user: comment.user,
               time: comment.time,
@@ -56633,7 +56637,7 @@ var MyVideosPage = function (_React$Component) {
               duration: video.duration,
               user: video.user,
               watchLater: params.page === 'watchlater',
-              onUnwatchLater: _this3.onUnwatchLater.bind(_this3),
+              onUnwatchLater: params.page === 'watchlater' ? _this3.onUnwatchLater.bind(_this3) : null,
               uri: video.uri,
               key: video.uri });
           })
@@ -57452,6 +57456,10 @@ var _relatedVideos = __webpack_require__(375);
 
 var _relatedVideos2 = _interopRequireDefault(_relatedVideos);
 
+var _followButton = __webpack_require__(87);
+
+var _followButton2 = _interopRequireDefault(_followButton);
+
 var _player = __webpack_require__(327);
 
 var _player2 = _interopRequireDefault(_player);
@@ -57477,7 +57485,8 @@ var VideoPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (VideoPage.__proto__ || Object.getPrototypeOf(VideoPage)).call(this, props));
 
     _this.state = {
-      video: {}
+      video: {},
+      descriptionCollapsed: false
     };
     return _this;
   }
@@ -57527,6 +57536,15 @@ var VideoPage = function (_React$Component) {
       }
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.video.description !== this.state.video.description && this.refs.description.offsetHeight > 250) {
+        this.setState({
+          descriptionCollapsed: true
+        });
+      }
+    }
+  }, {
     key: 'fetchVideo',
     value: function fetchVideo(endpoint) {
       var _this2 = this;
@@ -57536,6 +57554,13 @@ var VideoPage = function (_React$Component) {
           initialized: true,
           video: response
         });
+      });
+    }
+  }, {
+    key: 'expandDescription',
+    value: function expandDescription() {
+      this.setState({
+        descriptionCollapsed: false
       });
     }
   }, {
@@ -57576,11 +57601,13 @@ var VideoPage = function (_React$Component) {
                   { className: _style2.default.name },
                   this.state.video.user.name
                 )
-              )
+              ),
+              _react2.default.createElement(_followButton2.default, { uri: '/me/following/' + this.state.video.user.uri.split('/').pop() })
             ),
             _react2.default.createElement(
               'div',
-              { className: _style2.default.description },
+              { className: this.state.descriptionCollapsed ? _style2.default.description + ' ' + _style2.default.collapsed : _style2.default.description,
+                ref: 'description' },
               _react2.default.createElement(
                 'header',
                 null,
@@ -57624,6 +57651,15 @@ var VideoPage = function (_React$Component) {
                 'div',
                 { className: _style2.default.text },
                 this.state.video.description
+              ),
+              this.state.descriptionCollapsed && _react2.default.createElement(
+                'div',
+                { className: _style2.default.toggler },
+                _react2.default.createElement(
+                  'button',
+                  { onClick: this.expandDescription.bind(this) },
+                  'Read More...'
+                )
               )
             ),
             this.state.video.tags.length > 0 && _react2.default.createElement(
@@ -58264,7 +58300,7 @@ module.exports = {"loginPage":"style__loginPage--17NGy"};
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"videoPage":"style__videoPage--3fgy0","player":"style__player--bwfJK","playerContainer":"style__playerContainer--2AGEO","playerWrapper":"style__playerWrapper--3pb8j","contentWrapper":"style__contentWrapper--1PDHe","content":"style__content--2-mYi","details":"style__details--1e5To","user":"style__user--2yUMh","name":"style__name--31BEQ","description":"style__description--2IJMX","stats":"style__stats--38pT8","controls":"style__controls--1i6bK","text":"style__text--C19_x","tags":"style__tags---94F2","tagList":"style__tagList--vb1Tg","related":"style__related--38Vdq"};
+module.exports = {"videoPage":"style__videoPage--3fgy0","player":"style__player--bwfJK","playerContainer":"style__playerContainer--2AGEO","playerWrapper":"style__playerWrapper--3pb8j","contentWrapper":"style__contentWrapper--1PDHe","content":"style__content--2-mYi","details":"style__details--1e5To","user":"style__user--2yUMh","name":"style__name--31BEQ","description":"style__description--2IJMX","collapsed":"style__collapsed--35G9d","stats":"style__stats--38pT8","controls":"style__controls--1i6bK","text":"style__text--C19_x","toggler":"style__toggler--L9T9O","tags":"style__tags---94F2","tagList":"style__tagList--vb1Tg","related":"style__related--38Vdq"};
 
 /***/ }),
 /* 419 */

@@ -19,6 +19,8 @@ class CommentBox extends React.Component {
       comments: [],
       nextPage: null
     }
+
+    this.retrieveComments = this.fetchComments.bind(this)
   }
 
   componentWillMount() {
@@ -35,6 +37,8 @@ class CommentBox extends React.Component {
         comments: [],
         nextPage: (nextProps.comments.total !== '0') ? 1 : null
       })
+
+      this.retrieveComments = this.fetchComments.bind(this)
     }
   }
 
@@ -86,7 +90,7 @@ class CommentBox extends React.Component {
 
     return (
       <div>
-        <LoadContainer nextPage={this.state.nextPage} onLoad={this.fetchComments.bind(this)} reversed={true} caption="Load more comments...">
+        <LoadContainer nextPage={this.state.nextPage} onLoad={this.retrieveComments} reversed={true} caption="Load more comments...">
           {
             this.state.comments.map((comment) => (
               <Comment user={comment.user}

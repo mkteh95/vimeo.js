@@ -8,6 +8,7 @@ import LazyContainer from '../../containers/lazyContainer/lazyContainer.jsx'
 import Card from '../../components/card/card.jsx'
 import CommentBox from '../../components/commentBox/commentBox.jsx'
 import RelatedVideos from '../../components/relatedVideos/relatedVideos.jsx'
+import FollowButton from '../../components/followButton/followButton.jsx'
 
 import Player from '@vimeo/player'
 
@@ -20,7 +21,8 @@ class VideoPage extends React.Component {
     super(props)
 
     this.state = {
-      video: {}
+      video: {},
+      descriptionCollapsed: false
     }
   }
 
@@ -65,12 +67,26 @@ class VideoPage extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.video.description !== this.state.video.description && this.refs.description.offsetHeight > 250) {
+      this.setState({
+        descriptionCollapsed: true
+      })
+    }
+  }
+
   fetchVideo(endpoint) {
     getVideo(endpoint).then((response) => {
       this.setState({
         initialized: true,
         video: response
       })
+    })
+  }
+
+  expandDescription() {
+    this.setState({
+      descriptionCollapsed: false
     })
   }
 
@@ -91,8 +107,10 @@ class VideoPage extends React.Component {
                   <img src={this.state.video.user.picture} />
                   <h3 className={style.name}>{this.state.video.user.name}</h3>
                 </Link>
+                <FollowButton uri={`/me/following/${this.state.video.user.uri.split('/').pop()}`} />
               </div>
-              <div className={style.description}>
+              <div className={(this.state.descriptionCollapsed) ? `${style.description} ${style.collapsed}` : style.description} 
+                ref="description">
                 <header>
                   <div className={style.stats}>
                     <div><i className="fa fa-play fa-fw"></i> {this.state.video.plays}</div>
@@ -104,6 +122,11 @@ class VideoPage extends React.Component {
                   </div>
                 </header>
                 <div className={style.text}>{this.state.video.description}</div>
+                {this.state.descriptionCollapsed &&
+                  <div className={style.toggler}>
+                    <button onClick={this.expandDescription.bind(this)}>Read More...</button>
+                  </div>
+                }
               </div>
               {this.state.video.tags.length > 0 &&
                 <div className={style.tags}>
