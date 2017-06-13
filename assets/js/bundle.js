@@ -5454,7 +5454,6 @@ var getListings = exports.getListings = function getListings(endpoint, type) {
       method: 'GET',
       qs: qs
     }, function (error, response, body) {
-      console.log(response);
       if (response.statusCode === 200) {
         resolve(_defineProperty({
           paging: {
@@ -5586,6 +5585,7 @@ var getVideos = exports.getVideos = function getVideos(endpoint) {
       method: 'GET',
       qs: qs
     }, function (error, response, body) {
+      console.log(body);
       if (response.statusCode === 200) {
         resolve({
           paging: {
@@ -56107,9 +56107,9 @@ var CategoriesPage = function (_React$Component) {
       return _react2.default.createElement(
         _reactRouterDom.Switch,
         null,
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/categories/:category/subcategories/:subcategory', component: _subcategories2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/categories/:category/subcategories/:subcategory/videos', component: _subcategories2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/categories/:category', render: function render(props) {
-            return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/categories/' + props.match.params.category + '/subcategories/featured' });
+            return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/categories/' + props.match.params.category + '/subcategories/featured/videos' });
           } }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/categories', render: function render() {
             return _react2.default.createElement(
@@ -57294,17 +57294,18 @@ var SubcategoriesPage = function (_React$Component) {
       followed: false,
       category: {
         subcategories: [{
-          uri: '/categories/' + props.match.params.category + '/subcategories/featured',
+          uri: '/categories/' + props.match.params.category + '/subcategories/featured/videos',
           name: 'Featured'
         }]
       },
-      subcategories: new Map([['/categories/' + props.match.params.category + '/subcategories/featured', {
+      subcategories: new Map([['/categories/' + props.match.params.category + '/subcategories/featured/videos', {
         videos: new Map()
       }]]),
       filter: null
     };
 
     _this.handleFitler = _this.changeFilter.bind(_this);
+    _this.retrieveVideos = _this.fetchVideos.bind(_this);
     return _this;
   }
 
@@ -57351,6 +57352,18 @@ var SubcategoriesPage = function (_React$Component) {
       });
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.props.match.params.subcategory !== nextProps.match.params.subcategory) {
+        this.setState({
+          filter: null
+        });
+
+        this.retrieveVideos = this.fetchVideos.bind(this);
+        this.handleFitler = this.changeFilter.bind(this);
+      }
+    }
+  }, {
     key: 'followCategory',
     value: function followCategory() {
       var _this3 = this;
@@ -57366,7 +57379,7 @@ var SubcategoriesPage = function (_React$Component) {
     value: function fetchVideos(page) {
       var _this4 = this;
 
-      var endpoint = this.props.match.url === '/categories/' + this.props.match.params.category + '/subcategories/featured' ? '/categories/' + this.props.match.params.category + '/videos?sort=featured' : this.props.match.url + '/videos';
+      var endpoint = this.props.match.params.subcategory === 'featured' ? '/categories/' + this.props.match.params.category + '/videos?sort=featured' : this.props.match.url;
 
       (0, _api.getVideos)(endpoint, _extends({ page: page }, this.state.filter)).then(function (response) {
         var curr = _this4.state.subcategories.get(_this4.props.match.url).videos.get(_this4.state.filter);
@@ -57414,7 +57427,7 @@ var SubcategoriesPage = function (_React$Component) {
       return this.state.initialized ? _react2.default.createElement(
         _lazyContainer2.default,
         { nextPage: this.state.filter === null ? null : this.state.subcategories.get(url).videos.get(this.state.filter).nextPage,
-          onLazy: this.fetchVideos.bind(this) },
+          onLazy: this.retrieveVideos },
         _react2.default.createElement(_collapsibleTitleBar2.default, { title: this.state.category.name,
           label: 'CATEGORY',
           tabs: tabs,

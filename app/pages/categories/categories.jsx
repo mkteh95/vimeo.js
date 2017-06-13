@@ -33,8 +33,10 @@ class CategoriesPage extends React.Component {
   render() {
     return (
       <Switch>
-        <Route path="/categories/:category/subcategories/:subcategory" component={SubcategoriesPage} />
-        <Route path="/categories/:category" render={(props) => (<Redirect to={`/categories/${props.match.params.category}/subcategories/featured`} />)} />
+        <Route path="/categories/:category/subcategories/:subcategory/videos" component={SubcategoriesPage} />
+        <Route path="/categories/:category" render={(props) => (
+          <Redirect to={`/categories/${props.match.params.category}/subcategories/featured/videos`} />
+        )} />
         <Route path="/categories" render={() => (
             <LazyContainer nextPage={this.state.nextPage} onLazy={this.fetchCategories.bind(this)}>
               <CollapsibleTitleBar title="Categories" />

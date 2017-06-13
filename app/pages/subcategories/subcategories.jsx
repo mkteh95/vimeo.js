@@ -20,12 +20,12 @@ class SubcategoriesPage extends React.Component {
       followed: false,
       category: {
         subcategories: [{
-          uri: `/categories/${props.match.params.category}/subcategories/featured`,
+          uri: `/categories/${props.match.params.category}/subcategories/featured/videos`,
           name: 'Featured'
         }]
       },
       subcategories: new Map([
-        [`/categories/${props.match.params.category}/subcategories/featured`, {
+        [`/categories/${props.match.params.category}/subcategories/featured/videos`, {
           videos: new Map()
         }]
       ]),
@@ -33,6 +33,7 @@ class SubcategoriesPage extends React.Component {
     }
 
     this.handleFitler = this.changeFilter.bind(this)
+    this.retrieveVideos = this.fetchVideos.bind(this)
   }
 
   componentWillMount() {
@@ -54,6 +55,16 @@ class SubcategoriesPage extends React.Component {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.subcategory !== nextProps.match.params.subcategory) {
+      this.setState({
+        filter: null
+      })
+
+      this.retrieveVideos = this.fetchVideos.bind(this)
+      this.handleFitler = this.changeFilter.bind(this)
+    }
+  }
   
   followCategory() {
     subscribe(`/me/categories/${this.props.match.params.category}`).then(() => {
@@ -64,9 +75,9 @@ class SubcategoriesPage extends React.Component {
   }
   
   fetchVideos(page) {
-    const endpoint = (this.props.match.url === `/categories/${this.props.match.params.category}/subcategories/featured`) 
+    const endpoint = (this.props.match.params.subcategory === 'featured') 
                        ? `/categories/${this.props.match.params.category}/videos?sort=featured` 
-                       : `${this.props.match.url}/videos`
+                       : this.props.match.url
     
     getVideos(endpoint, { page: page, ...this.state.filter }).then((response) => {
       const curr = this.state.subcategories.get(this.props.match.url).videos.get(this.state.filter)
@@ -111,7 +122,7 @@ class SubcategoriesPage extends React.Component {
 
     return (this.state.initialized) ? (
       <LazyContainer nextPage={(this.state.filter === null) ? null : this.state.subcategories.get(url).videos.get(this.state.filter).nextPage} 
-        onLazy={this.fetchVideos.bind(this)}>
+        onLazy={this.retrieveVideos}>
         <CollapsibleTitleBar title={this.state.category.name}
           label="CATEGORY"
           tabs={tabs}
