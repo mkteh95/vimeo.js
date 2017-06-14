@@ -184,7 +184,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  z-index: 999999; }
+  z-index: 999999;
+  background-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.5)); }
   .style__titleBar--3UI5R > * {
     z-index: 1; }
   .style__titleBar--3UI5R.style__collapsed--vdXeg {
@@ -904,11 +905,11 @@
     flex-direction: column;
     flex: 1;
     position: relative;
-    min-height: 0; }
+    min-height: 0;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.75)); }
     .style__appContent--5SonS .style__contentWrapper--3-qSM > * {
       flex: 1;
-      overflow-y: scroll;
-      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.75)); }
+      overflow-y: scroll; }
 .style__loginPage--17NGy {
   display: flex;
   flex: 1; }
