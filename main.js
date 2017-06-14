@@ -1,8 +1,8 @@
 const electron = require('electron')
 const app = electron.app
-const os = require("os");
 const BrowserWindow = electron.BrowserWindow
 
+let mainWindow = null
 let quit = false
 
 app.on('ready', () => {
@@ -20,16 +20,24 @@ app.on('ready', () => {
     pathname: require('path').join(__dirname, 'index.html')
   })
 
-  window.on('close', (e) => {
-    if (os.plarform === 'darwin' && !quit) {
-      e.preventDefault()
-      mainWindow.hide()
-    } else {
-      mainWindow = null
+  mainWindow.on('close', (e) => {
+    if (process.platform === 'darwin') {
+      if (quit) {
+        mainWindow = null
+      } else {
+        e.preventDefault()  
+        mainWindow.hide()
+      }
     }
   })
 
   mainWindow.loadURL(url)
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })
 
 app.on('activate', () => {

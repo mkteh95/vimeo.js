@@ -8,7 +8,15 @@
     "babel": "babel",
     "webpack": "webpack",
     "watch": "webpack --progress --colors --watch",
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.mteh.js.vimeo",
+    "mac": {
+      "category": "public.app-category.video"
+    }
   },
   "keywords": [],
   "author": "Mun Kit Teh",
@@ -21,6 +29,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.3",
     "electron": "^1.6.10",
+    "electron-builder": "^18.6.2",
     "electron-packager": "^8.7.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
