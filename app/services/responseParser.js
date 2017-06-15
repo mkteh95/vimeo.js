@@ -31,6 +31,7 @@ export const parseUser = (user) => {
 export const parseEntity = (entity) => {
   return {
     uri: entity.uri,
+    link: entity.link,
     name: entity.name,
     description: (!entity.description) ? 'No description available...' : entity.description,
     banner: (!entity.header) ? null : entity.header.sizes[entity.header.sizes.length - 1].link,
@@ -44,6 +45,7 @@ export const parseEntity = (entity) => {
 export const parseVideo = (video) => {
   return {
     uri: video.uri,
+    link: video.link,
     name: video.name,
     description: video.description,
     duration: Numeral(video.duration).format('00:00:00'),

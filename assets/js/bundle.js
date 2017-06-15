@@ -57807,6 +57807,7 @@ var parseUser = exports.parseUser = function parseUser(user) {
 var parseEntity = exports.parseEntity = function parseEntity(entity) {
   return {
     uri: entity.uri,
+    link: entity.link,
     name: entity.name,
     description: !entity.description ? 'No description available...' : entity.description,
     banner: !entity.header ? null : entity.header.sizes[entity.header.sizes.length - 1].link,
@@ -57820,6 +57821,7 @@ var parseEntity = exports.parseEntity = function parseEntity(entity) {
 var parseVideo = exports.parseVideo = function parseVideo(video) {
   return {
     uri: video.uri,
+    link: video.link,
     name: video.name,
     description: video.description,
     duration: (0, _numeral2.default)(video.duration).format('00:00:00'),
