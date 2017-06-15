@@ -57812,7 +57812,8 @@ var parseEntity = exports.parseEntity = function parseEntity(entity) {
     banner: !entity.header ? null : entity.header.sizes[entity.header.sizes.length - 1].link,
     picture: !entity.pictures ? null : entity.pictures.sizes[entity.pictures.sizes.length - 1].link,
     followers: !entity.metadata.connections.users ? null : (0, _numeral2.default)(entity.metadata.connections.users.total).format('0a'),
-    videos: (0, _numeral2.default)(entity.metadata.connections.videos.total).format('0a')
+    videos: (0, _numeral2.default)(entity.metadata.connections.videos.total).format('0a'),
+    privacy: entity.privacy
   };
 };
 
@@ -57835,6 +57836,7 @@ var parseVideo = exports.parseVideo = function parseVideo(video) {
         name: tag.name
       };
     }),
+    privacy: video.privacy,
     user: {
       uri: video.user.uri,
       name: video.user.name,
