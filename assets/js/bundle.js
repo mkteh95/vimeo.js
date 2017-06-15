@@ -55767,17 +55767,21 @@ var Tile = function (_React$Component) {
         'div',
         { className: this.state.loaded === 2 ? _style2.default.tile : _style2.default.loading },
         _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: this.props.uri },
-          _react2.default.createElement('img', { className: _style2.default.bg, src: this.props.picture, onLoad: this.handleLoaded.bind(this) }),
+          'div',
+          { className: _style2.default.tileWrapper },
           _react2.default.createElement(
-            'div',
-            { className: _style2.default.overlay },
-            _react2.default.createElement('img', { className: _style2.default.icon, src: this.props.icon, onLoad: this.handleLoaded.bind(this) }),
+            _reactRouterDom.Link,
+            { to: this.props.uri },
+            _react2.default.createElement('img', { className: _style2.default.bg, src: this.props.picture, onLoad: this.handleLoaded.bind(this) }),
             _react2.default.createElement(
-              'span',
-              { className: _style2.default.caption },
-              this.props.caption
+              'div',
+              { className: _style2.default.overlay },
+              _react2.default.createElement('img', { className: _style2.default.icon, src: this.props.icon, onLoad: this.handleLoaded.bind(this) }),
+              _react2.default.createElement(
+                'span',
+                { className: _style2.default.caption },
+                this.props.caption
+              )
             )
           )
         )
@@ -58326,7 +58330,7 @@ module.exports = {"tabBar":"style__tabBar--3v6y6","active":"style__active--1cZCv
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"tile":"style__tile--Nt2N5","bg":"style__bg--3L4vH","overlay":"style__overlay--K-svL","icon":"style__icon--2Kl9K","caption":"style__caption--22Q65","loading":"style__loading--3u6Ta"};
+module.exports = {"tile":"style__tile--Nt2N5","tileWrapper":"style__tileWrapper--2YhWE","bg":"style__bg--3L4vH","overlay":"style__overlay--K-svL","icon":"style__icon--2Kl9K","caption":"style__caption--22Q65","loading":"style__loading--3u6Ta"};
 
 /***/ }),
 /* 407 */
