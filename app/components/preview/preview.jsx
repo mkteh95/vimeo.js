@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { shell } from 'electron'
 
 import { subscribe, unsubscribe } from '../../services/api.js'
 
@@ -47,12 +48,19 @@ class Preview extends React.Component {
       loaded: this.state.loaded + 1
     })
   }
+
+  openInBrowser(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    shell.openExternal(this.props.link)
+  }
   
   render() {
     return (
       <div className={(this.state.loaded === 2) ? style.preview : style.loading}>
         <div className={style.content}>
-          <Link to={this.props.uri}>
+          <Link to={this.props.uri} {...(this.props.privacy.view !== 'anybody' || this.props.privacy.embed !== 'public') ? { onClick: this.openInBrowser.bind(this) } : {}}>
             <div className={style.picture}>
               <img src={this.props.picture} onLoad={this.handleLoaded.bind(this)} />
               <div className={style.overlay}>
@@ -87,6 +95,8 @@ class Preview extends React.Component {
 }
 
 Preview.propTypes = {
+  link: PropTypes.string,
+  privacy: PropTypes.object,
   plays: PropTypes.string,
   likes: PropTypes.string,
   comments: PropTypes.string,

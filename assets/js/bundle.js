@@ -11968,6 +11968,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -11979,6 +11981,8 @@ var _reactRouterDom = __webpack_require__(9);
 var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _electron = __webpack_require__(662);
 
 var _style = __webpack_require__(391);
 
@@ -12018,6 +12022,14 @@ var Card = function (_React$Component) {
       });
     }
   }, {
+    key: 'openInBrowser',
+    value: function openInBrowser(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      _electron.shell.openExternal(this.props.link);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -12025,7 +12037,7 @@ var Card = function (_React$Component) {
         { className: this.state.loaded === 1 ? _style2.default.card : _style2.default.loading },
         _react2.default.createElement(
           _reactRouterDom.Link,
-          { to: this.props.uri },
+          _extends({ to: this.props.uri }, this.props.privacy.view !== 'anybody' ? { onClick: this.openInBrowser.bind(this) } : {}),
           _react2.default.createElement(
             'div',
             { className: _style2.default.banner },
@@ -12061,6 +12073,8 @@ var Card = function (_React$Component) {
 Card.propTypes = {
   banner: _propTypes2.default.string,
   title: _propTypes2.default.string,
+  link: _propTypes2.default.string,
+  privacy: _propTypes2.default.object,
   subtitle: _propTypes2.default.array,
   description: _propTypes2.default.string,
   uri: _propTypes2.default.string,
@@ -12080,6 +12094,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -12091,6 +12107,8 @@ var _reactRouterDom = __webpack_require__(9);
 var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _electron = __webpack_require__(662);
 
 var _api = __webpack_require__(12);
 
@@ -12156,6 +12174,14 @@ var Preview = function (_React$Component) {
       });
     }
   }, {
+    key: 'openInBrowser',
+    value: function openInBrowser(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      _electron.shell.openExternal(this.props.link);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -12166,7 +12192,7 @@ var Preview = function (_React$Component) {
           { className: _style2.default.content },
           _react2.default.createElement(
             _reactRouterDom.Link,
-            { to: this.props.uri },
+            _extends({ to: this.props.uri }, this.props.privacy.view !== 'anybody' || this.props.privacy.embed !== 'public' ? { onClick: this.openInBrowser.bind(this) } : {}),
             _react2.default.createElement(
               'div',
               { className: _style2.default.picture },
@@ -12244,6 +12270,8 @@ var Preview = function (_React$Component) {
 }(_react2.default.Component);
 
 Preview.propTypes = {
+  link: _propTypes2.default.string,
+  privacy: _propTypes2.default.object,
   plays: _propTypes2.default.string,
   likes: _propTypes2.default.string,
   comments: _propTypes2.default.string,
@@ -14665,6 +14693,8 @@ var EntityPage = function (_React$Component) {
           null,
           this.state.videos.has(this.state.filter) && this.state.videos.get(this.state.filter).videos && this.state.videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
+              privacy: video.privacy,
+              link: video.link,
               likes: video.likes,
               comments: video.comments.total,
               picture: video.picture,
@@ -55124,6 +55154,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -55135,6 +55167,8 @@ var _reactRouterDom = __webpack_require__(9);
 var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _electron = __webpack_require__(662);
 
 var _api = __webpack_require__(12);
 
@@ -55204,6 +55238,14 @@ var LandscapePreview = function (_React$Component) {
       });
     }
   }, {
+    key: 'openInBrowser',
+    value: function openInBrowser(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      _electron.shell.openExternal(this.props.link);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -55211,7 +55253,8 @@ var LandscapePreview = function (_React$Component) {
         { className: this.state.loaded === 2 ? _style2.default.landscapePreview : _style2.default.loading },
         _react2.default.createElement(
           _reactRouterDom.Link,
-          { to: this.props.uri },
+          _extends({ to: this.props.uri
+          }, this.props.privacy.view !== 'anybody' || this.props.privacy.embed !== 'public' ? { onClick: this.openInBrowser.bind(this) } : {}),
           _react2.default.createElement(
             'div',
             { className: _style2.default.picture },
@@ -55284,6 +55327,8 @@ var LandscapePreview = function (_React$Component) {
 }(_react2.default.Component);
 
 LandscapePreview.propTypes = {
+  link: _propTypes2.default.string,
+  privacy: _propTypes2.default.object,
   duration: _propTypes2.default.string,
   plays: _propTypes2.default.string,
   likes: _propTypes2.default.string,
@@ -55557,6 +55602,8 @@ var RelatedVideos = function (_React$Component) {
           { className: _style2.default.relatedVideos },
           this.state.videos.map(function (video) {
             return _react2.default.createElement(_landscapePreview2.default, { picture: video.picture,
+              privacy: video.privacy,
+              link: video.link,
               title: video.name,
               duration: video.duration,
               plays: video.plays,
@@ -56270,6 +56317,8 @@ var ChannelsPage = function (_React$Component) {
                 null,
                 _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
                   return _react2.default.createElement(_card2.default, { banner: channel.banner,
+                    privacy: channel.privacy,
+                    link: channel.link,
                     title: channel.name,
                     description: channel.description,
                     followers: channel.followers,
@@ -56422,6 +56471,8 @@ var GroupsPage = function (_React$Component) {
                 null,
                 _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
                   return _react2.default.createElement(_card2.default, { banner: group.picture,
+                    privacy: group.privacy,
+                    link: group.link,
                     title: group.name,
                     followers: group.followers,
                     videos: group.videos,
@@ -56660,6 +56711,8 @@ var MyVideosPage = function (_React$Component) {
           null,
           this.state.videos.has(this.state.filter) && this.state.videos.get(this.state.filter).videos && this.state.videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
+              privacy: video.privacy,
+              link: video.link,
               likes: video.likes,
               comments: video.comments.total,
               picture: video.picture,
@@ -56919,6 +56972,8 @@ var ProfilePage = function (_React$Component) {
                       null,
                       _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_preview2.default, { plays: item.plays,
+                          privacy: item.privacy,
+                          link: item.link,
                           likes: item.likes,
                           comments: item.comments.total,
                           picture: item.picture,
@@ -56950,6 +57005,8 @@ var ProfilePage = function (_React$Component) {
                       null,
                       _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_card2.default, { banner: item.banner,
+                          privacy: item.privacy,
+                          link: item.link,
                           title: item.name,
                           description: item.description,
                           followers: item.followers,
@@ -56965,6 +57022,8 @@ var ProfilePage = function (_React$Component) {
                       null,
                       _this4.state[params.tab].has(_this4.state.filter) && _this4.state[params.tab].get(_this4.state.filter)[params.tab] && _this4.state[params.tab].get(_this4.state.filter)[params.tab].map(function (item) {
                         return _react2.default.createElement(_card2.default, { banner: item.picture,
+                          privacy: item.privacy,
+                          link: item.link,
                           title: item.name,
                           followers: item.followers,
                           videos: item.videos,
@@ -57166,6 +57225,8 @@ var SearchPage = function (_React$Component) {
                 _this3.state.channels.has(_this3.state.filter) && _this3.state.channels.get(_this3.state.filter).channels && _this3.state.channels.get(_this3.state.filter).channels.map(function (channel) {
                   return _react2.default.createElement(_card2.default, { banner: channel.banner,
                     title: channel.name,
+                    privacy: channel.privacy,
+                    link: channel.link,
                     description: channel.description,
                     followers: channel.followers,
                     videos: channel.videos,
@@ -57180,6 +57241,8 @@ var SearchPage = function (_React$Component) {
                 null,
                 _this3.state.groups.has(_this3.state.filter) && _this3.state.groups.get(_this3.state.filter).groups && _this3.state.groups.get(_this3.state.filter).groups.map(function (group) {
                   return _react2.default.createElement(_card2.default, { banner: group.picture,
+                    privacy: group.privacy,
+                    link: group.link,
                     title: group.name,
                     followers: group.followers,
                     videos: group.videos,
@@ -57194,6 +57257,8 @@ var SearchPage = function (_React$Component) {
                 null,
                 _this3.state.videos.has(_this3.state.filter) && _this3.state.videos.get(_this3.state.filter).videos && _this3.state.videos.get(_this3.state.filter).videos.map(function (video) {
                   return _react2.default.createElement(_preview2.default, { plays: video.plays,
+                    privacy: video.privacy,
+                    link: video.link,
                     likes: video.likes,
                     comments: video.comments.total,
                     picture: video.picture,
@@ -57439,6 +57504,8 @@ var SubcategoriesPage = function (_React$Component) {
           null,
           this.state.subcategories.get(url).videos.has(this.state.filter) && this.state.subcategories.get(url).videos.get(this.state.filter).videos && this.state.subcategories.get(url).videos.get(this.state.filter).videos.map(function (video) {
             return _react2.default.createElement(_preview2.default, { plays: video.plays,
+              privacy: video.privacy,
+              link: video.link,
               likes: video.likes,
               comments: video.comments.total,
               picture: video.picture,
@@ -57486,10 +57553,6 @@ var _smallGrid2 = _interopRequireDefault(_smallGrid);
 var _lazyContainer = __webpack_require__(25);
 
 var _lazyContainer2 = _interopRequireDefault(_lazyContainer);
-
-var _card = __webpack_require__(48);
-
-var _card2 = _interopRequireDefault(_card);
 
 var _commentBox = __webpack_require__(371);
 

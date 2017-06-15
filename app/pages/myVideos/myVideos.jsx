@@ -132,6 +132,8 @@ class MyVideosPage extends React.Component {
           this.state.videos.get(this.state.filter).videos &&
           this.state.videos.get(this.state.filter).videos.map((video) => (
             <Preview plays={video.plays}
+              privacy={video.privacy}
+              link={video.link}
               likes={video.likes}
               comments={video.comments.total}
               picture={video.picture}

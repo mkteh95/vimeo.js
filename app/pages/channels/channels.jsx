@@ -71,6 +71,8 @@ class ChannelsPage extends React.Component {
                 this.state.channels.get(this.state.filter).channels &&
                 this.state.channels.get(this.state.filter).channels.map((channel) => (
                   <Card banner={channel.banner} 
+                    privacy={channel.privacy}
+                    link={channel.link}
                     title={channel.name}
                     description={channel.description}
                     followers={channel.followers}

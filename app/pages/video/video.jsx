@@ -5,7 +5,6 @@ import { getVideo } from '../../services/api.js'
 
 import SmallGrid from '../../containers/smallGrid/smallGrid.jsx'
 import LazyContainer from '../../containers/lazyContainer/lazyContainer.jsx'
-import Card from '../../components/card/card.jsx'
 import CommentBox from '../../components/commentBox/commentBox.jsx'
 import RelatedVideos from '../../components/relatedVideos/relatedVideos.jsx'
 import FollowButton from '../../components/followButton/followButton.jsx'

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { shell } from 'electron'
 
 import { subscribe, unsubscribe } from '../../services/api.js'
 
@@ -50,11 +51,19 @@ class LandscapePreview extends React.Component {
       loaded: this.state.loaded + 1
     })
   }
+
+  openInBrowser(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    shell.openExternal(this.props.link)
+  }
   
   render() {
     return (
       <div className={(this.state.loaded === 2) ? style.landscapePreview : style.loading}>
-        <Link to={this.props.uri}>
+        <Link to={this.props.uri} 
+          {...(this.props.privacy.view !== 'anybody' || this.props.privacy.embed !== 'public') ? { onClick: this.openInBrowser.bind(this) } : {}}>
           <div className={style.picture}>
             <img src={this.props.picture} onLoad={this.handleLoaded.bind(this)} />
             <div className={style.overlay}>
@@ -86,6 +95,8 @@ class LandscapePreview extends React.Component {
 }
 
 LandscapePreview.propTypes = {
+  link: PropTypes.string,
+  privacy: PropTypes.object,
   duration: PropTypes.string,
   plays: PropTypes.string,
   likes: PropTypes.string,

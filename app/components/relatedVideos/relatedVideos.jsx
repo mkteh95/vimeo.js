@@ -49,6 +49,8 @@ class RelatedVideos extends React.Component {
           {
             this.state.videos.map((video) => (
               <LandscapePreview picture={video.picture}
+                privacy={video.privacy}
+                link={video.link}
                 title={video.name}
                 duration={video.duration}
                 plays={video.plays}

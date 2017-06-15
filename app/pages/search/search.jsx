@@ -128,6 +128,8 @@ class SearchPage extends React.Component {
                 this.state.channels.get(this.state.filter).channels.map((channel) => (
                   <Card banner={channel.banner} 
                     title={channel.name}
+                    privacy={channel.privacy}
+                    link={channel.link}
                     description={channel.description}
                     followers={channel.followers}
                     videos={channel.videos}
@@ -142,6 +144,8 @@ class SearchPage extends React.Component {
               this.state.groups.get(this.state.filter).groups &&
               this.state.groups.get(this.state.filter).groups.map((group) => (
                 <Card banner={group.picture} 
+                  privacy={group.privacy}
+                  link={group.link}
                   title={group.name}
                   followers={group.followers}
                   videos={group.videos}
@@ -156,6 +160,8 @@ class SearchPage extends React.Component {
               this.state.videos.get(this.state.filter).videos &&
               this.state.videos.get(this.state.filter).videos.map((video) => (
                 <Preview plays={video.plays}
+                  privacy={video.privacy}
+                  link={video.link}
                   likes={video.likes}
                   comments={video.comments.total}
                   picture={video.picture}

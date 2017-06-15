@@ -137,6 +137,8 @@ class ProfilePage extends React.Component {
                       this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Preview plays={item.plays}
+                          privacy={item.privacy}
+                          link={item.link}
                           likes={item.likes}
                           comments={item.comments.total}
                           picture={item.picture}
@@ -168,6 +170,8 @@ class ProfilePage extends React.Component {
                       this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Card banner={item.banner} 
+                          privacy={item.privacy}
+                          link={item.link}
                           title={item.name}
                           description={item.description}
                           followers={item.followers}
@@ -183,6 +187,8 @@ class ProfilePage extends React.Component {
                       this.state[params.tab].get(this.state.filter)[params.tab] &&
                       this.state[params.tab].get(this.state.filter)[params.tab].map((item) => (
                         <Card banner={item.picture} 
+                          privacy={item.privacy}
+                          link={item.link}
                           title={item.name}
                           followers={item.followers}
                           videos={item.videos}

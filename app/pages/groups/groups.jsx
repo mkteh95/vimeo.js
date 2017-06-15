@@ -71,6 +71,8 @@ class GroupsPage extends React.Component {
                 this.state.groups.get(this.state.filter).groups &&
                 this.state.groups.get(this.state.filter).groups.map((group) => (
                   <Card banner={group.picture} 
+                    privacy={group.privacy}
+                    link={group.link}
                     title={group.name}
                     followers={group.followers}
                     videos={group.videos}
