@@ -67,7 +67,7 @@ footer {
   #carousel-showcase .carousel-indicators li.active {
     background-color: #888; }
 #carousel-showcase .item {
-  padding: 75px 15%; }
+  padding: 0 15% 75px 15%; }
   #carousel-showcase .item img {
     box-shadow: 1px 1px 10px #888; }
 
