@@ -792,6 +792,45 @@
 .style__relatedVideos--v-8aH {
   display: flex;
   flex-direction: column; }
+.style__shareDialog--1RqDx {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5); }
+
+.style__dialog--QljqR {
+  padding: 25px;
+  background: #fff; }
+  .style__dialog--QljqR .style__buttons--3Eq1f {
+    display: flex;
+    margin-left: -10px;
+    margin-right: -10px; }
+    .style__dialog--QljqR .style__buttons--3Eq1f a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      margin-right: 10px; }
+      .style__dialog--QljqR .style__buttons--3Eq1f a.style__disabled--hgn90 {
+        cursor: not-allowed;
+        opacity: 0.75; }
+        .style__dialog--QljqR .style__buttons--3Eq1f a.style__disabled--hgn90:hover {
+          color: inherit; }
+      .style__dialog--QljqR .style__buttons--3Eq1f a > * {
+        width: inherit;
+        height: inherit;
+        line-height: 40px;
+        border-radius: 50%;
+        object-fit: cover; }
+      .style__dialog--QljqR .style__buttons--3Eq1f a > i {
+        border: 1px solid #456; }
+      .style__dialog--QljqR .style__buttons--3Eq1f a:not(.style__disabled--hgn90) > i:hover {
+        border-color: #00adef; }
 .style__videoPage--3fgy0 {
   display: flex;
   flex-direction: column; }

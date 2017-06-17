@@ -56874,6 +56874,10 @@ var _followButton = __webpack_require__(62);
 
 var _followButton2 = _interopRequireDefault(_followButton);
 
+var _shareDialog = __webpack_require__(659);
+
+var _shareDialog2 = _interopRequireDefault(_shareDialog);
+
 var _player = __webpack_require__(325);
 
 var _player2 = _interopRequireDefault(_player);
@@ -56978,6 +56982,13 @@ var VideoPage = function (_React$Component) {
       });
     }
   }, {
+    key: 'toggleShare',
+    value: function toggleShare() {
+      this.setState({
+        sharing: !this.state.sharing
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -57055,7 +57066,7 @@ var VideoPage = function (_React$Component) {
                   { className: _style2.default.controls },
                   _react2.default.createElement(
                     'button',
-                    null,
+                    { onClick: this.toggleShare.bind(this) },
                     _react2.default.createElement('i', { className: 'fa fa-send fa-fw' }),
                     ' Share'
                   )
@@ -57117,7 +57128,8 @@ var VideoPage = function (_React$Component) {
             ),
             _react2.default.createElement(_relatedVideos2.default, { uri: this.props.match.url + '/videos' })
           )
-        )
+        ),
+        this.state.sharing && _react2.default.createElement(_shareDialog2.default, { link: this.state.video.link, onToggle: this.toggleShare.bind(this) })
       );
     }
   }]);
@@ -94058,6 +94070,184 @@ module.exports = require("string_decoder");
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
+
+/***/ }),
+/* 620 */,
+/* 621 */,
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */,
+/* 627 */,
+/* 628 */,
+/* 629 */,
+/* 630 */,
+/* 631 */,
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */,
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(4);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _electron = __webpack_require__(81);
+
+var _style = __webpack_require__(660);
+
+var _style2 = _interopRequireDefault(_style);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ShareDialog = function (_React$Component) {
+  _inherits(ShareDialog, _React$Component);
+
+  function ShareDialog(props) {
+    _classCallCheck(this, ShareDialog);
+
+    var _this = _possibleConstructorReturn(this, (ShareDialog.__proto__ || Object.getPrototypeOf(ShareDialog)).call(this, props));
+
+    _this.state = {
+      copied: false
+    };
+    return _this;
+  }
+
+  _createClass(ShareDialog, [{
+    key: 'share',
+    value: function share(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      _electron.shell.openExternal(e.currentTarget.getAttribute('href'));
+    }
+  }, {
+    key: 'closeDialog',
+    value: function closeDialog(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (e.target === e.currentTarget) {
+        this.props.onToggle();
+      }
+    }
+  }, {
+    key: 'copyToClipboard',
+    value: function copyToClipboard(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      _electron.clipboard.writeText(e.currentTarget.getAttribute('href'));
+
+      this.setState({
+        copied: true
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: _style2.default.shareDialog, onClick: this.closeDialog.bind(this) },
+        _react2.default.createElement(
+          'div',
+          { className: _style2.default.dialog },
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Share to:'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _style2.default.buttons },
+            _react2.default.createElement(
+              'a',
+              { href: 'https://www.facebook.com/sharer/sharer.php?u=' + this.props.link, onClick: this.share.bind(this) },
+              _react2.default.createElement('img', { src: 'https://en.facebookbrand.com/wp-content/uploads/2016/05/FB-fLogo-Blue-broadcast-2.png', alt: 'Share on Facebook' })
+            ),
+            _react2.default.createElement(
+              'a',
+              { href: 'https://twitter.com/home?status=' + this.props.link, onClick: this.share.bind(this) },
+              _react2.default.createElement('img', { src: 'http://www.freeiconspng.com/uploads/twitter-icon--basic-round-social-iconset--s-icons-0.png', alt: 'Share on Twitter' })
+            ),
+            _react2.default.createElement(
+              'a',
+              { href: 'https://plus.google.com/share?url=' + this.props.link, onClick: this.share.bind(this) },
+              _react2.default.createElement('img', { src: 'https://www.gstatic.com/images/icons/gplus-64.png', alt: 'Share on Google+' })
+            ),
+            _react2.default.createElement(
+              'a',
+              { className: this.state.copied ? _style2.default.disabled : '', href: this.props.link, onClick: this.copyToClipboard.bind(this) },
+              _react2.default.createElement('i', { className: 'fa fa-fw fa-clipboard' })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ShareDialog;
+}(_react2.default.Component);
+
+ShareDialog.propTypes = {
+  link: _propTypes2.default.string,
+  onToggle: _propTypes2.default.func
+};
+
+exports.default = ShareDialog;
+
+/***/ }),
+/* 660 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+module.exports = {"shareDialog":"style__shareDialog--1RqDx","dialog":"style__dialog--QljqR","buttons":"style__buttons--3Eq1f","disabled":"style__disabled--hgn90"};
 
 /***/ })
 /******/ ]);

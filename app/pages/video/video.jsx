@@ -8,6 +8,7 @@ import LazyContainer from '../../containers/lazyContainer/lazyContainer.jsx'
 import CommentBox from '../../components/commentBox/commentBox.jsx'
 import RelatedVideos from '../../components/relatedVideos/relatedVideos.jsx'
 import FollowButton from '../../components/followButton/followButton.jsx'
+import ShareDialog from '../../components/shareDialog/shareDialog.jsx'
 
 import Player from '@vimeo/player'
 
@@ -89,6 +90,12 @@ class VideoPage extends React.Component {
     })
   }
 
+  toggleShare() {
+    this.setState({
+      sharing: !this.state.sharing
+    })
+  }
+
   render() {
     return (
       <div className={style.videoPage}>
@@ -117,7 +124,7 @@ class VideoPage extends React.Component {
                     <div><i className="fa fa-comment fa-fw"></i> {this.state.video.comments.total}</div>
                   </div>
                   <div className={style.controls}>
-                    <button><i className="fa fa-send fa-fw"></i> Share</button>
+                    <button onClick={this.toggleShare.bind(this)}><i className="fa fa-send fa-fw"></i> Share</button>
                   </div>
                 </header>
                 <div className={style.text}>{this.state.video.description}</div>
@@ -150,6 +157,7 @@ class VideoPage extends React.Component {
             </div>
           </div>
         }
+        {this.state.sharing && <ShareDialog link={this.state.video.link} onToggle={this.toggleShare.bind(this)} />}
       </div>
     )
   }
