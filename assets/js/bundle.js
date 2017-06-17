@@ -5366,13 +5366,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/**
+  * @desc - set defaults for Vimeo API calls
+*/
 var VimeoRequest = _request2.default.defaults({
   baseUrl: 'https://api.vimeo.com/',
   auth: { bearer: localStorage.getItem('accessToken') },
   json: true
-});
+}
 
-var login = exports.login = function login(code, authHeader, redirectUrl) {
+/**
+  * @desc - requests for access token and saves user and access token to localStorage
+  * @param string $code - code to exchange for access_token
+  * @param string $authHeader - header constructed with base64(clientId:clientSecret)
+  * @param string $redirectUrl - url to redirect on success
+*/
+);var login = exports.login = function login(code, authHeader, redirectUrl) {
   return new Promise(function (resolve, reject) {
     (0, _request2.default)({
       url: 'https://api.vimeo.com/oauth/access_token',
@@ -5391,9 +5400,10 @@ var login = exports.login = function login(code, authHeader, redirectUrl) {
           name: body.user.name,
           picture: !body.user.pictures ? null : body.user.pictures[body.user.pictures.length - 1].link
         }));
-        localStorage.setItem('accessToken', body.access_token);
+        localStorage.setItem('accessToken', body.access_token
 
-        VimeoRequest = VimeoRequest.defaults({
+        // updates default access token when making API calls to Vimeo
+        );VimeoRequest = VimeoRequest.defaults({
           auth: { bearer: body.access_token }
         });
 
@@ -5405,6 +5415,9 @@ var login = exports.login = function login(code, authHeader, redirectUrl) {
   });
 };
 
+/**
+  * @desc - revokes access token
+*/
 var logout = exports.logout = function logout() {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5420,6 +5433,12 @@ var logout = exports.logout = function logout() {
   });
 };
 
+/**
+  * @desc - get videos in a user's feed
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed video data
+*/
 var getFeeds = exports.getFeeds = function getFeeds(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -5445,6 +5464,12 @@ var getFeeds = exports.getFeeds = function getFeeds(endpoint) {
   });
 };
 
+/**
+  * @desc - get entities (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed entity data
+*/
 var getListings = exports.getListings = function getListings(endpoint, type) {
   var qs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
@@ -5469,18 +5494,35 @@ var getListings = exports.getListings = function getListings(endpoint, type) {
   });
 };
 
+/**
+  * @desc - get channels
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @return - promise from getListings()
+*/
 var getChannels = exports.getChannels = function getChannels(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   return getListings(endpoint, 'channels', qs);
 };
 
+/**
+  * @desc - get groups
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @return - promise from getListings()
+*/
 var getGroups = exports.getGroups = function getGroups(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   return getListings(endpoint, 'groups', qs);
 };
 
+/**
+  * @desc - get entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed entity data
+*/
 var getEntity = exports.getEntity = function getEntity(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5496,6 +5538,12 @@ var getEntity = exports.getEntity = function getEntity(endpoint) {
   });
 };
 
+/**
+  * @desc - get categories
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed category data
+*/
 var getCategories = exports.getCategories = function getCategories(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -5521,6 +5569,11 @@ var getCategories = exports.getCategories = function getCategories(endpoint) {
   });
 };
 
+/**
+  * @desc - get category
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed category data
+*/
 var getCategory = exports.getCategory = function getCategory(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5536,6 +5589,12 @@ var getCategory = exports.getCategory = function getCategory(endpoint) {
   });
 };
 
+/**
+  * @desc - get users
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed user data
+*/
 var getUsers = exports.getUsers = function getUsers(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -5561,6 +5620,11 @@ var getUsers = exports.getUsers = function getUsers(endpoint) {
   });
 };
 
+/**
+  * @desc - get user
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed user data
+*/
 var getUser = exports.getUser = function getUser(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5576,6 +5640,12 @@ var getUser = exports.getUser = function getUser(endpoint) {
   });
 };
 
+/**
+  * @desc - get videos
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed video data
+*/
 var getVideos = exports.getVideos = function getVideos(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -5601,6 +5671,11 @@ var getVideos = exports.getVideos = function getVideos(endpoint) {
   });
 };
 
+/**
+  * @desc - get video
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed video data
+*/
 var getVideo = exports.getVideo = function getVideo(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5616,6 +5691,12 @@ var getVideo = exports.getVideo = function getVideo(endpoint) {
   });
 };
 
+/**
+  * @desc - get comments
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed comment data
+*/
 var getComments = exports.getComments = function getComments(endpoint) {
   var qs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -5641,6 +5722,11 @@ var getComments = exports.getComments = function getComments(endpoint) {
   });
 };
 
+/**
+  * @desc - check if user is following and entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - true if user is following else false
+*/
 var checkSubscription = exports.checkSubscription = function checkSubscription(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5658,6 +5744,10 @@ var checkSubscription = exports.checkSubscription = function checkSubscription(e
   });
 };
 
+/**
+  * @desc - follow an entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+*/
 var subscribe = exports.subscribe = function subscribe(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5673,6 +5763,10 @@ var subscribe = exports.subscribe = function subscribe(endpoint) {
   });
 };
 
+/**
+  * @desc - unfollow an entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+*/
 var unsubscribe = exports.unsubscribe = function unsubscribe(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5688,6 +5782,12 @@ var unsubscribe = exports.unsubscribe = function unsubscribe(endpoint) {
   });
 };
 
+/**
+  * @desc - post a comment on a video
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $body - object containing comment
+  * @resolve - parsed video data
+*/
 var postComment = exports.postComment = function postComment(endpoint, body) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5704,6 +5804,10 @@ var postComment = exports.postComment = function postComment(endpoint, body) {
   });
 };
 
+/**
+  * @desc - deletes a comment on a video
+  * @param string $endpoint - request endpoint for Vimeo's API
+*/
 var deleteComment = exports.deleteComment = function deleteComment(endpoint) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -5719,6 +5823,11 @@ var deleteComment = exports.deleteComment = function deleteComment(endpoint) {
   });
 };
 
+/**
+  * @desc - edits a comment on a video
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $body - object containing comment
+*/
 var editComment = exports.editComment = function editComment(endpoint, body) {
   return new Promise(function (resolve, reject) {
     VimeoRequest({
@@ -57160,6 +57269,11 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+  * @desc - takes in default category object from Vimeo API response and parses it
+  * @param string $category - Vimeo's category object
+  * @return - parsed category object
+*/
 var parseCategory = exports.parseCategory = function parseCategory(category) {
   return {
     uri: category.uri,
@@ -57175,6 +57289,11 @@ var parseCategory = exports.parseCategory = function parseCategory(category) {
   };
 };
 
+/**
+  * @desc - parses Vimeo's user object
+  * @param string $category - Vimeo's user object
+  * @return - parsed user object
+*/
 var parseUser = exports.parseUser = function parseUser(user) {
   return {
     uri: user.uri,
@@ -57186,6 +57305,11 @@ var parseUser = exports.parseUser = function parseUser(user) {
   };
 };
 
+/**
+  * @desc - parses Vimeo's entity (i.e. Channels, Groups, Albums, etc) object
+  * @param string $entity - Vimeo's entity object
+  * @return - parsed entity object
+*/
 var parseEntity = exports.parseEntity = function parseEntity(entity) {
   return {
     uri: entity.uri,
@@ -57200,6 +57324,11 @@ var parseEntity = exports.parseEntity = function parseEntity(entity) {
   };
 };
 
+/**
+  * @desc - parses Vimeo's video object
+  * @param string $video - Vimeo's video object
+  * @return - parsed video object
+*/
 var parseVideo = exports.parseVideo = function parseVideo(video) {
   return {
     uri: video.uri,
@@ -57229,6 +57358,11 @@ var parseVideo = exports.parseVideo = function parseVideo(video) {
   };
 };
 
+/**
+  * @desc - parses Vimeo's comment object
+  * @param string $comment - Vimeo's comment object
+  * @return - parsed comment object
+*/
 var parseComment = exports.parseComment = function parseComment(comment) {
   return {
     uri: comment.uri,

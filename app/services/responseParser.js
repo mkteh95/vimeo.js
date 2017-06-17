@@ -1,7 +1,11 @@
 import Numeral from 'numeral'
 import Moment from 'moment'
 
-
+/**
+  * @desc - takes in default category object from Vimeo API response and parses it
+  * @param string $category - Vimeo's category object
+  * @return - parsed category object
+*/
 export const parseCategory = (category) => {
   return {
     uri: category.uri,
@@ -17,6 +21,11 @@ export const parseCategory = (category) => {
   }
 }
 
+/**
+  * @desc - parses Vimeo's user object
+  * @param string $category - Vimeo's user object
+  * @return - parsed user object
+*/
 export const parseUser = (user) => {
   return {
     uri: user.uri,
@@ -28,6 +37,11 @@ export const parseUser = (user) => {
   }
 }
 
+/**
+  * @desc - parses Vimeo's entity (i.e. Channels, Groups, Albums, etc) object
+  * @param string $entity - Vimeo's entity object
+  * @return - parsed entity object
+*/
 export const parseEntity = (entity) => {
   return {
     uri: entity.uri,
@@ -42,6 +56,11 @@ export const parseEntity = (entity) => {
   }
 }
 
+/**
+  * @desc - parses Vimeo's video object
+  * @param string $video - Vimeo's video object
+  * @return - parsed video object
+*/
 export const parseVideo = (video) => {
   return {
     uri: video.uri,
@@ -73,6 +92,11 @@ export const parseVideo = (video) => {
   }
 }
 
+/**
+  * @desc - parses Vimeo's comment object
+  * @param string $comment - Vimeo's comment object
+  * @return - parsed comment object
+*/
 export const parseComment = (comment) => {
   return {
     uri: comment.uri,

@@ -2,13 +2,21 @@ import Request from 'request'
 
 import { parseVideo, parseComment, parseUser, parseEntity, parseCategory } from './responseParser.js'
 
-
+/**
+  * @desc - set defaults for Vimeo API calls
+*/
 let VimeoRequest = Request.defaults({
   baseUrl: 'https://api.vimeo.com/',
   auth: { bearer: localStorage.getItem('accessToken') },
   json: true
 })
 
+/**
+  * @desc - requests for access token and saves user and access token to localStorage
+  * @param string $code - code to exchange for access_token
+  * @param string $authHeader - header constructed with base64(clientId:clientSecret)
+  * @param string $redirectUrl - url to redirect on success
+*/
 export const login = (code, authHeader, redirectUrl) => {
   return new Promise((resolve, reject) => {
     Request({
@@ -30,6 +38,7 @@ export const login = (code, authHeader, redirectUrl) => {
         }))
         localStorage.setItem('accessToken', body.access_token)
 
+        // updates default access token when making API calls to Vimeo
         VimeoRequest = VimeoRequest.defaults({
           auth: { bearer: body.access_token }
         })
@@ -42,6 +51,9 @@ export const login = (code, authHeader, redirectUrl) => {
   })
 }
 
+/**
+  * @desc - revokes access token
+*/
 export const logout = () => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -57,6 +69,12 @@ export const logout = () => {
   })
 }
 
+/**
+  * @desc - get videos in a user's feed
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed video data
+*/
 export const getFeeds = (endpoint, qs={}) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -80,6 +98,12 @@ export const getFeeds = (endpoint, qs={}) => {
   })
 } 
 
+/**
+  * @desc - get entities (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed entity data
+*/
 export const getListings = (endpoint, type, qs={}) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -103,14 +127,31 @@ export const getListings = (endpoint, type, qs={}) => {
   })
 }
 
+/**
+  * @desc - get channels
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @return - promise from getListings()
+*/
 export const getChannels = (endpoint, qs={}) => {
   return getListings(endpoint, 'channels', qs)
 }
 
+/**
+  * @desc - get groups
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @return - promise from getListings()
+*/
 export const getGroups = (endpoint, qs={}) => {
   return getListings(endpoint, 'groups', qs)
 }
 
+/**
+  * @desc - get entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed entity data
+*/
 export const getEntity = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -126,6 +167,12 @@ export const getEntity = (endpoint) => {
   })
 }
 
+/**
+  * @desc - get categories
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed category data
+*/
 export const getCategories = (endpoint, qs={}) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -149,6 +196,11 @@ export const getCategories = (endpoint, qs={}) => {
   })
 }
 
+/**
+  * @desc - get category
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed category data
+*/
 export const getCategory = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -164,6 +216,12 @@ export const getCategory = (endpoint) => {
   })
 }
 
+/**
+  * @desc - get users
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed user data
+*/
 export const getUsers = (endpoint, qs={}) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -187,6 +245,11 @@ export const getUsers = (endpoint, qs={}) => {
   })
 }
 
+/**
+  * @desc - get user
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed user data
+*/
 export const getUser = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -202,6 +265,12 @@ export const getUser = (endpoint) => {
   })
 }
 
+/**
+  * @desc - get videos
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed video data
+*/
 export const getVideos = (endpoint, qs={}) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -225,6 +294,11 @@ export const getVideos = (endpoint, qs={}) => {
   })
 }
 
+/**
+  * @desc - get video
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - parsed video data
+*/
 export const getVideo = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -240,6 +314,12 @@ export const getVideo = (endpoint) => {
   })
 }
 
+/**
+  * @desc - get comments
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $qs - extra options to be passed along as query strings
+  * @resolve - object with paging information and parsed comment data
+*/
 export const getComments = (endpoint, qs={}) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -263,6 +343,11 @@ export const getComments = (endpoint, qs={}) => {
   })
 }
 
+/**
+  * @desc - check if user is following and entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @resolve - true if user is following else false
+*/
 export const checkSubscription = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -280,6 +365,10 @@ export const checkSubscription = (endpoint) => {
   })
 }
 
+/**
+  * @desc - follow an entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+*/
 export const subscribe = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -295,6 +384,10 @@ export const subscribe = (endpoint) => {
   })
 }
 
+/**
+  * @desc - unfollow an entity (i.e. Channels, Groups, Albums, etc)
+  * @param string $endpoint - request endpoint for Vimeo's API
+*/
 export const unsubscribe = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -310,6 +403,12 @@ export const unsubscribe = (endpoint) => {
   })
 }
 
+/**
+  * @desc - post a comment on a video
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $body - object containing comment
+  * @resolve - parsed video data
+*/
 export const postComment = (endpoint, body) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -326,6 +425,10 @@ export const postComment = (endpoint, body) => {
   })
 }
 
+/**
+  * @desc - deletes a comment on a video
+  * @param string $endpoint - request endpoint for Vimeo's API
+*/
 export const deleteComment = (endpoint) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
@@ -341,6 +444,11 @@ export const deleteComment = (endpoint) => {
   })
 }
 
+/**
+  * @desc - edits a comment on a video
+  * @param string $endpoint - request endpoint for Vimeo's API
+  * @param string $body - object containing comment
+*/
 export const editComment = (endpoint, body) => {
   return new Promise((resolve, reject) => {
     VimeoRequest({
