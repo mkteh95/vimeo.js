@@ -62,6 +62,8 @@ footer {
 #carousel-showcase .carousel-control {
   background: none !important;
   color: #888; }
+  #carousel-showcase .carousel-control .glyphicon {
+    top: calc(50% - 37.5px); }
 #carousel-showcase .carousel-indicators li {
   border-color: #888; }
   #carousel-showcase .carousel-indicators li.active {

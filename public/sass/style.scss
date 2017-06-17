@@ -107,6 +107,10 @@ footer {
   .carousel-control {
     background: none !important;
     color: #888;
+    
+    .glyphicon {
+      top: calc(50% - 37.5px);
+    }
   }
   
   .carousel-indicators {
