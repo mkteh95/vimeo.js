@@ -1,5 +1,5 @@
 # vimeo.js
-An opensource desktop app for Vimeo.
+A cross-platform desktop application for Vimeo built using React & Electon.
 
 # Running the Application
 1. Run the command npm install.
