@@ -209,7 +209,6 @@ export const getVideos = (endpoint, qs={}) => {
       method: 'GET',
       qs: qs
     }, (error, response, body) => {
-      console.log(body)
       if (response.statusCode === 200) {
         resolve({
           paging: {

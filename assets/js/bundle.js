@@ -5585,7 +5585,6 @@ var getVideos = exports.getVideos = function getVideos(endpoint) {
       method: 'GET',
       qs: qs
     }, function (error, response, body) {
-      console.log(body);
       if (response.statusCode === 200) {
         resolve({
           paging: {
