@@ -1,7 +1,0 @@
-directories:
-  output: dist
-  buildResources: build
-appId: com.mteh.js.vimeo
-mac:
-  category: public.app-category.video
-electronVersion: 1.8.2
