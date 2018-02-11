@@ -32,6 +32,22 @@ $color-yellow: #ffbe05;
   color: $color-yellow;
 }
 
+.button {
+  padding: 15px 30px;
+  text-align: center;
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  font-size: 22px;
+  text-decoration: none;
+  color: white;
+  background: $color-blue;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 body {
   position: relative;
   padding-top: 55px;
@@ -99,6 +115,15 @@ footer {
       float: none;
       display: table-cell;
       vertical-align: middle;
+    }
+  }
+
+  .navbar-brand {
+    padding: 5px;
+
+    img {
+      display: inline-block;
+      height: 100%;
     }
   }
 }
