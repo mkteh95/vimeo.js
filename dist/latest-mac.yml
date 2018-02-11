@@ -1,0 +1,10 @@
+version: 1.0.0
+files:
+  - url: vimeo.js-1.0.0-mac.zip
+    sha512: MFt0Vgu9R2cU07dPs8IqpnKy4PaqZe8+KvIXVNfameZqO6+L2vcfclOirW3LOOH3X3RIcHgqpvsL+f1XHkJ0Qg==
+  - url: vimeo.js-1.0.0.dmg
+    sha512: Pjkjgh9ef+9RcLsLEVnUrbCNGrdoSqcPXXPcICGdxY2QyP9X/MzOGFIhQqQFj+2BNVPnwm3a6Jdveataro+0qA==
+    size: 51653316
+path: vimeo.js-1.0.0-mac.zip
+sha512: MFt0Vgu9R2cU07dPs8IqpnKy4PaqZe8+KvIXVNfameZqO6+L2vcfclOirW3LOOH3X3RIcHgqpvsL+f1XHkJ0Qg==
+releaseDate: '2018-02-11T09:18:44.869Z'

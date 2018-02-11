@@ -10,7 +10,8 @@
     "watch": "webpack --progress --colors --watch",
     "start": "electron .",
     "pack": "build --dir",
-    "dist": "build"
+    "dist:mac": "build -m",
+    "dist:others": "build -wl"
   },
   "build": {
     "appId": "com.mteh.js.vimeo",
@@ -29,7 +30,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.3",
     "electron": "^1.6.10",
-    "electron-builder": "^18.6.2",
+    "electron-builder": "^19.56.0",
     "electron-packager": "^8.7.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
